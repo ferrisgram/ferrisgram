@@ -1,0 +1,4 @@
+target/
+generator/src
+examples/test.rs
+*.exe
