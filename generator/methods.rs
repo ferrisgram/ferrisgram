@@ -74,7 +74,7 @@ async fn generate_method(method: &spec_types::MethodDescription) -> (String, Str
     let mut data = String::from(common::WARNING_COMMENT);
     // data = data.add(&create_import_crate(obj));
     data = data.add("use serde::Serialize;\n\n");
-    data = data.add("use crate::{Bot, ApiResponse};\n");
+    data = data.add("use crate::Bot;\n");
     data = data.add("use crate::error::Result;\n");
     data = data.add(create_import_crate(method).as_str());
     // data = data.add(format!("\n/// <{}>", method.href).as_str());
