@@ -3,6 +3,12 @@ use serde_json::Error as JsonError;
 
 use std::fmt;
 
+pub enum GroupIteration {
+    EndGroups,
+    ContinueGroups,
+    ResumeGroups,
+}
+
 #[derive(Debug)]
 pub enum Error {
     TelegramError(String),

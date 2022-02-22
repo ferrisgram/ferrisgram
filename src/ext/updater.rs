@@ -1,17 +1,21 @@
 use crate::{error, Bot};
-use crate::types::Update;
+use std::future::Future;
+use crate::error::{GroupIteration, Result};
+use crate::ext::Dispatcher;
 
-pub struct Updater<'a> {
+pub struct Updater<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
     pub bot: &'a Bot,
     pub allowed_updates: Option<Vec<String>>,
+    pub dispatcher: &'a mut Dispatcher<'a, F>,
     running: bool
 }
 
-impl <'a> Updater<'a> {
-    pub fn new(bot: &'a Bot) -> Self {
+impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> Updater<'a, F> {
+    pub fn new(bot: &'a Bot, dispatcher: &'a mut Dispatcher<'a, F>) -> Self {
         Self{
             running: false,
             allowed_updates: None,
+            dispatcher,
             bot
         }
     }
@@ -30,18 +34,12 @@ impl <'a> Updater<'a> {
             }
             for update in updates.send().await?.iter() {
                 offset = update.update_id;
-                self.process_update(&self.bot, update).await;
+                self.dispatcher.process_update(update).await;
             }
         };
         Ok(())
     }
     pub async fn stop(&mut self) {
         self.running = false;
-    }
-    pub async fn process_update(&self, bot: &Bot, update: &Update) {
-        if update.message.is_some() {
-        }
-        if update.callback_query.is_some() {
-        }
     }
 }
