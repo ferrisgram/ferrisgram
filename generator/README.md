@@ -1,6 +1,6 @@
-# **FretGram**
+# **FerrisGram**
 ## **Generator**
-This directory contains the bot api methods and types generator for the fretgram library.
+This directory contains the bot api methods and types generator for the ferrisgram library.
 
 ## **Contributing**
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

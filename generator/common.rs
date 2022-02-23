@@ -19,7 +19,7 @@ pub const tg_type_boolean: &str = "Boolean";
 pub const tg_type_float: &str = "Float";
 pub const tg_type_integer: &str = "Integer";
 
-const SOURCE_PATH: &str = "../src/";
+const SOURCE_PATH: &str = "src/";
 
 pub fn is_dtype_builtin(r#type: &str) -> bool {
     for dtype in [tg_type_boolean, tg_type_string, tg_type_float, tg_type_integer] {

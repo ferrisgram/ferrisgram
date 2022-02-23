@@ -1,6 +1,6 @@
-# **FretGram**
+# **FerrisGram**
 ## **Source Code**
-This directory contains the source code of the fretgram library.
+This directory contains the source code of the ferrisgram library.
 
 ## **Index**
 - [Module: ext](ext)
