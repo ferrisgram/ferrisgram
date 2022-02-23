@@ -4,5 +4,6 @@ pub mod ext;
 pub mod error;
 pub mod bot;
 pub use bot::*;
+mod helpers;
 
 pub const DEFAULT_API_URL: &str = "https://api.telegram.org";

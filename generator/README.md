@@ -2,6 +2,9 @@
 ## **Generator**
 This directory contains the bot api methods and types generator for the ferrisgram library.
 
+### **TODO**
+- Generate method helper functions for the types.
+
 ## **Contributing**
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 

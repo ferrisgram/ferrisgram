@@ -1,16 +1,16 @@
-use std::future::Future;
-
 use crate::Bot;
 use crate::ext::{Handler, Context};
-use crate::error::{GroupIteration, Result, Error};
+use crate::error::{GroupIteration, Error};
 use GroupIteration::{ContinueGroups, EndGroups, ResumeGroups};
 use crate::types::Update;
 
-pub struct Dispatcher<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
+type ErrorHandlerFunc = fn(Bot, Context, Error) -> GroupIteration;
+
+pub struct Dispatcher<'a> {
     pub bot: &'a Bot,
     handler_groups: Vec<i32>,
     handlers: Vec<HandlersGroup>,
-    error_handler: fn(Bot, Context, Error) -> F
+    error_handler: ErrorHandlerFunc
 }
 
 #[derive(Clone)]
@@ -29,13 +29,13 @@ impl HandlersGroup {
 }
 
 #[allow(unused_must_use)]
-impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> Dispatcher<'a, F> {
-    pub fn new(bot: &'a Bot, error_handler: fn(Bot, Context, Error) -> F) -> Self {
+impl <'a> Dispatcher<'a> {
+    pub fn new(bot: &'a Bot) -> Self {
         let s = Self {
             bot,
             handler_groups: Vec::new(),
             handlers: Vec::new(),
-            error_handler
+            error_handler: Self::default_error_handler
         };
         s
     }
@@ -58,6 +58,9 @@ impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> Dispatche
     pub fn add_handler(&mut self, handler: Box<dyn Handler>) {
         self.add_handler_to_group(0, handler)
     }
+    pub fn add_error_handler(&mut self, error_hander: ErrorHandlerFunc) {
+        self.error_handler = error_hander
+    }
     pub async fn process_update(&mut self, update: &Update) {
         let ctx = Context::new(update);
         for group in self.handler_groups.iter() {
@@ -77,12 +80,16 @@ impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> Dispatche
                                 }
                             },
                             Err(error) => {
-                                (self.error_handler)(self.bot.clone(), ctx.clone(), error).await;
+                                (self.error_handler)(self.bot.clone(), ctx.clone(), error);
                             },
                         }
                     }
                 }
             }
         }
+    }
+    fn default_error_handler(_: Bot, _: Context, error: Error) -> GroupIteration {
+        println!("{error}");
+        ResumeGroups
     }
 }

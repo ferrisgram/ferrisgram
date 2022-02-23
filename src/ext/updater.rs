@@ -1,17 +1,15 @@
 use crate::{error, Bot};
-use std::future::Future;
-use crate::error::{GroupIteration, Result};
 use crate::ext::Dispatcher;
 
-pub struct Updater<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
+pub struct Updater<'a> {
     pub bot: &'a Bot,
     pub allowed_updates: Option<Vec<String>>,
-    pub dispatcher: &'a mut Dispatcher<'a, F>,
+    pub dispatcher: &'a mut Dispatcher<'a>,
     running: bool
 }
 
-impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> Updater<'a, F> {
-    pub fn new(bot: &'a Bot, dispatcher: &'a mut Dispatcher<'a, F>) -> Self {
+impl <'a> Updater<'a> {
+    pub fn new(bot: &'a Bot, dispatcher: &'a mut Dispatcher<'a>) -> Self {
         Self{
             running: false,
             allowed_updates: None,

@@ -3,7 +3,7 @@
 
 use serde::Serialize;
 
-use crate::{Bot};
+use crate::Bot;
 use crate::error::Result;
 use crate::types::UserProfilePhotos;
 

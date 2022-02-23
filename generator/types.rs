@@ -24,7 +24,7 @@ pub fn create_import_crate(obj: &spec_types::TypeDescription) -> String {
             if import_array.len() == 0 {
                 return String::new();   
             }
-            let mut imptxt = String::from("use crate::src::types::");
+            let mut imptxt = String::from("use crate::types::");
             if import_array.len() == 1 {
                 return imptxt.add(import_array[0].as_str()).add(";\n");
             }

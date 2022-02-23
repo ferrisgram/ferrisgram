@@ -2,6 +2,10 @@
 ## **ext::handlers**
 This directory contains the handlers of the ferrisgram library which you can use to answer the updates.
 
+### **TODO**
+- Add filters for each handler
+- Add more handlers
+
 ## **Contributing**
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
