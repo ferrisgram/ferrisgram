@@ -13,7 +13,9 @@ pub struct InputContactMessageContent {
     /// Contact's first name
     pub first_name: String,
     /// Optional. Contact's last name
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
     /// Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub vcard: Option<String>,
 }

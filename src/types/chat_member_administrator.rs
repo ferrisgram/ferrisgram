@@ -32,11 +32,15 @@ pub struct ChatMemberAdministrator {
     /// True, if the user is allowed to invite new users to the chat
     pub can_invite_users: bool,
     /// Optional. True, if the administrator can post in the channel; channels only
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub can_post_messages: Option<bool>,
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub can_edit_messages: Option<bool>,
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
     /// Optional. Custom title for this user
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub custom_title: Option<String>,
 }

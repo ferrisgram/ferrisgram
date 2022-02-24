@@ -13,7 +13,9 @@ pub struct File {
     /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     pub file_unique_id: String,
     /// Optional. File size in bytes, if known
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
     /// Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_path: Option<String>,
 }

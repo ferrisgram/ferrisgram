@@ -20,5 +20,6 @@ pub struct ChatMemberUpdated {
     /// New information about the chat member
     pub new_chat_member: ChatMember,
     /// Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub invite_link: Option<ChatInviteLink>,
 }

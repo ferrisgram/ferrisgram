@@ -22,13 +22,18 @@ pub struct Sticker {
     /// True, if the sticker is a video sticker
     pub is_video: bool,
     /// Optional. Sticker thumbnail in the .WEBP or .JPG format
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb: Option<PhotoSize>,
     /// Optional. Emoji associated with the sticker
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub emoji: Option<String>,
     /// Optional. Name of the sticker set to which the sticker belongs
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub set_name: Option<String>,
     /// Optional. For mask stickers, the position where the mask should be placed
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub mask_position: Option<MaskPosition>,
     /// Optional. File size in bytes
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
 }

@@ -16,7 +16,9 @@ pub struct ChatJoinRequest {
     /// Date the request was sent in Unix time
     pub date: i64,
     /// Optional. Bio of the user.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub bio: Option<String>,
     /// Optional. Chat invite link that was used by the user to send the join request
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub invite_link: Option<ChatInviteLink>,
 }

@@ -12,9 +12,12 @@ pub struct InputTextMessageContent {
     /// Text of the message to be sent, 1-4096 characters
     pub message_text: String,
     /// Optional. Mode for parsing entities in the message text. See formatting options for more details.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub parse_mode: Option<String>,
     /// Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub entities: Option<Vec<MessageEntity>>,
     /// Optional. Disables link previews for links in the sent message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_web_page_preview: Option<bool>,
 }

@@ -10,5 +10,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct VoiceChatParticipantsInvited {
     /// Optional. New members that were invited to the voice chat
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub users: Option<Vec<User>>,
 }

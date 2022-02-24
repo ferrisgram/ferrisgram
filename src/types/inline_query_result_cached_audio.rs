@@ -17,13 +17,18 @@ pub struct InlineQueryResultCachedAudio {
     /// A valid file identifier for the audio file
     pub audio_file_id: String,
     /// Optional. Caption, 0-1024 characters after entities parsing
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
     /// Optional. Mode for parsing entities in the audio caption. See formatting options for more details.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub parse_mode: Option<String>,
     /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub caption_entities: Option<Vec<MessageEntity>>,
     /// Optional. Inline keyboard attached to the message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
     /// Optional. Content of the message to be sent instead of the audio
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub input_message_content: Option<InputMessageContent>,
 }

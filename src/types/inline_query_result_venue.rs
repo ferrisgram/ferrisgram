@@ -23,21 +23,30 @@ pub struct InlineQueryResultVenue {
     /// Address of the venue
     pub address: String,
     /// Optional. Foursquare identifier of the venue if known
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub foursquare_id: Option<String>,
     /// Optional. Foursquare type of the venue, if known. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or "food/icecream".)
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub foursquare_type: Option<String>,
     /// Optional. Google Places identifier of the venue
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub google_place_id: Option<String>,
     /// Optional. Google Places type of the venue. (See supported types.)
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub google_place_type: Option<String>,
     /// Optional. Inline keyboard attached to the message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
     /// Optional. Content of the message to be sent instead of the venue
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub input_message_content: Option<InputMessageContent>,
     /// Optional. Url of the thumbnail for the result
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb_url: Option<String>,
     /// Optional. Thumbnail width
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb_width: Option<i64>,
     /// Optional. Thumbnail height
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb_height: Option<i64>,
 }

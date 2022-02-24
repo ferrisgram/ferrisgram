@@ -17,5 +17,6 @@ pub struct PhotoSize {
     /// Photo height
     pub height: i64,
     /// Optional. File size in bytes
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
 }

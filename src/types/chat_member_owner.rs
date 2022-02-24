@@ -16,5 +16,6 @@ pub struct ChatMemberOwner {
     /// True, if the user's presence in the chat is hidden
     pub is_anonymous: bool,
     /// Optional. Custom title for this user
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub custom_title: Option<String>,
 }

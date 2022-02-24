@@ -16,15 +16,21 @@ pub struct Audio {
     /// Duration of the audio in seconds as defined by sender
     pub duration: i64,
     /// Optional. Performer of the audio as defined by sender or by audio tags
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub performer: Option<String>,
     /// Optional. Title of the audio as defined by sender or by audio tags
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
     /// Optional. Original filename as defined by sender
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_name: Option<String>,
     /// Optional. MIME type of the file as defined by sender
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub mime_type: Option<String>,
     /// Optional. File size in bytes
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
     /// Optional. Thumbnail of the album cover to which the music file belongs
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb: Option<PhotoSize>,
 }

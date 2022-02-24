@@ -18,15 +18,21 @@ pub struct InlineQueryResultCachedVideo {
     /// Title for the result
     pub title: String,
     /// Optional. Short description of the result
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     /// Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
     /// Optional. Mode for parsing entities in the video caption. See formatting options for more details.
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub parse_mode: Option<String>,
     /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub caption_entities: Option<Vec<MessageEntity>>,
     /// Optional. Inline keyboard attached to the message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
     /// Optional. Content of the message to be sent instead of the video
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub input_message_content: Option<InputMessageContent>,
 }

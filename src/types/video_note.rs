@@ -18,7 +18,9 @@ pub struct VideoNote {
     /// Duration of the video in seconds as defined by sender
     pub duration: i64,
     /// Optional. Video thumbnail
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb: Option<PhotoSize>,
     /// Optional. File size in bytes
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
 }

@@ -22,5 +22,6 @@ pub struct StickerSet {
     /// List of all set stickers
     pub stickers: Vec<Sticker>,
     /// Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb: Option<PhotoSize>,
 }

@@ -17,5 +17,6 @@ pub struct InlineQueryResultGame {
     /// Short name of the game
     pub game_short_name: String,
     /// Optional. Inline keyboard attached to the message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
