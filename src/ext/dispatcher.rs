@@ -89,7 +89,7 @@ impl <'a> Dispatcher<'a> {
         }
     }
     fn default_error_handler(_: Bot, _: Context, error: Error) -> GroupIteration {
-        println!("{error}");
+        println!("{}", error);
         ResumeGroups
     }
 }
