@@ -7,7 +7,7 @@ use crate::ext::Context;
 
 #[async_trait]
 pub trait Handler: Send + Sync + DynClone {
-    async fn check_update(&self, bot: &Bot, context: &Update) -> bool;
+    async fn check_update(&self, bot: &Bot, update: &Update) -> bool;
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration>;
 }
 

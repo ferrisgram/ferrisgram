@@ -4,7 +4,7 @@ use crate::error::{GroupIteration, Error};
 use GroupIteration::{ContinueGroups, EndGroups, ResumeGroups};
 use crate::types::Update;
 
-type ErrorHandlerFunc = fn(Bot, Context, Error) -> GroupIteration;
+type ErrorHandlerFunc = fn(&Bot, &Context, Error) -> GroupIteration;
 
 pub struct Dispatcher<'a> {
     pub bot: &'a Bot,
@@ -80,7 +80,7 @@ impl <'a> Dispatcher<'a> {
                                 }
                             },
                             Err(error) => {
-                                (self.error_handler)(self.bot.clone(), ctx.clone(), error);
+                                (self.error_handler)(self.bot, &ctx, error);
                             },
                         }
                     }
@@ -88,7 +88,7 @@ impl <'a> Dispatcher<'a> {
             }
         }
     }
-    fn default_error_handler(_: Bot, _: Context, error: Error) -> GroupIteration {
+    fn default_error_handler(_: &Bot, _: &Context, error: Error) -> GroupIteration {
         println!("{}", error);
         ResumeGroups
     }
