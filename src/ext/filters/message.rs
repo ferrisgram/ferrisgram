@@ -9,10 +9,12 @@ macro_rules! integral_filter {
         $(
             impl $t {
                 #[inline]
+                /// This method is used to add an 'and' condition filter with the parent filter. 
                 pub fn and(mut self, filter: Box<dyn MessageFilter>) -> Box<Self> {
                     self.and_filter = Some(filter);
                     Box::from(self)
                 }
+                /// This method is used to add an 'or' condition filter with the parent filter.
                 pub fn or(mut self, filter: Box<dyn MessageFilter>) -> Box<Self> {
                     self.or_filter = Some(filter);
                     Box::from(self)
@@ -34,6 +36,17 @@ macro_rules! integral_filter {
                     )
             
                 }
+            }
+        )*
+    }
+}
+
+macro_rules! simple_filter_maker {
+    ($($t:ty)*) => {
+        $(
+            impl $t {
+                #[inline]
+                /// This method creates a filter from the object.
                 pub fn filter() -> Box<Self> {
                     Box::new(
                         Self{ 
@@ -47,7 +60,31 @@ macro_rules! integral_filter {
     }
 }
 
+
 integral_filter!{
+    All 
+    Animation
+    SuperGroup 
+    Private 
+    Group 
+    Forwarded
+    Caption
+    Command
+    Text
+    Video
+    Sticker
+    Photo
+    Audio
+    Document
+    Dice
+    Contact
+    Voice
+    VideoNote
+    FromUser
+    FromChat
+}
+
+simple_filter_maker!{
     All 
     Animation
     SuperGroup 
@@ -286,5 +323,53 @@ pub struct VideoNote {
 impl MessageFilter for VideoNote {
     fn check_filter(&self, m: &Message) -> bool {
         self.check_integral_filter(m, m.video_note.is_some())
+    }
+}
+
+
+#[derive(Clone)]
+pub struct FromUser {
+    and_filter: Option<Box<dyn MessageFilter>>,
+    or_filter: Option<Box<dyn MessageFilter>>,
+    pub user_id: i64
+}
+impl MessageFilter for FromUser {
+    fn check_filter(&self, m: &Message) -> bool {
+        self.check_integral_filter(m, m.from.as_ref().unwrap().id == self.user_id)
+    }
+}
+impl FromUser {
+    pub fn filter(user_id: i64) -> Box<Self> {
+        Box::new(
+            Self{ 
+                and_filter: None,
+                or_filter: None,
+                user_id
+            }
+        )
+    }
+}
+
+
+#[derive(Clone)]
+pub struct FromChat {
+    and_filter: Option<Box<dyn MessageFilter>>,
+    or_filter: Option<Box<dyn MessageFilter>>,
+    pub chat_id: i64
+}
+impl MessageFilter for FromChat {
+    fn check_filter(&self, m: &Message) -> bool {
+        self.check_integral_filter(m, m.chat.id == self.chat_id)
+    }
+}
+impl FromChat {
+    pub fn filter(chat_id: i64) -> Box<Self> {
+        Box::new(
+            Self{ 
+                and_filter: None,
+                or_filter: None,
+                chat_id
+            }
+        )
     }
 }
