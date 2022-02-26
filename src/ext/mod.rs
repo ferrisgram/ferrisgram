@@ -7,3 +7,4 @@ pub use dispatcher::Dispatcher;
 pub use updater::Updater;
 pub use context::Context;
 pub mod handlers;
+pub mod filters;
