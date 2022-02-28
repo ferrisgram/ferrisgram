@@ -80,6 +80,6 @@ impl Context {
             ctx.effective_chat = Some(msg.chat)
 
         }
-        return ctx;
+        ctx
     }
 }

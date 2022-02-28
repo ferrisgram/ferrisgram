@@ -25,9 +25,9 @@ impl <F: Future<Output = Result<GroupIteration>> + Send + 'static> CallbackQuery
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for CallbackQueryHandler<F> {
     fn clone(&self) -> Self {
         Self {
-            callback: self.callback.clone(),
+            callback: self.callback,
             filter: self.filter.clone(),
-            allow_channel: self.allow_channel.clone()
+            allow_channel: self.allow_channel
         }
     }
 }
@@ -44,7 +44,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Ca
             && callback_query.message.as_ref().unwrap().chat.r#type == "channel" {
             return false
         }
-        self.filter.check_filter(&callback_query)
+        self.filter.check_filter(callback_query)
     }
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
         (self.callback)(bot.clone(), context.clone()).await

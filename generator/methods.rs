@@ -73,7 +73,7 @@ async fn generate_method(method: &spec_types::MethodDescription) -> (String, Str
     let name = &method.name.to_case(Case::Snake); 
     let mut data = String::from(common::WARNING_COMMENT);
     // don't warn on too many arguments
-    data = data.add("#![allow(clippy::too_many_arguments)]");
+    data = data.add("#![allow(clippy::too_many_arguments)]\n");
     data = data.add("use serde::Serialize;\n\n");
     data = data.add("use crate::Bot;\n");
     data = data.add("use crate::error::Result;\n");

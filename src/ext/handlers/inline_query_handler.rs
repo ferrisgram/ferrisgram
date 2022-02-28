@@ -23,7 +23,7 @@ impl <F: Future<Output = Result<GroupIteration>> + Send + 'static> InlineQueryHa
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for InlineQueryHandler<F> {
     fn clone(&self) -> Self {
         Self {
-            callback: self.callback.clone(),
+            callback: self.callback,
             filter: self.filter.clone()
         }
     }

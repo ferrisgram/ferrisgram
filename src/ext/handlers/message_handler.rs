@@ -27,10 +27,10 @@ impl <F: Future<Output = Result<GroupIteration>> + Send + 'static> MessageHandle
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for MessageHandler<F> {
     fn clone(&self) -> Self {
         Self {
-            callback: self.callback.clone(),
+            callback: self.callback,
             filter: self.filter.clone(),
-            allow_channel: self.allow_channel.clone(),
-            allow_edited: self.allow_edited.clone(),
+            allow_channel: self.allow_channel,
+            allow_edited: self.allow_edited,
         }
     }
 }
@@ -40,28 +40,28 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Me
     async fn check_update(&self, _: &Bot, update: &Update) -> bool {
         if update.message.is_some() {
             let msg = update.message.as_ref().unwrap();
-            return self.filter.check_filter(&msg)
+            return self.filter.check_filter(msg)
         }
         if self.allow_edited && update.edited_message.is_some() {
             let msg = update.edited_message.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.check_filter(&msg)
+            return self.filter.check_filter(msg)
         }
         if self.allow_channel && update.channel_post.is_some() {
             let msg = update.channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.check_filter(&msg)
+            return self.filter.check_filter(msg)
         }
         if self.allow_channel && self.allow_edited && update.edited_channel_post.is_some() {
             let msg = update.edited_channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.check_filter(&msg)
+            return self.filter.check_filter(msg)
         }
         false
     }

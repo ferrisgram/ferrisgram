@@ -20,7 +20,7 @@ impl <F: Future<Output = Result<GroupIteration>> + Send + 'static> ChatJoinReque
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for ChatJoinRequestHandler<F> {
     fn clone(&self) -> Self {
         Self {
-            callback: self.callback.clone(),
+            callback: self.callback,
         }
     }
 }

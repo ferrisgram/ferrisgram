@@ -31,13 +31,13 @@ impl HandlersGroup {
 #[allow(unused_must_use)]
 impl <'a> Dispatcher<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        let s = Self {
+        
+        Self {
             bot,
             handler_groups: Vec::new(),
             handlers: Vec::new(),
             error_handler: Self::default_error_handler
-        };
-        s
+        }
     }
     
     pub fn add_handler_to_group(&mut self, handler_group: i32, handler_trait: Box<dyn Handler>) {
@@ -53,7 +53,7 @@ impl <'a> Dispatcher<'a> {
             handlers.push(hg)
         }
         self.handlers = handlers;
-        self.handler_groups.sort()
+        self.handler_groups.sort_unstable()
     }
     pub fn add_handler(&mut self, handler: Box<dyn Handler>) {
         self.add_handler_to_group(0, handler)

@@ -36,7 +36,7 @@ impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> CommandHa
         .to_string()
         .to_lowercase();
 
-        let split = text.split("@").collect::<Vec<&str>>();
+        let split = text.split('@').collect::<Vec<&str>>();
         if split.len() > 1 && split[1] != bot.user.username.as_ref().unwrap().to_lowercase() {
             return false
         }
@@ -47,21 +47,22 @@ impl <'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> CommandHa
             }
             cmd = split[0];
         }
-        if cmd == "" {
+        if cmd.is_empty() {
             return false
         } 
-        return &cmd[1..cmd.len()] == self.command 
+        &cmd[1..cmd.len()] == self.command 
     }
 }
 
+#[allow(clippy::clone_double_ref)]
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for CommandHandler<'_, F> {
     fn clone(&self) -> Self {
         Self {
             prefix: self.prefix.clone(),
             command: self.command.clone(),
-            callback: self.callback.clone(),
-            allow_channel: self.allow_channel.clone(),
-            allow_edited: self.allow_edited.clone()
+            callback: self.callback,
+            allow_channel: self.allow_channel,
+            allow_edited: self.allow_edited
         }
     }
 }
@@ -74,28 +75,28 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Co
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.check_message(bot, &msg).await
+            return self.check_message(bot, msg).await
         }
         if self.allow_edited && update.edited_message.is_some() {
             let msg = update.edited_message.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.check_message(bot, &msg).await
+            return self.check_message(bot, msg).await
         }
         if self.allow_channel && update.channel_post.is_some() {
             let msg = update.channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.check_message(bot, &msg).await
+            return self.check_message(bot, msg).await
         }
         if self.allow_channel && self.allow_edited && update.edited_channel_post.is_some() {
             let msg = update.edited_channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.check_message(bot, &msg).await
+            return self.check_message(bot, msg).await
         }
         false
     }
