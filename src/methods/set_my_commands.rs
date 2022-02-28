@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
     /// <https://core.telegram.org/bots/api#setmycommands>
     pub fn set_my_commands(&self, commands: Vec<BotCommand>) -> SetMyCommandsBuilder {
-        SetMyCommandsBuilder::new(&self, commands)
+        SetMyCommandsBuilder::new(self, commands)
     }
 }
 

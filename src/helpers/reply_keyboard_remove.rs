@@ -12,3 +12,8 @@ impl ReplyKeyboardRemove {
         }
     }
 }
+impl Default for ReplyKeyboardRemove {
+    fn default() -> Self {
+        Self::new()
+    }
+}

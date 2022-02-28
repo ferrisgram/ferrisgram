@@ -14,3 +14,8 @@ impl File {
         }
     }
 }
+impl Default for File {
+    fn default() -> Self {
+        Self::new()
+    }
+}

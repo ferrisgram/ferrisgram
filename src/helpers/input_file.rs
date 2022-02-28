@@ -10,3 +10,8 @@ impl InputFile {
         }
     }
 }
+impl Default for InputFile {
+    fn default() -> Self {
+        Self::new()
+    }
+}

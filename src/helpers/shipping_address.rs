@@ -16,3 +16,8 @@ impl ShippingAddress {
         }
     }
 }
+impl Default for ShippingAddress {
+    fn default() -> Self {
+        Self::new()
+    }
+}

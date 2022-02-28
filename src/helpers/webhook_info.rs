@@ -18,3 +18,8 @@ impl WebhookInfo {
         }
     }
 }
+impl Default for WebhookInfo {
+    fn default() -> Self {
+        Self::new()
+    }
+}

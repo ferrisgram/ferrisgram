@@ -10,3 +10,8 @@ impl InlineQueryResult {
         }
     }
 }
+impl Default for InlineQueryResult {
+    fn default() -> Self {
+        Self::new()
+    }
+}

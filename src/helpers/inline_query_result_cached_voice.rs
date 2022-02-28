@@ -19,3 +19,8 @@ impl InlineQueryResultCachedVoice {
         }
     }
 }
+impl Default for InlineQueryResultCachedVoice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

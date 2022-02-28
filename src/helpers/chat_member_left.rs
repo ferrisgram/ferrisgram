@@ -13,3 +13,8 @@ impl ChatMemberLeft {
         }
     }
 }
+impl Default for ChatMemberLeft {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the new invite link as String on success.
     /// <https://core.telegram.org/bots/api#exportchatinvitelink>
     pub fn export_chat_invite_link(&self, chat_id: i64) -> ExportChatInviteLinkBuilder {
-        ExportChatInviteLinkBuilder::new(&self, chat_id)
+        ExportChatInviteLinkBuilder::new(self, chat_id)
     }
 }
 

@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
     /// <https://core.telegram.org/bots/api#getchat>
     pub fn get_chat(&self, chat_id: i64) -> GetChatBuilder {
-        GetChatBuilder::new(&self, chat_id)
+        GetChatBuilder::new(self, chat_id)
     }
 }
 

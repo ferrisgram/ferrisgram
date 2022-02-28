@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
     /// <https://core.telegram.org/bots/api#editmessagecaption>
     pub fn edit_message_caption(&self) -> EditMessageCaptionBuilder {
-        EditMessageCaptionBuilder::new(&self)
+        EditMessageCaptionBuilder::new(self)
     }
 }
 

@@ -20,3 +20,8 @@ impl InlineQueryResultVoice {
         }
     }
 }
+impl Default for InlineQueryResultVoice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

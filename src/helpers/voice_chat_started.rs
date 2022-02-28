@@ -10,3 +10,8 @@ impl VoiceChatStarted {
         }
     }
 }
+impl Default for VoiceChatStarted {
+    fn default() -> Self {
+        Self::new()
+    }
+}

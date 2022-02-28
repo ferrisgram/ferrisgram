@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
     /// <https://core.telegram.org/bots/api#answercallbackquery>
     pub fn answer_callback_query(&self, callback_query_id: String) -> AnswerCallbackQueryBuilder {
-        AnswerCallbackQueryBuilder::new(&self, callback_query_id)
+        AnswerCallbackQueryBuilder::new(self, callback_query_id)
     }
 }
 

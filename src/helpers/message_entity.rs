@@ -16,3 +16,8 @@ impl MessageEntity {
         }
     }
 }
+impl Default for MessageEntity {
+    fn default() -> Self {
+        Self::new()
+    }
+}

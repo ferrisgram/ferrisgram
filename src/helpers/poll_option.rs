@@ -12,3 +12,8 @@ impl PollOption {
         }
     }
 }
+impl Default for PollOption {
+    fn default() -> Self {
+        Self::new()
+    }
+}

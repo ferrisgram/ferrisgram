@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send invoices. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendinvoice>
     pub fn send_invoice(&self, chat_id: i64, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> SendInvoiceBuilder {
-        SendInvoiceBuilder::new(&self, chat_id, title, description, payload, provider_token, currency, prices)
+        SendInvoiceBuilder::new(self, chat_id, title, description, payload, provider_token, currency, prices)
     }
 }
 

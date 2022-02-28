@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatdescription>
     pub fn set_chat_description(&self, chat_id: i64) -> SetChatDescriptionBuilder {
-        SetChatDescriptionBuilder::new(&self, chat_id)
+        SetChatDescriptionBuilder::new(self, chat_id)
     }
 }
 

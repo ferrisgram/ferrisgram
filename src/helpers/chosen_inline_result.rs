@@ -16,3 +16,8 @@ impl ChosenInlineResult {
         }
     }
 }
+impl Default for ChosenInlineResult {
+    fn default() -> Self {
+        Self::new()
+    }
+}

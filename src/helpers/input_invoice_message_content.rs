@@ -30,3 +30,8 @@ impl InputInvoiceMessageContent {
         }
     }
 }
+impl Default for InputInvoiceMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}

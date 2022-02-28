@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchattitle>
     pub fn set_chat_title(&self, chat_id: i64, title: String) -> SetChatTitleBuilder {
-        SetChatTitleBuilder::new(&self, chat_id, title)
+        SetChatTitleBuilder::new(self, chat_id, title)
     }
 }
 

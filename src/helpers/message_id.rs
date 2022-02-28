@@ -11,3 +11,8 @@ impl MessageId {
         }
     }
 }
+impl Default for MessageId {
+    fn default() -> Self {
+        Self::new()
+    }
+}

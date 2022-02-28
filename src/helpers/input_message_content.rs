@@ -10,3 +10,8 @@ impl InputMessageContent {
         }
     }
 }
+impl Default for InputMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}

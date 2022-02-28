@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
     /// <https://core.telegram.org/bots/api#pinchatmessage>
     pub fn pin_chat_message(&self, chat_id: i64, message_id: i64) -> PinChatMessageBuilder {
-        PinChatMessageBuilder::new(&self, chat_id, message_id)
+        PinChatMessageBuilder::new(self, chat_id, message_id)
     }
 }
 

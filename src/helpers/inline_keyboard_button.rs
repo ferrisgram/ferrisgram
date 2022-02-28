@@ -18,3 +18,8 @@ impl InlineKeyboardButton {
         }
     }
 }
+impl Default for InlineKeyboardButton {
+    fn default() -> Self {
+        Self::new()
+    }
+}

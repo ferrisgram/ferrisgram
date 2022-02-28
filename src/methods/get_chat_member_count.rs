@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to get the number of members in a chat. Returns Int on success.
     /// <https://core.telegram.org/bots/api#getchatmembercount>
     pub fn get_chat_member_count(&self, chat_id: i64) -> GetChatMemberCountBuilder {
-        GetChatMemberCountBuilder::new(&self, chat_id)
+        GetChatMemberCountBuilder::new(self, chat_id)
     }
 }
 

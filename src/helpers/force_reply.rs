@@ -13,3 +13,8 @@ impl ForceReply {
         }
     }
 }
+impl Default for ForceReply {
+    fn default() -> Self {
+        Self::new()
+    }
+}

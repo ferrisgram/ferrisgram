@@ -18,3 +18,8 @@ impl PreCheckoutQuery {
         }
     }
 }
+impl Default for PreCheckoutQuery {
+    fn default() -> Self {
+        Self::new()
+    }
+}

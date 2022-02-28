@@ -12,7 +12,7 @@ impl Bot {
     /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendvideonote>
     pub fn send_video_note(&self, chat_id: i64, video_note: InputFile) -> SendVideoNoteBuilder {
-        SendVideoNoteBuilder::new(&self, chat_id, video_note)
+        SendVideoNoteBuilder::new(self, chat_id, video_note)
     }
 }
 

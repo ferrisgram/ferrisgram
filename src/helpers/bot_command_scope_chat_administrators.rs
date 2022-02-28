@@ -12,3 +12,8 @@ impl BotCommandScopeChatAdministrators {
         }
     }
 }
+impl Default for BotCommandScopeChatAdministrators {
+    fn default() -> Self {
+        Self::new()
+    }
+}

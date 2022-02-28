@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatadministratorcustomtitle>
     pub fn set_chat_administrator_custom_title(&self, chat_id: i64, user_id: i64, custom_title: String) -> SetChatAdministratorCustomTitleBuilder {
-        SetChatAdministratorCustomTitleBuilder::new(&self, chat_id, user_id, custom_title)
+        SetChatAdministratorCustomTitleBuilder::new(self, chat_id, user_id, custom_title)
     }
 }
 

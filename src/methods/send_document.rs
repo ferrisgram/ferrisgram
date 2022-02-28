@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
     /// <https://core.telegram.org/bots/api#senddocument>
     pub fn send_document(&self, chat_id: i64, document: InputFile) -> SendDocumentBuilder {
-        SendDocumentBuilder::new(&self, chat_id, document)
+        SendDocumentBuilder::new(self, chat_id, document)
     }
 }
 

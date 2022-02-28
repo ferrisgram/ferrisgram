@@ -18,3 +18,8 @@ impl Venue {
         }
     }
 }
+impl Default for Venue {
+    fn default() -> Self {
+        Self::new()
+    }
+}

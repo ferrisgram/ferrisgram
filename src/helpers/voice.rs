@@ -15,3 +15,8 @@ impl Voice {
         }
     }
 }
+impl Default for Voice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

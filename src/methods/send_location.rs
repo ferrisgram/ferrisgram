@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send point on the map. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendlocation>
     pub fn send_location(&self, chat_id: i64, latitude: f64, longitude: f64) -> SendLocationBuilder {
-        SendLocationBuilder::new(&self, chat_id, latitude, longitude)
+        SendLocationBuilder::new(self, chat_id, latitude, longitude)
     }
 }
 

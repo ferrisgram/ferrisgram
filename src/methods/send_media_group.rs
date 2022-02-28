@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
     /// <https://core.telegram.org/bots/api#sendmediagroup>
     pub fn send_media_group(&self, chat_id: i64, media: Vec<InputMediaAudio>) -> SendMediaGroupBuilder {
-        SendMediaGroupBuilder::new(&self, chat_id, media)
+        SendMediaGroupBuilder::new(self, chat_id, media)
     }
 }
 

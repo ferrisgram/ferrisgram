@@ -24,3 +24,8 @@ impl InlineQueryResultDocument {
         }
     }
 }
+impl Default for InlineQueryResultDocument {
+    fn default() -> Self {
+        Self::new()
+    }
+}

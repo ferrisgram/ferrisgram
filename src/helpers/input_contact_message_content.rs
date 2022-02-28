@@ -14,3 +14,8 @@ impl InputContactMessageContent {
         }
     }
 }
+impl Default for InputContactMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -14,3 +14,8 @@ impl PassportFile {
         }
     }
 }
+impl Default for PassportFile {
+    fn default() -> Self {
+        Self::new()
+    }
+}

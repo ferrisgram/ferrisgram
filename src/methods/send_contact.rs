@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send phone contacts. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendcontact>
     pub fn send_contact(&self, chat_id: i64, phone_number: String, first_name: String) -> SendContactBuilder {
-        SendContactBuilder::new(&self, chat_id, phone_number, first_name)
+        SendContactBuilder::new(self, chat_id, phone_number, first_name)
     }
 }
 

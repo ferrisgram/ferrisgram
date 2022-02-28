@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to delete a sticker from a set created by the bot. Returns True on success.
     /// <https://core.telegram.org/bots/api#deletestickerfromset>
     pub fn delete_sticker_from_set(&self, sticker: String) -> DeleteStickerFromSetBuilder {
-        DeleteStickerFromSetBuilder::new(&self, sticker)
+        DeleteStickerFromSetBuilder::new(self, sticker)
     }
 }
 

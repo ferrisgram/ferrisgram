@@ -19,3 +19,8 @@ impl InlineQueryResultCachedGif {
         }
     }
 }
+impl Default for InlineQueryResultCachedGif {
+    fn default() -> Self {
+        Self::new()
+    }
+}

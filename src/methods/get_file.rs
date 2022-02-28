@@ -12,7 +12,7 @@ impl Bot {
     /// Note: This function may not preserve the original file name and MIME type. You should save the file's MIME type and name (if available) when the File object is received.
     /// <https://core.telegram.org/bots/api#getfile>
     pub fn get_file(&self, file_id: String) -> GetFileBuilder {
-        GetFileBuilder::new(&self, file_id)
+        GetFileBuilder::new(self, file_id)
     }
 }
 

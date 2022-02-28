@@ -16,3 +16,8 @@ impl InputLocationMessageContent {
         }
     }
 }
+impl Default for InputLocationMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}

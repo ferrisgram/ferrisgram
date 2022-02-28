@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatphoto>
     pub fn set_chat_photo(&self, chat_id: i64, photo: InputFile) -> SetChatPhotoBuilder {
-        SetChatPhotoBuilder::new(&self, chat_id, photo)
+        SetChatPhotoBuilder::new(self, chat_id, photo)
     }
 }
 

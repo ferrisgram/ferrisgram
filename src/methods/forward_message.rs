@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#forwardmessage>
     pub fn forward_message(&self, chat_id: i64, from_chat_id: i64, message_id: i64) -> ForwardMessageBuilder {
-        ForwardMessageBuilder::new(&self, chat_id, from_chat_id, message_id)
+        ForwardMessageBuilder::new(self, chat_id, from_chat_id, message_id)
     }
 }
 

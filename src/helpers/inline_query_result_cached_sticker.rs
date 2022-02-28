@@ -15,3 +15,8 @@ impl InlineQueryResultCachedSticker {
         }
     }
 }
+impl Default for InlineQueryResultCachedSticker {
+    fn default() -> Self {
+        Self::new()
+    }
+}

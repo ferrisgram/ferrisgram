@@ -16,3 +16,8 @@ impl Document {
         }
     }
 }
+impl Default for Document {
+    fn default() -> Self {
+        Self::new()
+    }
+}

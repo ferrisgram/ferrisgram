@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
     pub fn upload_sticker_file(&self, user_id: i64, png_sticker: InputFile) -> UploadStickerFileBuilder {
-        UploadStickerFileBuilder::new(&self, user_id, png_sticker)
+        UploadStickerFileBuilder::new(self, user_id, png_sticker)
     }
 }
 

@@ -14,3 +14,8 @@ impl GameHighScore {
         }
     }
 }
+impl Default for GameHighScore {
+    fn default() -> Self {
+        Self::new()
+    }
+}

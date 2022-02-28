@@ -69,3 +69,8 @@ impl Message {
         }
     }
 }
+impl Default for Message {
+    fn default() -> Self {
+        Self::new()
+    }
+}

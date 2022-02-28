@@ -15,3 +15,8 @@ impl Invoice {
         }
     }
 }
+impl Default for Invoice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

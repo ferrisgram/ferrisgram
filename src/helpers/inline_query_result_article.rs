@@ -22,3 +22,8 @@ impl InlineQueryResultArticle {
         }
     }
 }
+impl Default for InlineQueryResultArticle {
+    fn default() -> Self {
+        Self::new()
+    }
+}

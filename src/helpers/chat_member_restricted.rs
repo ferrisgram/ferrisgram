@@ -23,3 +23,8 @@ impl ChatMemberRestricted {
         }
     }
 }
+impl Default for ChatMemberRestricted {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -11,7 +11,7 @@ impl Bot {
     /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
     /// <https://core.telegram.org/bots/api#answershippingquery>
     pub fn answer_shipping_query(&self, shipping_query_id: String, ok: bool) -> AnswerShippingQueryBuilder {
-        AnswerShippingQueryBuilder::new(&self, shipping_query_id, ok)
+        AnswerShippingQueryBuilder::new(self, shipping_query_id, ok)
     }
 }
 

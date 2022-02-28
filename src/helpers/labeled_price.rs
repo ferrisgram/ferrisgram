@@ -12,3 +12,8 @@ impl LabeledPrice {
         }
     }
 }
+impl Default for LabeledPrice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

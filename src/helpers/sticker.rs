@@ -21,3 +21,8 @@ impl Sticker {
         }
     }
 }
+impl Default for Sticker {
+    fn default() -> Self {
+        Self::new()
+    }
+}

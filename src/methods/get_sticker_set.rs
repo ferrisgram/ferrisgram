@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to get a sticker set. On success, a StickerSet object is returned.
     /// <https://core.telegram.org/bots/api#getstickerset>
     pub fn get_sticker_set(&self, name: String) -> GetStickerSetBuilder {
-        GetStickerSetBuilder::new(&self, name)
+        GetStickerSetBuilder::new(self, name)
     }
 }
 

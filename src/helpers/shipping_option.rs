@@ -13,3 +13,8 @@ impl ShippingOption {
         }
     }
 }
+impl Default for ShippingOption {
+    fn default() -> Self {
+        Self::new()
+    }
+}

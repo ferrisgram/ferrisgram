@@ -17,3 +17,8 @@ impl SuccessfulPayment {
         }
     }
 }
+impl Default for SuccessfulPayment {
+    fn default() -> Self {
+        Self::new()
+    }
+}

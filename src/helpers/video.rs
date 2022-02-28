@@ -19,3 +19,8 @@ impl Video {
         }
     }
 }
+impl Default for Video {
+    fn default() -> Self {
+        Self::new()
+    }
+}

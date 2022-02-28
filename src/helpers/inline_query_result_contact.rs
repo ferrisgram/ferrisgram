@@ -21,3 +21,8 @@ impl InlineQueryResultContact {
         }
     }
 }
+impl Default for InlineQueryResultContact {
+    fn default() -> Self {
+        Self::new()
+    }
+}

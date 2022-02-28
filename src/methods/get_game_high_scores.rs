@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.
     /// <https://core.telegram.org/bots/api#getgamehighscores>
     pub fn get_game_high_scores(&self, user_id: i64) -> GetGameHighScoresBuilder {
-        GetGameHighScoresBuilder::new(&self, user_id)
+        GetGameHighScoresBuilder::new(self, user_id)
     }
 }
 

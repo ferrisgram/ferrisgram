@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
     /// <https://core.telegram.org/bots/api#answerinlinequery>
     pub fn answer_inline_query(&self, inline_query_id: String, results: Vec<InlineQueryResult>) -> AnswerInlineQueryBuilder {
-        AnswerInlineQueryBuilder::new(&self, inline_query_id, results)
+        AnswerInlineQueryBuilder::new(self, inline_query_id, results)
     }
 }
 

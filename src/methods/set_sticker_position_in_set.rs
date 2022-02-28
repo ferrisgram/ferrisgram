@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickerpositioninset>
     pub fn set_sticker_position_in_set(&self, sticker: String, position: i64) -> SetStickerPositionInSetBuilder {
-        SetStickerPositionInSetBuilder::new(&self, sticker, position)
+        SetStickerPositionInSetBuilder::new(self, sticker, position)
     }
 }
 

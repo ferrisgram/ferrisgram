@@ -11,3 +11,8 @@ impl KeyboardButtonPollType {
         }
     }
 }
+impl Default for KeyboardButtonPollType {
+    fn default() -> Self {
+        Self::new()
+    }
+}

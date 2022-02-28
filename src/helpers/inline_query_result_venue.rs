@@ -25,3 +25,8 @@ impl InlineQueryResultVenue {
         }
     }
 }
+impl Default for InlineQueryResultVenue {
+    fn default() -> Self {
+        Self::new()
+    }
+}

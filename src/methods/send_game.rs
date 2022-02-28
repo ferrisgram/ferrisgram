@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send a game. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendgame>
     pub fn send_game(&self, chat_id: i64, game_short_name: String) -> SendGameBuilder {
-        SendGameBuilder::new(&self, chat_id, game_short_name)
+        SendGameBuilder::new(self, chat_id, game_short_name)
     }
 }
 

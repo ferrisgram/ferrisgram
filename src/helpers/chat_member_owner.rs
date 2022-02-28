@@ -15,3 +15,8 @@ impl ChatMemberOwner {
         }
     }
 }
+impl Default for ChatMemberOwner {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send information about a venue. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendvenue>
     pub fn send_venue(&self, chat_id: i64, latitude: f64, longitude: f64, title: String, address: String) -> SendVenueBuilder {
-        SendVenueBuilder::new(&self, chat_id, latitude, longitude, title, address)
+        SendVenueBuilder::new(self, chat_id, latitude, longitude, title, address)
     }
 }
 

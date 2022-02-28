@@ -18,3 +18,8 @@ impl InputVenueMessageContent {
         }
     }
 }
+impl Default for InputVenueMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}

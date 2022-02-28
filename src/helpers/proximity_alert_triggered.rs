@@ -14,3 +14,8 @@ impl ProximityAlertTriggered {
         }
     }
 }
+impl Default for ProximityAlertTriggered {
+    fn default() -> Self {
+        Self::new()
+    }
+}

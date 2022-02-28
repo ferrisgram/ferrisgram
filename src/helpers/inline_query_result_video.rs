@@ -25,3 +25,8 @@ impl InlineQueryResultVideo {
         }
     }
 }
+impl Default for InlineQueryResultVideo {
+    fn default() -> Self {
+        Self::new()
+    }
+}

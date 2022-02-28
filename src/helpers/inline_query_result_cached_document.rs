@@ -20,3 +20,8 @@ impl InlineQueryResultCachedDocument {
         }
     }
 }
+impl Default for InlineQueryResultCachedDocument {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -20,3 +20,8 @@ impl EncryptedPassportElement {
         }
     }
 }
+impl Default for EncryptedPassportElement {
+    fn default() -> Self {
+        Self::new()
+    }
+}

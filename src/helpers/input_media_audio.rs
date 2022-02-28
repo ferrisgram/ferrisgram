@@ -19,3 +19,8 @@ impl InputMediaAudio {
         }
     }
 }
+impl Default for InputMediaAudio {
+    fn default() -> Self {
+        Self::new()
+    }
+}

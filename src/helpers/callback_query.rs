@@ -18,3 +18,8 @@ impl CallbackQuery {
         }
     }
 }
+impl Default for CallbackQuery {
+    fn default() -> Self {
+        Self::new()
+    }
+}

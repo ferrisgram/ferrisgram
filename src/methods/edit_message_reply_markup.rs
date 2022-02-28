@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
     /// <https://core.telegram.org/bots/api#editmessagereplymarkup>
     pub fn edit_message_reply_markup(&self) -> EditMessageReplyMarkupBuilder {
-        EditMessageReplyMarkupBuilder::new(&self)
+        EditMessageReplyMarkupBuilder::new(self)
     }
 }
 

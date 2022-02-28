@@ -13,3 +13,8 @@ impl PassportData {
         }
     }
 }
+impl Default for PassportData {
+    fn default() -> Self {
+        Self::new()
+    }
+}

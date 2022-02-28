@@ -20,3 +20,8 @@ impl InputMediaVideo {
         }
     }
 }
+impl Default for InputMediaVideo {
+    fn default() -> Self {
+        Self::new()
+    }
+}

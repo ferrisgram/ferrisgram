@@ -19,3 +19,8 @@ impl Audio {
         }
     }
 }
+impl Default for Audio {
+    fn default() -> Self {
+        Self::new()
+    }
+}

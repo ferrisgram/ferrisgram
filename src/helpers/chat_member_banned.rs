@@ -14,3 +14,8 @@ impl ChatMemberBanned {
         }
     }
 }
+impl Default for ChatMemberBanned {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -11,7 +11,7 @@ impl Bot {
     /// A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
     /// <https://core.telegram.org/bots/api#getme>
     pub fn get_me(&self) -> GetMeBuilder {
-        GetMeBuilder::new(&self)
+        GetMeBuilder::new(self)
     }
 }
 

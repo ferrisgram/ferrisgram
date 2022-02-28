@@ -23,3 +23,8 @@ impl Poll {
         }
     }
 }
+impl Default for Poll {
+    fn default() -> Self {
+        Self::new()
+    }
+}

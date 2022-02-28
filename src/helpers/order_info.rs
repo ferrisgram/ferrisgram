@@ -14,3 +14,8 @@ impl OrderInfo {
         }
     }
 }
+impl Default for OrderInfo {
+    fn default() -> Self {
+        Self::new()
+    }
+}

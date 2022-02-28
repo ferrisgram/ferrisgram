@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
     /// <https://core.telegram.org/bots/api#editmessagelivelocation>
     pub fn edit_message_live_location(&self, latitude: f64, longitude: f64) -> EditMessageLiveLocationBuilder {
-        EditMessageLiveLocationBuilder::new(&self, latitude, longitude)
+        EditMessageLiveLocationBuilder::new(self, latitude, longitude)
     }
 }
 

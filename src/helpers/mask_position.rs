@@ -14,3 +14,8 @@ impl MaskPosition {
         }
     }
 }
+impl Default for MaskPosition {
+    fn default() -> Self {
+        Self::new()
+    }
+}

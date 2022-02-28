@@ -115,7 +115,7 @@ fn generate_bot_imp(method: &spec_types::MethodDescription, builder_name: &Strin
     let data = format!("
 impl Bot {{{desc}
     pub fn {method_name}(&self{args}) -> {builder_name} {{
-        {builder_name}::new(&self{vals})
+        {builder_name}::new(self{vals})
     }}
 }}
 

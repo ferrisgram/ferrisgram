@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#senddice>
     pub fn send_dice(&self, chat_id: i64) -> SendDiceBuilder {
-        SendDiceBuilder::new(&self, chat_id)
+        SendDiceBuilder::new(self, chat_id)
     }
 }
 

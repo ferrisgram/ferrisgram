@@ -15,3 +15,8 @@ impl Contact {
         }
     }
 }
+impl Default for Contact {
+    fn default() -> Self {
+        Self::new()
+    }
+}

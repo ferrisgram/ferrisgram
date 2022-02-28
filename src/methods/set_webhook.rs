@@ -12,7 +12,7 @@ impl Bot {
     /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. https://www.example.com/<token>. Since nobody else knows your bot's token, you can be pretty sure it's us.
     /// <https://core.telegram.org/bots/api#setwebhook>
     pub fn set_webhook(&self, url: String) -> SetWebhookBuilder {
-        SetWebhookBuilder::new(&self, url)
+        SetWebhookBuilder::new(self, url)
     }
 }
 

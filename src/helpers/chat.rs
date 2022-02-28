@@ -30,3 +30,8 @@ impl Chat {
         }
     }
 }
+impl Default for Chat {
+    fn default() -> Self {
+        Self::new()
+    }
+}

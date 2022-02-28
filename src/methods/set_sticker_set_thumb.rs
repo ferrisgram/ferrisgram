@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickersetthumb>
     pub fn set_sticker_set_thumb(&self, name: String, user_id: i64) -> SetStickerSetThumbBuilder {
-        SetStickerSetThumbBuilder::new(&self, name, user_id)
+        SetStickerSetThumbBuilder::new(self, name, user_id)
     }
 }
 

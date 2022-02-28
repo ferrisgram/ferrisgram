@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
     /// <https://core.telegram.org/bots/api#editchatinvitelink>
     pub fn edit_chat_invite_link(&self, chat_id: i64, invite_link: String) -> EditChatInviteLinkBuilder {
-        EditChatInviteLinkBuilder::new(&self, chat_id, invite_link)
+        EditChatInviteLinkBuilder::new(self, chat_id, invite_link)
     }
 }
 

@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send text messages. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendmessage>
     pub fn send_message(&self, chat_id: i64, text: String) -> SendMessageBuilder {
-        SendMessageBuilder::new(&self, chat_id, text)
+        SendMessageBuilder::new(self, chat_id, text)
     }
 }
 

@@ -15,3 +15,8 @@ impl PhotoSize {
         }
     }
 }
+impl Default for PhotoSize {
+    fn default() -> Self {
+        Self::new()
+    }
+}

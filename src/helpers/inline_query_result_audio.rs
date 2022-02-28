@@ -21,3 +21,8 @@ impl InlineQueryResultAudio {
         }
     }
 }
+impl Default for InlineQueryResultAudio {
+    fn default() -> Self {
+        Self::new()
+    }
+}

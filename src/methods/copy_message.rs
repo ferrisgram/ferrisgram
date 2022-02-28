@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
     /// <https://core.telegram.org/bots/api#copymessage>
     pub fn copy_message(&self, chat_id: i64, from_chat_id: i64, message_id: i64) -> CopyMessageBuilder {
-        CopyMessageBuilder::new(&self, chat_id, from_chat_id, message_id)
+        CopyMessageBuilder::new(self, chat_id, from_chat_id, message_id)
     }
 }
 

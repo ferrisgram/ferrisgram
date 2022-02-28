@@ -14,3 +14,8 @@ impl KeyboardButton {
         }
     }
 }
+impl Default for KeyboardButton {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -24,3 +24,8 @@ impl InlineQueryResultGif {
         }
     }
 }
+impl Default for InlineQueryResultGif {
+    fn default() -> Self {
+        Self::new()
+    }
+}

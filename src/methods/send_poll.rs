@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send a native poll. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendpoll>
     pub fn send_poll(&self, chat_id: i64, question: String, options: Vec<String>) -> SendPollBuilder {
-        SendPollBuilder::new(&self, chat_id, question, options)
+        SendPollBuilder::new(self, chat_id, question, options)
     }
 }
 

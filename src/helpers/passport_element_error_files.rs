@@ -14,3 +14,8 @@ impl PassportElementErrorFiles {
         }
     }
 }
+impl Default for PassportElementErrorFiles {
+    fn default() -> Self {
+        Self::new()
+    }
+}

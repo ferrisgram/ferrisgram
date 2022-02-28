@@ -11,7 +11,7 @@ impl Bot {
     /// We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.
     /// <https://core.telegram.org/bots/api#sendchataction>
     pub fn send_chat_action(&self, chat_id: i64, action: String) -> SendChatActionBuilder {
-        SendChatActionBuilder::new(&self, chat_id, action)
+        SendChatActionBuilder::new(self, chat_id, action)
     }
 }
 

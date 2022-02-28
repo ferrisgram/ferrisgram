@@ -10,3 +10,8 @@ impl BotCommandScope {
         }
     }
 }
+impl Default for BotCommandScope {
+    fn default() -> Self {
+        Self::new()
+    }
+}

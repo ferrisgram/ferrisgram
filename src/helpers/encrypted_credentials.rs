@@ -13,3 +13,8 @@ impl EncryptedCredentials {
         }
     }
 }
+impl Default for EncryptedCredentials {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -11,3 +11,8 @@ impl VoiceChatParticipantsInvited {
         }
     }
 }
+impl Default for VoiceChatParticipantsInvited {
+    fn default() -> Self {
+        Self::new()
+    }
+}

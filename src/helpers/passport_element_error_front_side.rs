@@ -14,3 +14,8 @@ impl PassportElementErrorFrontSide {
         }
     }
 }
+impl Default for PassportElementErrorFrontSide {
+    fn default() -> Self {
+        Self::new()
+    }
+}

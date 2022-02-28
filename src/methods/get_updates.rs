@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
     /// <https://core.telegram.org/bots/api#getupdates>
     pub fn get_updates(&self) -> GetUpdatesBuilder {
-        GetUpdatesBuilder::new(&self)
+        GetUpdatesBuilder::new(self)
     }
 }
 

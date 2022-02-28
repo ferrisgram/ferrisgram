@@ -14,3 +14,8 @@ impl LoginUrl {
         }
     }
 }
+impl Default for LoginUrl {
+    fn default() -> Self {
+        Self::new()
+    }
+}

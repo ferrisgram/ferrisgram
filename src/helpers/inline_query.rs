@@ -17,3 +17,8 @@ impl InlineQuery {
         }
     }
 }
+impl Default for InlineQuery {
+    fn default() -> Self {
+        Self::new()
+    }
+}

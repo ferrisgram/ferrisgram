@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
     /// <https://core.telegram.org/bots/api#deletemycommands>
     pub fn delete_my_commands(&self) -> DeleteMyCommandsBuilder {
-        DeleteMyCommandsBuilder::new(&self)
+        DeleteMyCommandsBuilder::new(self)
     }
 }
 

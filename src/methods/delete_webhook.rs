@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
     /// <https://core.telegram.org/bots/api#deletewebhook>
     pub fn delete_webhook(&self) -> DeleteWebhookBuilder {
-        DeleteWebhookBuilder::new(&self)
+        DeleteWebhookBuilder::new(self)
     }
 }
 

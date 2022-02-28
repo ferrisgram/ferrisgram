@@ -12,3 +12,8 @@ impl Dice {
         }
     }
 }
+impl Default for Dice {
+    fn default() -> Self {
+        Self::new()
+    }
+}

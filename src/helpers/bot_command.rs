@@ -12,3 +12,8 @@ impl BotCommand {
         }
     }
 }
+impl Default for BotCommand {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -16,3 +16,8 @@ impl VideoNote {
         }
     }
 }
+impl Default for VideoNote {
+    fn default() -> Self {
+        Self::new()
+    }
+}

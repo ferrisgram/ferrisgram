@@ -16,3 +16,8 @@ impl ShippingQuery {
         }
     }
 }
+impl Default for ShippingQuery {
+    fn default() -> Self {
+        Self::new()
+    }
+}

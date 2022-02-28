@@ -16,3 +16,8 @@ impl Location {
         }
     }
 }
+impl Default for Location {
+    fn default() -> Self {
+        Self::new()
+    }
+}

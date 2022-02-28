@@ -15,3 +15,8 @@ impl PassportElementErrorDataField {
         }
     }
 }
+impl Default for PassportElementErrorDataField {
+    fn default() -> Self {
+        Self::new()
+    }
+}

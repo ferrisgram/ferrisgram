@@ -15,3 +15,8 @@ impl ReplyKeyboardMarkup {
         }
     }
 }
+impl Default for ReplyKeyboardMarkup {
+    fn default() -> Self {
+        Self::new()
+    }
+}

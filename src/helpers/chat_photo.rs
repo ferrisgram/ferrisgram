@@ -14,3 +14,8 @@ impl ChatPhoto {
         }
     }
 }
+impl Default for ChatPhoto {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
     /// <https://core.telegram.org/bots/api#leavechat>
     pub fn leave_chat(&self, chat_id: i64) -> LeaveChatBuilder {
-        LeaveChatBuilder::new(&self, chat_id)
+        LeaveChatBuilder::new(self, chat_id)
     }
 }
 

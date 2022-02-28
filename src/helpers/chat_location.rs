@@ -13,3 +13,8 @@ impl ChatLocation {
         }
     }
 }
+impl Default for ChatLocation {
+    fn default() -> Self {
+        Self::new()
+    }
+}

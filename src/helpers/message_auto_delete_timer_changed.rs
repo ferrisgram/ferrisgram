@@ -11,3 +11,8 @@ impl MessageAutoDeleteTimerChanged {
         }
     }
 }
+impl Default for MessageAutoDeleteTimerChanged {
+    fn default() -> Self {
+        Self::new()
+    }
+}

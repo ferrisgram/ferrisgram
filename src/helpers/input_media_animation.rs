@@ -19,3 +19,8 @@ impl InputMediaAnimation {
         }
     }
 }
+impl Default for InputMediaAnimation {
+    fn default() -> Self {
+        Self::new()
+    }
+}

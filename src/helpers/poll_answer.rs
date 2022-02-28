@@ -14,3 +14,8 @@ impl PollAnswer {
         }
     }
 }
+impl Default for PollAnswer {
+    fn default() -> Self {
+        Self::new()
+    }
+}

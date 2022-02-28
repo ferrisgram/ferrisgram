@@ -15,3 +15,8 @@ impl InputMediaPhoto {
         }
     }
 }
+impl Default for InputMediaPhoto {
+    fn default() -> Self {
+        Self::new()
+    }
+}

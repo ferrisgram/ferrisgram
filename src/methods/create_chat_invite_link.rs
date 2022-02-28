@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
     /// <https://core.telegram.org/bots/api#createchatinvitelink>
     pub fn create_chat_invite_link(&self, chat_id: i64) -> CreateChatInviteLinkBuilder {
-        CreateChatInviteLinkBuilder::new(&self, chat_id)
+        CreateChatInviteLinkBuilder::new(self, chat_id)
     }
 }
 

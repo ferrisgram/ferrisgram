@@ -26,3 +26,8 @@ impl ChatMemberAdministrator {
         }
     }
 }
+impl Default for ChatMemberAdministrator {
+    fn default() -> Self {
+        Self::new()
+    }
+}

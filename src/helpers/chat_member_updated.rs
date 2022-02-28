@@ -19,3 +19,8 @@ impl ChatMemberUpdated {
         }
     }
 }
+impl Default for ChatMemberUpdated {
+    fn default() -> Self {
+        Self::new()
+    }
+}

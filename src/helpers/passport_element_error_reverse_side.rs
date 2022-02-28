@@ -14,3 +14,8 @@ impl PassportElementErrorReverseSide {
         }
     }
 }
+impl Default for PassportElementErrorReverseSide {
+    fn default() -> Self {
+        Self::new()
+    }
+}

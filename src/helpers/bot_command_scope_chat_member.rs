@@ -13,3 +13,8 @@ impl BotCommandScopeChatMember {
         }
     }
 }
+impl Default for BotCommandScopeChatMember {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -13,7 +13,7 @@ impl Bot {
     /// For sending voice messages, use the sendVoice method instead.
     /// <https://core.telegram.org/bots/api#sendaudio>
     pub fn send_audio(&self, chat_id: i64, audio: InputFile) -> SendAudioBuilder {
-        SendAudioBuilder::new(&self, chat_id, audio)
+        SendAudioBuilder::new(self, chat_id, audio)
     }
 }
 

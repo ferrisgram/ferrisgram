@@ -11,3 +11,8 @@ impl BotCommandScopeAllGroupChats {
         }
     }
 }
+impl Default for BotCommandScopeAllGroupChats {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
     /// <https://core.telegram.org/bots/api#stoppoll>
     pub fn stop_poll(&self, chat_id: i64, message_id: i64) -> StopPollBuilder {
-        StopPollBuilder::new(&self, chat_id, message_id)
+        StopPollBuilder::new(self, chat_id, message_id)
     }
 }
 

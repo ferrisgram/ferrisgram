@@ -11,3 +11,8 @@ impl VoiceChatScheduled {
         }
     }
 }
+impl Default for VoiceChatScheduled {
+    fn default() -> Self {
+        Self::new()
+    }
+}

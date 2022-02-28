@@ -17,3 +17,8 @@ impl ChatJoinRequest {
         }
     }
 }
+impl Default for ChatJoinRequest {
+    fn default() -> Self {
+        Self::new()
+    }
+}

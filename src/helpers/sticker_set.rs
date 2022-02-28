@@ -17,3 +17,8 @@ impl StickerSet {
         }
     }
 }
+impl Default for StickerSet {
+    fn default() -> Self {
+        Self::new()
+    }
+}

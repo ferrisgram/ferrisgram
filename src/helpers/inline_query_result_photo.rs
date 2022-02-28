@@ -23,3 +23,8 @@ impl InlineQueryResultPhoto {
         }
     }
 }
+impl Default for InlineQueryResultPhoto {
+    fn default() -> Self {
+        Self::new()
+    }
+}

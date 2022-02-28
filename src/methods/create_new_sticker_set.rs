@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
     /// <https://core.telegram.org/bots/api#createnewstickerset>
     pub fn create_new_sticker_set(&self, user_id: i64, name: String, title: String, emojis: String) -> CreateNewStickerSetBuilder {
-        CreateNewStickerSetBuilder::new(&self, user_id, name, title, emojis)
+        CreateNewStickerSetBuilder::new(self, user_id, name, title, emojis)
     }
 }
 

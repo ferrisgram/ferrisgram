@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
     /// <https://core.telegram.org/bots/api#declinechatjoinrequest>
     pub fn decline_chat_join_request(&self, chat_id: i64, user_id: i64) -> DeclineChatJoinRequestBuilder {
-        DeclineChatJoinRequestBuilder::new(&self, chat_id, user_id)
+        DeclineChatJoinRequestBuilder::new(self, chat_id, user_id)
     }
 }
 

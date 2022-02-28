@@ -17,3 +17,8 @@ impl InputMediaDocument {
         }
     }
 }
+impl Default for InputMediaDocument {
+    fn default() -> Self {
+        Self::new()
+    }
+}

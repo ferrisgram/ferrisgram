@@ -20,3 +20,8 @@ impl ChatInviteLink {
         }
     }
 }
+impl Default for ChatInviteLink {
+    fn default() -> Self {
+        Self::new()
+    }
+}

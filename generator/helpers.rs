@@ -34,6 +34,11 @@ async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::A
 
 impl {objname} {{
 {new_fn}{helper_fn}
+}}
+impl Default for {objname} {{
+    fn default() -> Self {{
+        Self::new()
+    }}
 }}", header=WARNING_COMMENT, objname=&obj.name)
     );
     return good_file_name.clone();

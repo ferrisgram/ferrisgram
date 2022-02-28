@@ -12,3 +12,8 @@ impl UserProfilePhotos {
         }
     }
 }
+impl Default for UserProfilePhotos {
+    fn default() -> Self {
+        Self::new()
+    }
+}

@@ -10,3 +10,8 @@ impl InputMedia {
         }
     }
 }
+impl Default for InputMedia {
+    fn default() -> Self {
+        Self::new()
+    }
+}

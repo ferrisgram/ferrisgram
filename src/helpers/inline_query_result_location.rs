@@ -24,3 +24,8 @@ impl InlineQueryResultLocation {
         }
     }
 }
+impl Default for InlineQueryResultLocation {
+    fn default() -> Self {
+        Self::new()
+    }
+}

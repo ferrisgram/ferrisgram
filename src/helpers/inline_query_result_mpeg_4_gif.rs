@@ -24,3 +24,8 @@ impl InlineQueryResultMpeg4Gif {
         }
     }
 }
+impl Default for InlineQueryResultMpeg4Gif {
+    fn default() -> Self {
+        Self::new()
+    }
+}

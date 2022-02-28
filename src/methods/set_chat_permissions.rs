@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatpermissions>
     pub fn set_chat_permissions(&self, chat_id: i64, permissions: ChatPermissions) -> SetChatPermissionsBuilder {
-        SetChatPermissionsBuilder::new(&self, chat_id, permissions)
+        SetChatPermissionsBuilder::new(self, chat_id, permissions)
     }
 }
 

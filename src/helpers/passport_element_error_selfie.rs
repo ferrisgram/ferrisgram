@@ -14,3 +14,8 @@ impl PassportElementErrorSelfie {
         }
     }
 }
+impl Default for PassportElementErrorSelfie {
+    fn default() -> Self {
+        Self::new()
+    }
+}

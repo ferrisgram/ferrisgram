@@ -10,3 +10,8 @@ impl ChatMember {
         }
     }
 }
+impl Default for ChatMember {
+    fn default() -> Self {
+        Self::new()
+    }
+}

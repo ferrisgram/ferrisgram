@@ -11,3 +11,8 @@ impl InlineKeyboardMarkup {
         }
     }
 }
+impl Default for InlineKeyboardMarkup {
+    fn default() -> Self {
+        Self::new()
+    }
+}

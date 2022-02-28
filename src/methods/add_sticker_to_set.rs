@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
     /// <https://core.telegram.org/bots/api#addstickertoset>
     pub fn add_sticker_to_set(&self, user_id: i64, name: String, emojis: String) -> AddStickerToSetBuilder {
-        AddStickerToSetBuilder::new(&self, user_id, name, emojis)
+        AddStickerToSetBuilder::new(self, user_id, name, emojis)
     }
 }
 

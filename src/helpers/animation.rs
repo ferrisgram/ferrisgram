@@ -19,3 +19,8 @@ impl Animation {
         }
     }
 }
+impl Default for Animation {
+    fn default() -> Self {
+        Self::new()
+    }
+}

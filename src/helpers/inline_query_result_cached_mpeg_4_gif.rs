@@ -19,3 +19,8 @@ impl InlineQueryResultCachedMpeg4Gif {
         }
     }
 }
+impl Default for InlineQueryResultCachedMpeg4Gif {
+    fn default() -> Self {
+        Self::new()
+    }
+}

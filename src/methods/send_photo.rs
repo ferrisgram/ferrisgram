@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send photos. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendphoto>
     pub fn send_photo(&self, chat_id: i64, photo: InputFile) -> SendPhotoBuilder {
-        SendPhotoBuilder::new(&self, chat_id, photo)
+        SendPhotoBuilder::new(self, chat_id, photo)
     }
 }
 

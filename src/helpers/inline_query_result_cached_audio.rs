@@ -18,3 +18,8 @@ impl InlineQueryResultCachedAudio {
         }
     }
 }
+impl Default for InlineQueryResultCachedAudio {
+    fn default() -> Self {
+        Self::new()
+    }
+}

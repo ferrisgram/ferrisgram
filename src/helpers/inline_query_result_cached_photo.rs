@@ -20,3 +20,8 @@ impl InlineQueryResultCachedPhoto {
         }
     }
 }
+impl Default for InlineQueryResultCachedPhoto {
+    fn default() -> Self {
+        Self::new()
+    }
+}

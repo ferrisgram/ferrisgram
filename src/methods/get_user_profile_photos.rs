@@ -11,7 +11,7 @@ impl Bot {
     /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
     /// <https://core.telegram.org/bots/api#getuserprofilephotos>
     pub fn get_user_profile_photos(&self, user_id: i64) -> GetUserProfilePhotosBuilder {
-        GetUserProfilePhotosBuilder::new(&self, user_id)
+        GetUserProfilePhotosBuilder::new(self, user_id)
     }
 }
 

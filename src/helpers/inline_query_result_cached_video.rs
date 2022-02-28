@@ -20,3 +20,8 @@ impl InlineQueryResultCachedVideo {
         }
     }
 }
+impl Default for InlineQueryResultCachedVideo {
+    fn default() -> Self {
+        Self::new()
+    }
+}

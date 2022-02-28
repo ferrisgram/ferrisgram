@@ -12,7 +12,7 @@ impl Bot {
     /// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendsticker>
     pub fn send_sticker(&self, chat_id: i64, sticker: InputFile) -> SendStickerBuilder {
-        SendStickerBuilder::new(&self, chat_id, sticker)
+        SendStickerBuilder::new(self, chat_id, sticker)
     }
 }
 

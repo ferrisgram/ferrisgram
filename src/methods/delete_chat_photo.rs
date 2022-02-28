@@ -10,7 +10,7 @@ impl Bot {
     /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#deletechatphoto>
     pub fn delete_chat_photo(&self, chat_id: i64) -> DeleteChatPhotoBuilder {
-        DeleteChatPhotoBuilder::new(&self, chat_id)
+        DeleteChatPhotoBuilder::new(self, chat_id)
     }
 }
 

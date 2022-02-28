@@ -14,3 +14,8 @@ impl InlineQueryResultGame {
         }
     }
 }
+impl Default for InlineQueryResultGame {
+    fn default() -> Self {
+        Self::new()
+    }
+}
