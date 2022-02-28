@@ -72,7 +72,8 @@ pub async fn generate_methods(spec: &spec_types::ApiDescription) {
 async fn generate_method(method: &spec_types::MethodDescription) -> (String, String) {
     let name = &method.name.to_case(Case::Snake); 
     let mut data = String::from(common::WARNING_COMMENT);
-    // data = data.add(&create_import_crate(obj));
+    // don't warn on too many arguments
+    data = data.add("#![allow(clippy::too_many_arguments)]");
     data = data.add("use serde::Serialize;\n\n");
     data = data.add("use crate::Bot;\n");
     data = data.add("use crate::error::Result;\n");
