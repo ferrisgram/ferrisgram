@@ -1,58 +1,10 @@
-#![allow(non_upper_case_globals)]
-
 use dyn_clone::{DynClone, clone_trait_object};
 
-use crate::types::Message;
-
+use crate::{types::Message, filter_extension};
 pub trait MessageFilter: Sync + Send + DynClone {
     fn check_filter(&self, m: &Message) -> bool;
 }
 clone_trait_object!(MessageFilter);
-
-#[macro_export]
-macro_rules! message_filter_extension {
-    ($($t:ty)*) => {
-        $(
-            impl $t {
-                #[inline]
-                /// This method is used to add an 'and' condition filter with the parent filter. 
-                pub fn and(mut self, filter: Box<dyn MessageFilter>) -> Box<Self> {
-                    self.and_filter = Some(filter);
-                    Box::from(self)
-                }
-                /// This method is used to add an 'or' condition filter with the parent filter.
-                pub fn or(mut self, filter: Box<dyn MessageFilter>) -> Box<Self> {
-                    self.or_filter = Some(filter);
-                    Box::from(self)
-                }
-                pub fn invert(mut self) -> Box<Self> {
-                    self.inverted = true;
-                    Box::from(self)
-                }
-                pub fn check_integral_filter(&self, m: &Message, mut parent_result: bool) -> bool {
-                    if self.inverted {
-                        parent_result = !parent_result
-                    }
-                    if self.and_filter.is_none() && self.or_filter.is_none() {
-                        return parent_result
-                    }
-                    (
-                        parent_result 
-                        && 
-                        self.and_filter.is_some() 
-                        && 
-                        self.and_filter.as_ref().unwrap().check_filter(m)
-                    ) || (
-                        self.or_filter.is_some() 
-                        && 
-                        self.or_filter.as_ref().unwrap().check_filter(m)
-                    )
-            
-                }
-            }
-        )*
-    }
-}
 
 
 macro_rules! simple_filter_maker {
@@ -75,20 +27,6 @@ macro_rules! simple_filter_maker {
     }
 }
 
-
-message_filter_extension!{
-    All Animation SuperGroup Private 
-    Group Forwarded Caption Reply
-    Command Text Video Sticker Photo   
-    Audio Document Dice DiceValue Contact   
-    Voice VideoNote FromUser FromChat
-    CaptionEntities Entities ViaBot
-    PinnedMessage LeftChatMember Game
-    NewChatMembers Location Venue Poll
-    IsAutomaticForward MediaGroup Migrate
-    ReplyMarkup MigrateTo MigrateFrom
-    Entity CaptionEntity
-}
 
 simple_filter_maker!{
     All Animation SuperGroup Private 
@@ -114,6 +52,7 @@ impl MessageFilter for All {
         self.check_integral_filter(m, true)
     }
 }
+filter_extension!(All, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -127,6 +66,7 @@ impl MessageFilter for SuperGroup {
         self.check_integral_filter(m, m.chat.r#type == "supergroup")
     }
 }
+filter_extension!(SuperGroup, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -140,6 +80,7 @@ impl MessageFilter for Private {
         self.check_integral_filter(m, m.chat.r#type == "private")
     }
 }
+filter_extension!(Private, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -153,6 +94,7 @@ impl MessageFilter for Group {
         self.check_integral_filter(m, m.chat.r#type == "group")
     }
 }
+filter_extension!(Group, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -166,6 +108,7 @@ impl MessageFilter for Forwarded {
         self.check_integral_filter(m, m.forward_date.is_some())
     }
 }
+filter_extension!(Forwarded, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -179,6 +122,7 @@ impl MessageFilter for Caption {
         self.check_integral_filter(m, m.caption.is_some())
     }
 }
+filter_extension!(Caption, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -192,6 +136,7 @@ impl MessageFilter for Reply {
         self.check_integral_filter(m, m.reply_to_message.is_some())
     }
 }
+filter_extension!(Reply, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -210,6 +155,7 @@ impl MessageFilter for Command {
         self.check_integral_filter(m, checked_result)
     }
 }
+filter_extension!(Command, Message, dyn MessageFilter);
 
 #[derive(Clone)]
 pub struct Text {
@@ -222,6 +168,7 @@ impl MessageFilter for Text {
         self.check_integral_filter(m, m.text.is_some())
     }
 }
+filter_extension!(Text, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -235,6 +182,7 @@ impl MessageFilter for Animation {
         self.check_integral_filter(m, m.animation.is_some())
     }
 }
+filter_extension!(Animation, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -248,6 +196,7 @@ impl MessageFilter for Video {
         self.check_integral_filter(m, m.video.is_some())
     }
 }
+filter_extension!(Video, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -261,6 +210,7 @@ impl MessageFilter for Sticker {
         self.check_integral_filter(m, m.sticker.is_some())
     }
 }
+filter_extension!(Sticker, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -274,6 +224,7 @@ impl MessageFilter for Photo {
         self.check_integral_filter(m, m.photo.is_some())
     }
 }
+filter_extension!(Photo, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -287,6 +238,7 @@ impl MessageFilter for Audio {
         self.check_integral_filter(m, m.audio.is_some())
     }
 }
+filter_extension!(Audio, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -300,6 +252,7 @@ impl MessageFilter for Document {
         self.check_integral_filter(m, m.document.is_some())
     }
 }
+filter_extension!(Document, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -313,6 +266,7 @@ impl MessageFilter for Dice {
         self.check_integral_filter(m, m.dice.is_some())
     }
 }
+filter_extension!(Dice, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -326,6 +280,7 @@ impl MessageFilter for Contact {
         self.check_integral_filter(m, m.contact.is_some())
     }
 }
+filter_extension!(Contact, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -339,6 +294,7 @@ impl MessageFilter for Voice {
         self.check_integral_filter(m, m.voice.is_some())
     }
 }
+filter_extension!(Voice, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -352,6 +308,7 @@ impl MessageFilter for VideoNote {
         self.check_integral_filter(m, m.video_note.is_some())
     }
 }
+filter_extension!(VideoNote, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -363,7 +320,9 @@ pub struct FromUser {
 }
 impl MessageFilter for FromUser {
     fn check_filter(&self, m: &Message) -> bool {
-        self.check_integral_filter(m, m.from.as_ref().unwrap().id == self.user_id)
+        self.check_integral_filter(m, 
+            m.from.is_some() && m.from.as_ref().unwrap().id == self.user_id
+        )
     }
 }
 impl FromUser {
@@ -378,6 +337,7 @@ impl FromUser {
         )
     }
 }
+filter_extension!(FromUser, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -404,6 +364,7 @@ impl FromChat {
         )
     }
 }
+filter_extension!(FromChat, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -432,6 +393,7 @@ impl DiceValue {
         )
     }
 }
+filter_extension!(DiceValue, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -445,6 +407,8 @@ impl MessageFilter for Game {
         self.check_integral_filter(m, m.game.is_some())
     }
 }
+filter_extension!(Game, Message, dyn MessageFilter);
+
 
 #[derive(Clone)]
 pub struct Poll {
@@ -457,6 +421,7 @@ impl MessageFilter for Poll {
         self.check_integral_filter(m, m.poll.is_some())
     }
 }
+filter_extension!(Poll, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -470,6 +435,7 @@ impl MessageFilter for Venue {
         self.check_integral_filter(m, m.venue.is_some())
     }
 }
+filter_extension!(Venue, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -483,6 +449,7 @@ impl MessageFilter for Location {
         self.check_integral_filter(m, m.location.is_some())
     }
 }
+filter_extension!(Location, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -496,6 +463,7 @@ impl MessageFilter for NewChatMembers {
         self.check_integral_filter(m, m.new_chat_members.is_some())
     }
 }
+filter_extension!(NewChatMembers, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -509,6 +477,7 @@ impl MessageFilter for LeftChatMember {
         self.check_integral_filter(m, m.left_chat_member.is_some())
     }
 }
+filter_extension!(LeftChatMember, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -522,6 +491,7 @@ impl MessageFilter for PinnedMessage {
         self.check_integral_filter(m, m.pinned_message.is_some())
     }
 }
+filter_extension!(PinnedMessage, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -535,6 +505,7 @@ impl MessageFilter for ViaBot {
         self.check_integral_filter(m, m.via_bot.is_some())
     }
 }
+filter_extension!(ViaBot, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -548,6 +519,7 @@ impl MessageFilter for Entities {
         self.check_integral_filter(m, m.entities.is_some())
     }
 }
+filter_extension!(Entities, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -561,6 +533,7 @@ impl MessageFilter for CaptionEntities {
         self.check_integral_filter(m, m.caption_entities.is_some())
     }
 }
+filter_extension!(CaptionEntities, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -574,6 +547,7 @@ impl MessageFilter for Migrate {
         self.check_integral_filter(m, m.migrate_from_chat_id.is_some() || m.migrate_to_chat_id.is_some())
     }
 }
+filter_extension!(Migrate, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -587,6 +561,7 @@ impl MessageFilter for MigrateFrom {
         self.check_integral_filter(m, m.migrate_from_chat_id.is_some())
     }
 }
+filter_extension!(MigrateFrom, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -600,6 +575,7 @@ impl MessageFilter for MigrateTo {
         self.check_integral_filter(m, m.migrate_to_chat_id.is_some())
     }
 }
+filter_extension!(MigrateTo, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -613,6 +589,7 @@ impl MessageFilter for ReplyMarkup {
         self.check_integral_filter(m, m.reply_markup.is_some())
     }
 }
+filter_extension!(ReplyMarkup, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -626,6 +603,7 @@ impl MessageFilter for MediaGroup {
         self.check_integral_filter(m, m.media_group_id.is_some())
     }
 }
+filter_extension!(MediaGroup, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -639,6 +617,7 @@ impl MessageFilter for IsAutomaticForward {
         self.check_integral_filter(m, m.is_automatic_forward.is_some())
     }
 }
+filter_extension!(IsAutomaticForward, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -673,6 +652,7 @@ impl Entity {
         )
     }
 }
+filter_extension!(Entity, Message, dyn MessageFilter);
 
 
 #[derive(Clone)]
@@ -707,4 +687,5 @@ impl CaptionEntity {
         )
     }
 }
+filter_extension!(CaptionEntity, Message, dyn MessageFilter);
 

@@ -37,12 +37,12 @@ updater.dispatcher.add_handler(MessageHandler::new(callback_function, CustomFilt
 ```
 
 ### **Advanced Custom Filters**
-Ferrisgram provide the filter extension macros which can be used to add support of methods like `.and`, `.or`, `.invert` which increases the capabilities of your custom filter.
+Ferrisgram provides `filter_extension` macro which can be used to add support of methods like `.and`, `.or`, `.invert` which increases the capabilities of your custom filter.
 
-Let us learn about them through an example, suppose we want to use this extension in our `CustomFilter` then we will use `message_filter_extension` macro and implement it as so:
+Let us learn about it through an example, suppose we want to use this extension in our `CustomFilter` then we will use it as so:
 
 ```rust
-use ferrisgram::message_filter_extension;
+use ferrisgram::filter_extension;
 use ferrisgram::ext::filters::message::MessageFilter;
 
 #[derive(Clone)]
@@ -67,9 +67,19 @@ impl CustomFilter {
         })
     }
 }
-message_filter_extension!(CustomFilter);
+filter_extension!(CustomFilter, Message, dyn MessageFilter);
 ```
-**Note**: You must add `and_filter`, `or_filter` and `inverted` fields with their respective data types in order to use filter extensions.
+The struct can of course be named however you want, the only important things are:
+- You must add `and_filter`, `or_filter` and `inverted` fields with their respective data types in order to use filter extension.
+- `filter_extension` takes three arguments which are as follows:
+    - __First Argument__: Struct of your custom filter.
+    - __Second Argument__: Type of the update it will recieve, for example `Message`, `CallbackQuery` etc.
+    - __Third Argument__: Base Filter which a handler can accept. Available Base Filters are as follows:
+        - `MessageFilter`: it used with `Message` as 2nd argument.
+        - `CallbackQueryFilter`: it used with `CallbackQuery` as 2nd argument.
+        - `InlineQueryFilter`: it used with `InlineQuery` as 2nd argument. 
+    
+    **Note**: You must add `dyn` keyword with Base Filters in argument to the `filter_extension`.
  
 
 ## **Contributing**

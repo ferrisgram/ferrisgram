@@ -40,28 +40,28 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Me
     async fn check_update(&self, _: &Bot, update: &Update) -> bool {
         if update.message.is_some() {
             let msg = update.message.as_ref().unwrap();
-            return self.filter.as_ref().check_filter(&msg)
+            return self.filter.check_filter(&msg)
         }
         if self.allow_edited && update.edited_message.is_some() {
             let msg = update.edited_message.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.as_ref().check_filter(&msg)
+            return self.filter.check_filter(&msg)
         }
         if self.allow_channel && update.channel_post.is_some() {
             let msg = update.channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.as_ref().check_filter(&msg)
+            return self.filter.check_filter(&msg)
         }
         if self.allow_channel && self.allow_edited && update.edited_channel_post.is_some() {
             let msg = update.edited_channel_post.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
                 return false
             }
-            return self.filter.as_ref().check_filter(&msg)
+            return self.filter.check_filter(&msg)
         }
         false
     }
