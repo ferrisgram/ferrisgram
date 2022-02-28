@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InputFile;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
@@ -40,10 +40,9 @@ pub struct SetWebhookBuilder<'a> {
     pub drop_pending_updates: Option<bool>,
 }
 
-
-impl <'a> SetWebhookBuilder<'a> {
+impl<'a> SetWebhookBuilder<'a> {
     pub fn new(bot: &'a Bot, url: String) -> Self {
-        Self{
+        Self {
             bot,
             url,
             certificate: None,
@@ -58,35 +57,34 @@ impl <'a> SetWebhookBuilder<'a> {
         self.url = url;
         self
     }
-                
+
     pub fn certificate(mut self, certificate: InputFile) -> Self {
         self.certificate = Some(certificate);
         self
     }
-                
+
     pub fn ip_address(mut self, ip_address: String) -> Self {
         self.ip_address = Some(ip_address);
         self
     }
-                
+
     pub fn max_connections(mut self, max_connections: i64) -> Self {
         self.max_connections = Some(max_connections);
         self
     }
-                
+
     pub fn allowed_updates(mut self, allowed_updates: Vec<String>) -> Self {
         self.allowed_updates = Some(allowed_updates);
         self
     }
-                
+
     pub fn drop_pending_updates(mut self, drop_pending_updates: bool) -> Self {
         self.drop_pending_updates = Some(drop_pending_updates);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("setWebhook", Some(&form)).await
     }
-
 }

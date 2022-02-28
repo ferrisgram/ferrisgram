@@ -3,9 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a service message about a voice chat started in the chat. Currently holds no information.
 /// <https://core.telegram.org/bots/api#voicechatstarted>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct VoiceChatStarted {
-}
+pub struct VoiceChatStarted {}

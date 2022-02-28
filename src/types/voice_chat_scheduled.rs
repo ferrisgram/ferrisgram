@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a service message about a voice chat scheduled in the chat.
 /// <https://core.telegram.org/bots/api#voicechatscheduled>
 #[derive(Serialize, Deserialize, Debug, Clone)]

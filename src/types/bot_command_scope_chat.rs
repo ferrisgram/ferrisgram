@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Represents the scope of bot commands, covering a specific chat.
 /// <https://core.telegram.org/bots/api#botcommandscopechat>
 #[derive(Serialize, Deserialize, Debug, Clone)]

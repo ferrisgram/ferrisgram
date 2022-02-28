@@ -6,9 +6,7 @@ use crate::types::VoiceChatScheduled;
 impl VoiceChatScheduled {
     /// This function creates an empty struct for the object VoiceChatScheduled.
     pub fn new() -> Self {
-        Self {
-            start_date: 0,
-        }
+        Self { start_date: 0 }
     }
 }
 impl Default for VoiceChatScheduled {

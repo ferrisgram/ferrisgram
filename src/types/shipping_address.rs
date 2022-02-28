@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a shipping address.
 /// <https://core.telegram.org/bots/api#shippingaddress>
 #[derive(Serialize, Deserialize, Debug, Clone)]

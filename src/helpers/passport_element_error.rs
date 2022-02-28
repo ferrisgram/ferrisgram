@@ -6,8 +6,7 @@ use crate::types::PassportElementError;
 impl PassportElementError {
     /// This function creates an empty struct for the object PassportElementError.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for PassportElementError {

@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a voice note.
 /// <https://core.telegram.org/bots/api#voice>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -6,8 +6,7 @@ use crate::types::InputMedia;
 impl InputMedia {
     /// This function creates an empty struct for the object InputMedia.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for InputMedia {

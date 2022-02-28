@@ -1,8 +1,8 @@
-use crate::Bot;
-use crate::ext::{Handler, Context};
-use crate::error::{GroupIteration, Error};
-use GroupIteration::{ContinueGroups, EndGroups, ResumeGroups};
+use crate::error::{Error, GroupIteration};
+use crate::ext::{Context, Handler};
 use crate::types::Update;
+use crate::Bot;
+use GroupIteration::{ContinueGroups, EndGroups, ResumeGroups};
 
 type ErrorHandlerFunc = fn(&Bot, &Context, Error) -> GroupIteration;
 
@@ -10,13 +10,13 @@ pub struct Dispatcher<'a> {
     pub bot: &'a Bot,
     handler_groups: Vec<i32>,
     handlers: Vec<HandlersGroup>,
-    error_handler: ErrorHandlerFunc
+    error_handler: ErrorHandlerFunc,
 }
 
 #[derive(Clone)]
 struct HandlersGroup {
     pub handler_group: i32,
-    pub handlers: Vec<Box<dyn Handler>>
+    pub handlers: Vec<Box<dyn Handler>>,
 }
 
 impl HandlersGroup {
@@ -29,17 +29,16 @@ impl HandlersGroup {
 }
 
 #[allow(unused_must_use)]
-impl <'a> Dispatcher<'a> {
+impl<'a> Dispatcher<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        
         Self {
             bot,
             handler_groups: Vec::new(),
             handlers: Vec::new(),
-            error_handler: Self::default_error_handler
+            error_handler: Self::default_error_handler,
         }
     }
-    
+
     pub fn add_handler_to_group(&mut self, handler_group: i32, handler_trait: Box<dyn Handler>) {
         if !self.handler_groups.contains(&handler_group) {
             self.handler_groups.push(handler_group);
@@ -72,16 +71,14 @@ impl <'a> Dispatcher<'a> {
                         }
                         let res = handler.handle_update(self.bot, &ctx).await;
                         match res {
-                            Ok(mode) => {
-                                match mode {
-                                    EndGroups => return,
-                                    ContinueGroups => break,
-                                    ResumeGroups => continue,
-                                }
+                            Ok(mode) => match mode {
+                                EndGroups => return,
+                                ContinueGroups => break,
+                                ResumeGroups => continue,
                             },
                             Err(error) => {
                                 (self.error_handler)(self.bot, &ctx, error);
-                            },
+                            }
                         }
                     }
                 }

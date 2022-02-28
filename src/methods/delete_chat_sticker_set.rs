@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
@@ -23,23 +23,20 @@ pub struct DeleteChatStickerSetBuilder<'a> {
     pub chat_id: i64,
 }
 
-
-impl <'a> DeleteChatStickerSetBuilder<'a> {
+impl<'a> DeleteChatStickerSetBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
-            bot,
-            chat_id,
-        }
+        Self { bot, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("deleteChatStickerSet", Some(&form)).await
+        self.bot
+            .get::<bool>("deleteChatStickerSet", Some(&form))
+            .await
     }
-
 }

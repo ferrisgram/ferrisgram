@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents the content of a media message to be sent. It should be one of
 /// - InputMediaAnimation
 /// - InputMediaDocument
@@ -12,5 +11,4 @@ use serde::{Deserialize, Serialize};
 /// - InputMediaVideo
 /// <https://core.telegram.org/bots/api#inputmedia>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct InputMedia {
-}
+pub struct InputMedia {}

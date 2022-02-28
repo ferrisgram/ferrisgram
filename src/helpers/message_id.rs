@@ -6,9 +6,7 @@ use crate::types::MessageId;
 impl MessageId {
     /// This function creates an empty struct for the object MessageId.
     pub fn new() -> Self {
-        Self {
-            message_id: 0,
-        }
+        Self { message_id: 0 }
     }
 }
 impl Default for MessageId {

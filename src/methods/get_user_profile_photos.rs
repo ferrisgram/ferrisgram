@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::UserProfilePhotos;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -30,10 +30,9 @@ pub struct GetUserProfilePhotosBuilder<'a> {
     pub limit: Option<i64>,
 }
 
-
-impl <'a> GetUserProfilePhotosBuilder<'a> {
+impl<'a> GetUserProfilePhotosBuilder<'a> {
     pub fn new(bot: &'a Bot, user_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             user_id,
             offset: None,
@@ -45,20 +44,21 @@ impl <'a> GetUserProfilePhotosBuilder<'a> {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn offset(mut self, offset: i64) -> Self {
         self.offset = Some(offset);
         self
     }
-                
+
     pub fn limit(mut self, limit: i64) -> Self {
         self.limit = Some(limit);
         self
     }
-                
+
     pub async fn send(self) -> Result<UserProfilePhotos> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<UserProfilePhotos>("getUserProfilePhotos", Some(&form)).await
+        self.bot
+            .get::<UserProfilePhotos>("getUserProfilePhotos", Some(&form))
+            .await
     }
-
 }

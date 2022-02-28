@@ -4,7 +4,6 @@
 use crate::types::InlineKeyboardMarkup;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a Game.
 /// Note: This will only work in Telegram versions released after October 1, 2016. Older clients will not display any inline results if a game result is among them.
 /// <https://core.telegram.org/bots/api#inlinequeryresultgame>

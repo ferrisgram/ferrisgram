@@ -1,23 +1,23 @@
-use std::future::Future;
 use async_trait::async_trait;
+use std::future::Future;
 
 use crate::ext::{Context, Handler};
 use crate::types::Update;
-use crate::{Bot, error::GroupIteration, error::Result};
+use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct ChatJoinRequestHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
-    pub callback: fn(Bot, Context) -> F
+    pub callback: fn(Bot, Context) -> F,
 }
 
-impl <F: Future<Output = Result<GroupIteration>> + Send + 'static> ChatJoinRequestHandler<F> {
+impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> ChatJoinRequestHandler<F> {
     pub fn new(callback: fn(Bot, Context) -> F) -> Box<Self> {
-        Box::new(Self {
-            callback
-        })
+        Box::new(Self { callback })
     }
 }
 
-impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for ChatJoinRequestHandler<F> {
+impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone
+    for ChatJoinRequestHandler<F>
+{
     fn clone(&self) -> Self {
         Self {
             callback: self.callback,
@@ -26,10 +26,12 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for Chat
 }
 
 #[async_trait]
-impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for ChatJoinRequestHandler<F> {
+impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
+    for ChatJoinRequestHandler<F>
+{
     async fn check_update(&self, _: &Bot, update: &Update) -> bool {
         if update.chat_join_request.is_some() {
-            return true
+            return true;
         }
         false
     }

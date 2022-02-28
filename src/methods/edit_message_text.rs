@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{MessageEntity, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, MessageEntity};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -46,10 +46,9 @@ pub struct EditMessageTextBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
-impl <'a> EditMessageTextBuilder<'a> {
+impl<'a> EditMessageTextBuilder<'a> {
     pub fn new(bot: &'a Bot, text: String) -> Self {
-        Self{
+        Self {
             bot,
             chat_id: None,
             message_id: None,
@@ -66,45 +65,46 @@ impl <'a> EditMessageTextBuilder<'a> {
         self.chat_id = Some(chat_id);
         self
     }
-                
+
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = Some(message_id);
         self
     }
-                
+
     pub fn inline_message_id(mut self, inline_message_id: String) -> Self {
         self.inline_message_id = Some(inline_message_id);
         self
     }
-                
+
     pub fn text(mut self, text: String) -> Self {
         self.text = text;
         self
     }
-                
+
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
         self.parse_mode = Some(parse_mode);
         self
     }
-                
+
     pub fn entities(mut self, entities: Vec<MessageEntity>) -> Self {
         self.entities = Some(entities);
         self
     }
-                
+
     pub fn disable_web_page_preview(mut self, disable_web_page_preview: bool) -> Self {
         self.disable_web_page_preview = Some(disable_web_page_preview);
         self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("editMessageText", Some(&form)).await
+        self.bot
+            .get::<Message>("editMessageText", Some(&form))
+            .await
     }
-
 }

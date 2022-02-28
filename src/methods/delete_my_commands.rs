@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::BotCommandScope;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
@@ -28,10 +28,9 @@ pub struct DeleteMyCommandsBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
-impl <'a> DeleteMyCommandsBuilder<'a> {
+impl<'a> DeleteMyCommandsBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             scope: None,
             language_code: None,
@@ -42,15 +41,14 @@ impl <'a> DeleteMyCommandsBuilder<'a> {
         self.scope = Some(scope);
         self
     }
-                
+
     pub fn language_code(mut self, language_code: String) -> Self {
         self.language_code = Some(language_code);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("deleteMyCommands", Some(&form)).await
     }
-
 }

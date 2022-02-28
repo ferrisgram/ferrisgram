@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a unique message identifier.
 /// <https://core.telegram.org/bots/api#messageid>
 #[derive(Serialize, Deserialize, Debug, Clone)]

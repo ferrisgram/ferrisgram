@@ -4,14 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::{InputFile, MaskPosition};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Static sticker sets can have up to 120 stickers. Returns True on success.
     /// <https://core.telegram.org/bots/api#addstickertoset>
-    pub fn add_sticker_to_set(&self, user_id: i64, name: String, emojis: String) -> AddStickerToSetBuilder {
+    pub fn add_sticker_to_set(
+        &self,
+        user_id: i64,
+        name: String,
+        emojis: String,
+    ) -> AddStickerToSetBuilder {
         AddStickerToSetBuilder::new(self, user_id, name, emojis)
     }
 }
@@ -40,10 +45,9 @@ pub struct AddStickerToSetBuilder<'a> {
     pub mask_position: Option<MaskPosition>,
 }
 
-
-impl <'a> AddStickerToSetBuilder<'a> {
+impl<'a> AddStickerToSetBuilder<'a> {
     pub fn new(bot: &'a Bot, user_id: i64, name: String, emojis: String) -> Self {
-        Self{
+        Self {
             bot,
             user_id,
             name,
@@ -59,40 +63,39 @@ impl <'a> AddStickerToSetBuilder<'a> {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
         self.name = name;
         self
     }
-                
+
     pub fn png_sticker(mut self, png_sticker: InputFile) -> Self {
         self.png_sticker = Some(png_sticker);
         self
     }
-                
+
     pub fn tgs_sticker(mut self, tgs_sticker: InputFile) -> Self {
         self.tgs_sticker = Some(tgs_sticker);
         self
     }
-                
+
     pub fn webm_sticker(mut self, webm_sticker: InputFile) -> Self {
         self.webm_sticker = Some(webm_sticker);
         self
     }
-                
+
     pub fn emojis(mut self, emojis: String) -> Self {
         self.emojis = emojis;
         self
     }
-                
+
     pub fn mask_position(mut self, mask_position: MaskPosition) -> Self {
         self.mask_position = Some(mask_position);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("addStickerToSet", Some(&form)).await
     }
-
 }

@@ -6,8 +6,7 @@ use crate::types::BotCommandScope;
 impl BotCommandScope {
     /// This function creates an empty struct for the object BotCommandScope.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for BotCommandScope {

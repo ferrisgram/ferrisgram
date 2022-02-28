@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of:
 /// - PassportElementErrorDataField
 /// - PassportElementErrorFrontSide
@@ -16,5 +15,4 @@ use serde::{Deserialize, Serialize};
 /// - PassportElementErrorUnspecified
 /// <https://core.telegram.org/bots/api#passportelementerror>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct PassportElementError {
-}
+pub struct PassportElementError {}

@@ -4,7 +4,6 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
 /// <https://core.telegram.org/bots/api#animation>
 #[derive(Serialize, Deserialize, Debug, Clone)]

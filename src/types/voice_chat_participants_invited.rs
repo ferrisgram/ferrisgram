@@ -4,7 +4,6 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a service message about new members invited to a voice chat.
 /// <https://core.telegram.org/bots/api#voicechatparticipantsinvited>
 #[derive(Serialize, Deserialize, Debug, Clone)]

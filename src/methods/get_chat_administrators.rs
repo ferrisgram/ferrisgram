@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatMember;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get a list of administrators in a chat. On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
@@ -24,23 +24,20 @@ pub struct GetChatAdministratorsBuilder<'a> {
     pub chat_id: i64,
 }
 
-
-impl <'a> GetChatAdministratorsBuilder<'a> {
+impl<'a> GetChatAdministratorsBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
-            bot,
-            chat_id,
-        }
+        Self { bot, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<Vec<ChatMember>> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Vec<ChatMember>>("getChatAdministrators", Some(&form)).await
+        self.bot
+            .get::<Vec<ChatMember>>("getChatAdministrators", Some(&form))
+            .await
     }
-
 }

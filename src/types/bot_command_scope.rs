@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported:
 /// - BotCommandScopeDefault
 /// - BotCommandScopeAllPrivateChats
@@ -14,5 +13,4 @@ use serde::{Deserialize, Serialize};
 /// - BotCommandScopeChatMember
 /// <https://core.telegram.org/bots/api#botcommandscope>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct BotCommandScope {
-}
+pub struct BotCommandScope {}

@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:
 /// - InlineQueryResultCachedAudio
 /// - InlineQueryResultCachedDocument
@@ -28,5 +27,4 @@ use serde::{Deserialize, Serialize};
 /// Note: All URLs passed in inline query results will be available to end users and therefore must be assumed to be public.
 /// <https://core.telegram.org/bots/api#inlinequeryresult>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct InlineQueryResult {
-}
+pub struct InlineQueryResult {}

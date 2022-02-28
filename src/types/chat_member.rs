@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:
 /// - ChatMemberOwner
 /// - ChatMemberAdministrator
@@ -13,5 +12,4 @@ use serde::{Deserialize, Serialize};
 /// - ChatMemberBanned
 /// <https://core.telegram.org/bots/api#chatmember>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct ChatMember {
-}
+pub struct ChatMember {}

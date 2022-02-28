@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InputFile;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -26,10 +26,9 @@ pub struct SetChatPhotoBuilder<'a> {
     pub photo: InputFile,
 }
 
-
-impl <'a> SetChatPhotoBuilder<'a> {
+impl<'a> SetChatPhotoBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, photo: InputFile) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             photo,
@@ -40,15 +39,14 @@ impl <'a> SetChatPhotoBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn photo(mut self, photo: InputFile) -> Self {
         self.photo = photo;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("setChatPhoto", Some(&form)).await
     }
-
 }

@@ -1,8 +1,8 @@
-pub mod types;
-pub mod methods;
-pub mod ext;
-pub mod error;
 pub mod bot;
+pub mod error;
+pub mod ext;
+pub mod methods;
+pub mod types;
 pub use bot::*;
 mod helpers;
 

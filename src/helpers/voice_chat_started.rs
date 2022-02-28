@@ -6,8 +6,7 @@ use crate::types::VoiceChatStarted;
 impl VoiceChatStarted {
     /// This function creates an empty struct for the object VoiceChatStarted.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for VoiceChatStarted {

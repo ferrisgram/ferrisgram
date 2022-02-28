@@ -6,8 +6,7 @@ use crate::types::InputMessageContent;
 impl InputMessageContent {
     /// This function creates an empty struct for the object InputMessageContent.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for InputMessageContent {

@@ -6,9 +6,7 @@ use crate::types::VoiceChatParticipantsInvited;
 impl VoiceChatParticipantsInvited {
     /// This function creates an empty struct for the object VoiceChatParticipantsInvited.
     pub fn new() -> Self {
-        Self {
-            users: None,
-        }
+        Self { users: None }
     }
 }
 impl Default for VoiceChatParticipantsInvited {

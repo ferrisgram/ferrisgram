@@ -4,14 +4,18 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineQueryResult;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
     /// <https://core.telegram.org/bots/api#answerinlinequery>
-    pub fn answer_inline_query(&self, inline_query_id: String, results: Vec<InlineQueryResult>) -> AnswerInlineQueryBuilder {
+    pub fn answer_inline_query(
+        &self,
+        inline_query_id: String,
+        results: Vec<InlineQueryResult>,
+    ) -> AnswerInlineQueryBuilder {
         AnswerInlineQueryBuilder::new(self, inline_query_id, results)
     }
 }
@@ -41,10 +45,9 @@ pub struct AnswerInlineQueryBuilder<'a> {
     pub switch_pm_parameter: Option<String>,
 }
 
-
-impl <'a> AnswerInlineQueryBuilder<'a> {
+impl<'a> AnswerInlineQueryBuilder<'a> {
     pub fn new(bot: &'a Bot, inline_query_id: String, results: Vec<InlineQueryResult>) -> Self {
-        Self{
+        Self {
             bot,
             inline_query_id,
             results,
@@ -60,40 +63,39 @@ impl <'a> AnswerInlineQueryBuilder<'a> {
         self.inline_query_id = inline_query_id;
         self
     }
-                
+
     pub fn results(mut self, results: Vec<InlineQueryResult>) -> Self {
         self.results = results;
         self
     }
-                
+
     pub fn cache_time(mut self, cache_time: i64) -> Self {
         self.cache_time = Some(cache_time);
         self
     }
-                
+
     pub fn is_personal(mut self, is_personal: bool) -> Self {
         self.is_personal = Some(is_personal);
         self
     }
-                
+
     pub fn next_offset(mut self, next_offset: String) -> Self {
         self.next_offset = Some(next_offset);
         self
     }
-                
+
     pub fn switch_pm_text(mut self, switch_pm_text: String) -> Self {
         self.switch_pm_text = Some(switch_pm_text);
         self
     }
-                
+
     pub fn switch_pm_parameter(mut self, switch_pm_parameter: String) -> Self {
         self.switch_pm_parameter = Some(switch_pm_parameter);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("answerInlineQuery", Some(&form)).await
     }
-
 }

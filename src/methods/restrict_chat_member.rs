@@ -4,14 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatPermissions;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
     /// <https://core.telegram.org/bots/api#restrictchatmember>
-    pub fn restrict_chat_member(&self, chat_id: i64, user_id: i64, permissions: ChatPermissions) -> RestrictChatMemberBuilder {
+    pub fn restrict_chat_member(
+        &self,
+        chat_id: i64,
+        user_id: i64,
+        permissions: ChatPermissions,
+    ) -> RestrictChatMemberBuilder {
         RestrictChatMemberBuilder::new(self, chat_id, user_id, permissions)
     }
 }
@@ -31,10 +36,9 @@ pub struct RestrictChatMemberBuilder<'a> {
     pub until_date: Option<i64>,
 }
 
-
-impl <'a> RestrictChatMemberBuilder<'a> {
+impl<'a> RestrictChatMemberBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64, permissions: ChatPermissions) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             user_id,
@@ -47,25 +51,26 @@ impl <'a> RestrictChatMemberBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn permissions(mut self, permissions: ChatPermissions) -> Self {
         self.permissions = permissions;
         self
     }
-                
+
     pub fn until_date(mut self, until_date: i64) -> Self {
         self.until_date = Some(until_date);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("restrictChatMember", Some(&form)).await
+        self.bot
+            .get::<bool>("restrictChatMember", Some(&form))
+            .await
     }
-
 }
