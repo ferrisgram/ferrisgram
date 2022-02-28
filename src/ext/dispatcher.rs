@@ -39,7 +39,7 @@ impl<'a> Dispatcher<'a> {
         }
     }
 
-    pub fn add_handler_to_group(&mut self, handler_group: i32, handler_trait: Box<dyn Handler>) {
+    pub fn add_handler_to_group(&mut self, handler_trait: Box<dyn Handler>, handler_group: i32) {
         if !self.handler_groups.contains(&handler_group) {
             self.handler_groups.push(handler_group);
             self.handlers.push(HandlersGroup::new(handler_group))
@@ -55,7 +55,7 @@ impl<'a> Dispatcher<'a> {
         self.handler_groups.sort_unstable()
     }
     pub fn add_handler(&mut self, handler: Box<dyn Handler>) {
-        self.add_handler_to_group(0, handler)
+        self.add_handler_to_group(handler, 0)
     }
     pub fn add_error_handler(&mut self, error_hander: ErrorHandlerFunc) {
         self.error_handler = error_hander

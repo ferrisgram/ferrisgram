@@ -34,17 +34,20 @@ macro_rules! filter_extension {
                         return parent_result
                     }
                     (
-                        parent_result
-                        &&
-                        self.and_filter.is_some()
-                        &&
-                        self.and_filter.as_ref().unwrap().check_filter(m)
+                        (
+                            parent_result
+                            &&
+                            self.and_filter.is_some()
+                            &&
+                            self.and_filter.as_ref().unwrap().check_filter(m)
+                        ) || (
+                            parent_result
+                        )
                     ) || (
                         self.or_filter.is_some()
                         &&
                         self.or_filter.as_ref().unwrap().check_filter(m)
                     )
-
                 }
             }
         )*
