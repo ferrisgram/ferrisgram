@@ -7,5 +7,6 @@ pub mod methods;
 pub mod types;
 pub use bot::*;
 mod helpers;
+pub mod helpers_ext;
 
 pub static DEFAULT_API_URL: &str = "https://api.telegram.org";

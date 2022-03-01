@@ -24,16 +24,19 @@ pub struct ApiResponse<T> {
 }
 
 impl Bot {
-    pub async fn new(token: &str) -> Result<Bot> {
-        let client = Client::builder()
-            .timeout(Duration::from_secs(5 * 60 + 30))
-            .connect_timeout(Duration::from_secs(60))
-            .build()
-            .unwrap();
+    pub async fn new(token: &str, api_url: Option<&str>) -> Result<Bot> {
+        let mut api = DEFAULT_API_URL;
+        if api_url.is_some() {
+            api = api_url.unwrap();
+        }
         let mut bot = Bot {
             token: String::from(token),
-            client,
-            api_url: DEFAULT_API_URL.to_string(),
+            client: Client::builder()
+                .timeout(Duration::from_secs(5 * 60 + 30))
+                .connect_timeout(Duration::from_secs(60))
+                .build()
+                .unwrap(),
+            api_url: api.to_string(),
             user: User::new(),
         };
         match bot.get_me().send().await {
