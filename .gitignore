@@ -1,0 +1,11 @@
+# basic build and cargo files
+target/
+*.exe
+Cargo.lock
+
+# generator
+generator/src
+generator/Cargo.lock
+
+# test example
+examples/test.rs
