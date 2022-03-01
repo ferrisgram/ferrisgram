@@ -1,5 +1,5 @@
 use crate::methods::SendMessageBuilder;
-use crate::types::Message;
+use crate::types::{InlineKeyboardButton, Message};
 use crate::Bot;
 
 impl Message {
@@ -26,5 +26,44 @@ impl Message {
             self.chat.id.to_string().trim_start_matches("-100"),
             self.message_id
         )
+    }
+}
+
+impl InlineKeyboardButton {
+    pub fn callback_button(text: &str, callback_data: &str) -> Self {
+        Self {
+            text: text.to_string(),
+            callback_data: Some(callback_data.to_string()),
+            url: None,
+            login_url: None,
+            switch_inline_query: None,
+            switch_inline_query_current_chat: None,
+            callback_game: None,
+            pay: None,
+        }
+    }
+    pub fn url_button(text: &str, url: &str) -> Self {
+        Self {
+            text: text.to_string(),
+            url: Some(url.to_string()),
+            login_url: None,
+            callback_data: None,
+            switch_inline_query: None,
+            switch_inline_query_current_chat: None,
+            callback_game: None,
+            pay: None,
+        }
+    }
+}
+
+pub trait StringPatch {
+    fn get_args(&self) -> Vec<&str>
+    where
+        Self: Sized;
+}
+
+impl StringPatch for String {
+    fn get_args(&self) -> Vec<&str> {
+        self.split_whitespace().collect()
     }
 }
