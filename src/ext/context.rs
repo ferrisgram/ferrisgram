@@ -62,7 +62,7 @@ impl Context {
         }
         ctx
     }
-    pub fn args<'a>(&'a self) -> Vec<&'a str> {
+    pub fn args(&self) -> Vec<&str> {
         if self.update.callback_query.is_some() {
             let cbq = self.update.callback_query.as_ref().unwrap();
             if cbq.data.is_some() {
