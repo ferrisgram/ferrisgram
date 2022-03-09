@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::ChatMember;
+use crate::types::ChatMemberOwner;
 
 impl ChatMember {
-    /// This function creates an empty struct for the object ChatMember.
+    /// This function creates an empty struct for the enum ChatMember.
     pub fn new() -> Self {
-        Self {}
+        Self::ChatMemberOwner(ChatMemberOwner::new())
     }
 }
 impl Default for ChatMember {

@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::InputMedia;
+use crate::types::InputMediaAnimation;
 
 impl InputMedia {
-    /// This function creates an empty struct for the object InputMedia.
+    /// This function creates an empty struct for the enum InputMedia.
     pub fn new() -> Self {
-        Self {}
+        Self::InputMediaAnimation(InputMediaAnimation::new())
     }
 }
 impl Default for InputMedia {

@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::BotCommandScope;
+use crate::types::BotCommandScopeDefault;
 
 impl BotCommandScope {
-    /// This function creates an empty struct for the object BotCommandScope.
+    /// This function creates an empty struct for the enum BotCommandScope.
     pub fn new() -> Self {
-        Self {}
+        Self::BotCommandScopeDefault(BotCommandScopeDefault::new())
     }
 }
 impl Default for BotCommandScope {

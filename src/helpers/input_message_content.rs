@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::InputMessageContent;
+use crate::types::InputTextMessageContent;
 
 impl InputMessageContent {
-    /// This function creates an empty struct for the object InputMessageContent.
+    /// This function creates an empty struct for the enum InputMessageContent.
     pub fn new() -> Self {
-        Self {}
+        Self::InputTextMessageContent(InputTextMessageContent::new())
     }
 }
 impl Default for InputMessageContent {

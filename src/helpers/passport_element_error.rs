@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::PassportElementError;
+use crate::types::PassportElementErrorDataField;
 
 impl PassportElementError {
-    /// This function creates an empty struct for the object PassportElementError.
+    /// This function creates an empty struct for the enum PassportElementError.
     pub fn new() -> Self {
-        Self {}
+        Self::PassportElementErrorDataField(PassportElementErrorDataField::new())
     }
 }
 impl Default for PassportElementError {

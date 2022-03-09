@@ -2,11 +2,12 @@
 // DO NOT EDIT!!!
 
 use crate::types::InlineQueryResult;
+use crate::types::InlineQueryResultCachedAudio;
 
 impl InlineQueryResult {
-    /// This function creates an empty struct for the object InlineQueryResult.
+    /// This function creates an empty struct for the enum InlineQueryResult.
     pub fn new() -> Self {
-        Self {}
+        Self::InlineQueryResultCachedAudio(InlineQueryResultCachedAudio::new())
     }
 }
 impl Default for InlineQueryResult {
