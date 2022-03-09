@@ -1,5 +1,5 @@
 use std::ops::Add;
-use crate::common::{create_file, get_good_field_name, tg_type_boolean, tg_type_float, tg_type_integer, tg_type_string, WARNING_COMMENT};
+use crate::common::{IMP_URL, create_file, get_good_field_name, tg_type_boolean, tg_type_float, tg_type_integer, tg_type_string, WARNING_COMMENT};
 use crate::spec_types;
 use convert_case::{Case, Casing};
 
@@ -17,8 +17,9 @@ pub async fn generate_helpers(spec: &spec_types::ApiDescription) {
 
 async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::ApiDescription) -> String {
     let good_file_name = &obj.name.to_case(Case::Snake);
-    let imports = format!("use crate::types::{};", obj.name);
-    let (mut imports, new_fn) = create_new_fn(obj, imports).await;
+    let imports = format!("use {IMP_URL}::types::{};", obj.name);
+    let (imports, new_fn) = create_new_fn(obj, imports).await;
+    let (mut imports, new_enum_fn) = create_new_enum_fn(obj, imports).await;
     let mut helper_fn = String::new();
     for (_, method) in spec.methods.iter() {
         let helper_name = method.name.replace(&obj.name, "");
@@ -33,7 +34,7 @@ async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::A
     format!("{header}{imports}
 
 impl {objname} {{
-{new_fn}{helper_fn}
+{new_fn}{new_enum_fn}{helper_fn}
 }}
 impl Default for {objname} {{
     fn default() -> Self {{
@@ -68,7 +69,25 @@ async fn create_helper_fn(obj: &spec_types::TypeDescription, mut imports: String
     return (imports, String::new())
 }
 
+async fn create_new_enum_fn(obj: &spec_types::TypeDescription, mut imports: String) -> (String, String) {
+    if obj.subtypes.is_none() {
+        return (imports, String::new())
+    }
+    imports = imports.add(format!("\nuse {IMP_URL}::types::{};", obj.subtypes.as_ref().unwrap()[0]).as_str());
+    (imports, format!(
+"    /// This function creates an empty struct for the enum {name}.
+    pub fn new() -> Self {{
+        Self::{least_subtype}({least_subtype}::new())
+    }}
+", name=obj.name, least_subtype=obj.subtypes.as_ref().unwrap()[0]))
+}
+
 async fn create_new_fn(obj: &spec_types::TypeDescription, mut imports: String) -> (String, String) {
+    // Do not check for fields to be none since there are some types that are being used as placeholders.
+    // For example: CallbackGame etc.
+    if obj.subtypes.is_some() {
+        return (imports, String::new());
+    }
     let mut attrs = String::new();
     if obj.fields.is_some() {
         let mut imported = Vec::new();
@@ -88,7 +107,7 @@ async fn create_new_fn(obj: &spec_types::TypeDescription, mut imports: String) -
                 } else {
                     if !imported.contains(&val) {
                         imported.push(val.clone());
-                        imports = imports.add(format!("\nuse crate::types::{};", &val).as_str());
+                        imports = imports.add(format!("\nuse {IMP_URL}::types::{};", &val).as_str());
                     }
                     val = format!("{}::new()", &val);
                 }
