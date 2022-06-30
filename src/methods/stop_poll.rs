@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineKeyboardMarkup;
 use crate::types::Poll;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
@@ -30,9 +30,10 @@ pub struct StopPollBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> StopPollBuilder<'a> {
+
+impl <'a> StopPollBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_id,
@@ -44,19 +45,20 @@ impl<'a> StopPollBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = message_id;
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Poll> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Poll>("stopPoll", Some(&form)).await
     }
+
 }

@@ -9,6 +9,7 @@ impl InputMessageContent {
     pub fn new() -> Self {
         Self::InputTextMessageContent(InputTextMessageContent::new())
     }
+
 }
 impl Default for InputMessageContent {
     fn default() -> Self {

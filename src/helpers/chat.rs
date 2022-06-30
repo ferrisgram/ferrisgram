@@ -16,6 +16,8 @@ impl Chat {
             photo: None,
             bio: None,
             has_private_forwards: None,
+            join_to_send_messages: None,
+            join_by_request: None,
             description: None,
             invite_link: None,
             pinned_message: None,

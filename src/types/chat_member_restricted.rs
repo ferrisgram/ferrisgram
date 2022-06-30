@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents a chat member that is under certain restrictions in the chat. Supergroups only.
 /// <https://core.telegram.org/bots/api#chatmemberrestricted>
 #[derive(Serialize, Deserialize, Debug, Clone)]

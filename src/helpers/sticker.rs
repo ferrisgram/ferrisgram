@@ -16,6 +16,7 @@ impl Sticker {
             thumb: None,
             emoji: None,
             set_name: None,
+            premium_animation: None,
             mask_position: None,
             file_size: None,
         }

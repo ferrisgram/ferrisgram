@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
 /// <https://core.telegram.org/bots/api#messageentity>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -14,7 +15,7 @@ pub struct MessageEntity {
     pub offset: i64,
     /// Length of the entity in UTF-16 code units
     pub length: i64,
-    /// Optional. For "text_link" only, url that will be opened after user taps on the text
+    /// Optional. For "text_link" only, URL that will be opened after user taps on the text
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
     /// Optional. For "text_mention" only, the mentioned user

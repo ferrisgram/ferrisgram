@@ -40,6 +40,7 @@ impl InlineKeyboardButton {
             switch_inline_query_current_chat: None,
             callback_game: None,
             pay: None,
+            web_app: None,
         }
     }
     pub fn url_button(text: &str, url: &str) -> Self {
@@ -52,6 +53,7 @@ impl InlineKeyboardButton {
             switch_inline_query_current_chat: None,
             callback_game: None,
             pay: None,
+            web_app: None,
         }
     }
 }

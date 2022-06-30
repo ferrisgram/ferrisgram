@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, InputFile, MessageEntity};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{InputFile, MessageEntity, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -23,9 +23,9 @@ pub struct SendDocumentBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files: https://core.telegram.org/bots/api#sending-files
+    /// File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     pub document: InputFile,
-    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files: https://core.telegram.org/bots/api#sending-files
+    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     #[serde(skip_serializing_if = "Option::is_none")]
     pub thumb: Option<InputFile>,
     /// Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
@@ -57,9 +57,10 @@ pub struct SendDocumentBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendDocumentBuilder<'a> {
+
+impl <'a> SendDocumentBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, document: InputFile) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             document,
@@ -80,64 +81,65 @@ impl<'a> SendDocumentBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn document(mut self, document: InputFile) -> Self {
         self.document = document;
         self
     }
-
+                
     pub fn thumb(mut self, thumb: InputFile) -> Self {
         self.thumb = Some(thumb);
         self
     }
-
+                
     pub fn caption(mut self, caption: String) -> Self {
         self.caption = Some(caption);
         self
     }
-
+                
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
         self.parse_mode = Some(parse_mode);
         self
     }
-
+                
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
         self.caption_entities = Some(caption_entities);
         self
     }
-
+                
     pub fn disable_content_type_detection(mut self, disable_content_type_detection: bool) -> Self {
         self.disable_content_type_detection = Some(disable_content_type_detection);
         self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-
+                
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-
+                
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendDocument", Some(&form)).await
     }
+
 }

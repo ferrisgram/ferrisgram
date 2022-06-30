@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents an invite link for a chat.
 /// <https://core.telegram.org/bots/api#chatinvitelink>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -24,7 +25,7 @@ pub struct ChatInviteLink {
     /// Optional. Point in time (Unix timestamp) when the link will expire or has been expired
     #[serde(skip_serializing_if = "Option::is_none")]
     pub expire_date: Option<i64>,
-    /// Optional. Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+    /// Optional. The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
     #[serde(skip_serializing_if = "Option::is_none")]
     pub member_limit: Option<i64>,
     /// Optional. Number of pending join requests created using this link

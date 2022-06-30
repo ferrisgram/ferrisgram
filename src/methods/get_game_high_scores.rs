@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::GameHighScore;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.
@@ -33,9 +33,10 @@ pub struct GetGameHighScoresBuilder<'a> {
     pub inline_message_id: Option<String>,
 }
 
-impl<'a> GetGameHighScoresBuilder<'a> {
+
+impl <'a> GetGameHighScoresBuilder<'a> {
     pub fn new(bot: &'a Bot, user_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             user_id,
             chat_id: None,
@@ -48,26 +49,25 @@ impl<'a> GetGameHighScoresBuilder<'a> {
         self.user_id = user_id;
         self
     }
-
+                
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = Some(chat_id);
         self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = Some(message_id);
         self
     }
-
+                
     pub fn inline_message_id(mut self, inline_message_id: String) -> Self {
         self.inline_message_id = Some(inline_message_id);
         self
     }
-
+                
     pub async fn send(self) -> Result<Vec<GameHighScore>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<GameHighScore>>("getGameHighScores", Some(&form))
-            .await
+        self.bot.get::<Vec<GameHighScore>>("getGameHighScores", Some(&form)).await
     }
+
 }

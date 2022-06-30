@@ -6,7 +6,8 @@ use crate::types::InputFile;
 impl InputFile {
     /// This function creates an empty struct for the object InputFile.
     pub fn new() -> Self {
-        Self {}
+        Self {
+        }
     }
 }
 impl Default for InputFile {

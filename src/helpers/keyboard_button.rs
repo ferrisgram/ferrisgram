@@ -11,6 +11,7 @@ impl KeyboardButton {
             request_contact: None,
             request_location: None,
             request_poll: None,
+            web_app: None,
         }
     }
 }

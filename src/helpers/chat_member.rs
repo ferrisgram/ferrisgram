@@ -9,6 +9,7 @@ impl ChatMember {
     pub fn new() -> Self {
         Self::ChatMemberOwner(ChatMemberOwner::new())
     }
+
 }
 impl Default for ChatMember {
     fn default() -> Self {

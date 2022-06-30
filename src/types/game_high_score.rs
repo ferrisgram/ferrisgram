@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents one row of the high scores table for a game.
 /// <https://core.telegram.org/bots/api#gamehighscore>
 #[derive(Serialize, Deserialize, Debug, Clone)]

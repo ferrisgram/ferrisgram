@@ -4,6 +4,7 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents an audio file to be treated as music by the Telegram clients.
 /// <https://core.telegram.org/bots/api#audio>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -26,7 +27,7 @@ pub struct Audio {
     /// Optional. MIME type of the file as defined by sender
     #[serde(skip_serializing_if = "Option::is_none")]
     pub mime_type: Option<String>,
-    /// Optional. File size in bytes
+    /// Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,
     /// Optional. Thumbnail of the album cover to which the music file belongs

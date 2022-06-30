@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of a venue message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputvenuemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]

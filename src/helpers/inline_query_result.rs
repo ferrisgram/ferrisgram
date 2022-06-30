@@ -9,6 +9,7 @@ impl InlineQueryResult {
     pub fn new() -> Self {
         Self::InlineQueryResultCachedAudio(InlineQueryResultCachedAudio::new())
     }
+
 }
 impl Default for InlineQueryResult {
     fn default() -> Self {

@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, InputFile};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{InputFile, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
@@ -23,7 +23,7 @@ pub struct SendStickerBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files: https://core.telegram.org/bots/api#sending-files
+    /// Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     pub sticker: InputFile,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -42,9 +42,10 @@ pub struct SendStickerBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendStickerBuilder<'a> {
+
+impl <'a> SendStickerBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, sticker: InputFile) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             sticker,
@@ -60,39 +61,40 @@ impl<'a> SendStickerBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn sticker(mut self, sticker: InputFile) -> Self {
         self.sticker = sticker;
         self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-
+                
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-
+                
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendSticker", Some(&form)).await
     }
+
 }

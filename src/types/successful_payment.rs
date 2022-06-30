@@ -4,6 +4,7 @@
 use crate::types::OrderInfo;
 use serde::{Deserialize, Serialize};
 
+
 /// This object contains basic information about a successful payment.
 /// <https://core.telegram.org/bots/api#successfulpayment>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -17,7 +18,7 @@ pub struct SuccessfulPayment {
     /// Optional. Identifier of the shipping option chosen by the user
     #[serde(skip_serializing_if = "Option::is_none")]
     pub shipping_option_id: Option<String>,
-    /// Optional. Order info provided by the user
+    /// Optional. Order information provided by the user
     #[serde(skip_serializing_if = "Option::is_none")]
     pub order_info: Option<OrderInfo>,
     /// Telegram payment identifier

@@ -3,7 +3,8 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Contains information about the current status of a webhook.
+
+/// Describes the current status of a webhook.
 /// <https://core.telegram.org/bots/api#webhookinfo>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct WebhookInfo {
@@ -22,7 +23,10 @@ pub struct WebhookInfo {
     /// Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_error_message: Option<String>,
-    /// Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+    /// Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub last_synchronization_error_date: Option<i64>,
+    /// Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_connections: Option<i64>,
     /// Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member

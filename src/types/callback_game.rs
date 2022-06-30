@@ -3,7 +3,9 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// A placeholder, currently holds no information. Use BotFather to set up your game.
 /// <https://core.telegram.org/bots/api#callbackgame>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct CallbackGame {}
+pub struct CallbackGame {
+}

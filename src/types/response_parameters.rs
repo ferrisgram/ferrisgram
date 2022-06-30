@@ -3,7 +3,8 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Contains information about why a request was unsuccessful.
+
+/// Describes why a request was unsuccessful.
 /// <https://core.telegram.org/bots/api#responseparameters>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ResponseParameters {

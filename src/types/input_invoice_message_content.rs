@@ -4,6 +4,7 @@
 use crate::types::LabeledPrice;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of an invoice message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputinvoicemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -14,7 +15,7 @@ pub struct InputInvoiceMessageContent {
     pub description: String,
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     pub payload: String,
-    /// Payment provider token, obtained via Botfather
+    /// Payment provider token, obtained via @BotFather
     pub provider_token: String,
     /// Three-letter ISO 4217 currency code, see more on currencies
     pub currency: String,
@@ -29,10 +30,10 @@ pub struct InputInvoiceMessageContent {
     /// Optional. A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub provider_data: Option<String>,
-    /// Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+    /// Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_url: Option<String>,
-    /// Optional. Photo size
+    /// Optional. Photo size in bytes
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_size: Option<i64>,
     /// Optional. Photo width
@@ -53,10 +54,10 @@ pub struct InputInvoiceMessageContent {
     /// Optional. Pass True, if you require the user's shipping address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_shipping_address: Option<bool>,
-    /// Optional. Pass True, if user's phone number should be sent to provider
+    /// Optional. Pass True, if the user's phone number should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_phone_number_to_provider: Option<bool>,
-    /// Optional. Pass True, if user's email address should be sent to provider
+    /// Optional. Pass True, if the user's email address should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_email_to_provider: Option<bool>,
     /// Optional. Pass True, if the final price depends on the shipping method

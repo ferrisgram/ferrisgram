@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a Telegram user or bot.
 /// <https://core.telegram.org/bots/api#user>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -22,6 +23,12 @@ pub struct User {
     /// Optional. IETF language tag of the user's language
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language_code: Option<String>,
+    /// Optional. True, if this user is a Telegram Premium user
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_premium: Option<bool>,
+    /// Optional. True, if this user added the bot to the attachment menu
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub added_to_attachment_menu: Option<bool>,
     /// Optional. True, if the bot can be invited to groups. Returned only in getMe.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_join_groups: Option<bool>,
