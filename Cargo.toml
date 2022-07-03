@@ -1,6 +1,6 @@
 [package]
 name = "ferrisgram"
-version = "0.1.0"
+version = "0.1.5"
 edition = "2021"
 description = "An elegent rust client for the Telegram Bot API."
 homepage = "https://github.com/ferrisgram"
