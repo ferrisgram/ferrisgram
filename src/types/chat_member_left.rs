@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatmemberleft>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatMemberLeft {
-    /// The member's status in the chat, always "left"
-    pub status: String,
     /// Information about the user
     pub user: User,
 }

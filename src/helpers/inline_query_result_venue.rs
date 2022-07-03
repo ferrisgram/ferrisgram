@@ -7,7 +7,6 @@ impl InlineQueryResultVenue {
     /// This function creates an empty struct for the object InlineQueryResultVenue.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             latitude: 0.0,
             longitude: 0.0,

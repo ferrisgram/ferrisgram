@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatmemberrestricted>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatMemberRestricted {
-    /// The member's status in the chat, always "restricted"
-    pub status: String,
     /// Information about the user
     pub user: User,
     /// True, if the user is a member of the chat at the moment of the request

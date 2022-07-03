@@ -8,6 +8,4 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#botcommandscopedefault>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BotCommandScopeDefault {
-    /// Scope type, must be default
-    pub r#type: String,
 }

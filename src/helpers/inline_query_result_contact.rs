@@ -7,7 +7,6 @@ impl InlineQueryResultContact {
     /// This function creates an empty struct for the object InlineQueryResultContact.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             phone_number: "".to_string(),
             first_name: "".to_string(),

@@ -7,7 +7,6 @@ impl PassportElementErrorSelfie {
     /// This function creates an empty struct for the object PassportElementErrorSelfie.
     pub fn new() -> Self {
         Self {
-            source: "".to_string(),
             r#type: "".to_string(),
             file_hash: "".to_string(),
             message: "".to_string(),

@@ -8,6 +8,4 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#menubuttoncommands>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MenuButtonCommands {
-    /// Type of the button, must be commands
-    pub r#type: String,
 }

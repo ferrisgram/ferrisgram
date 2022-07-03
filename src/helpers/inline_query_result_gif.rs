@@ -7,7 +7,6 @@ impl InlineQueryResultGif {
     /// This function creates an empty struct for the object InlineQueryResultGif.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             gif_url: "".to_string(),
             gif_width: None,

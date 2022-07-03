@@ -7,7 +7,6 @@ impl MenuButtonDefault {
     /// This function creates an empty struct for the object MenuButtonDefault.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
         }
     }
 }

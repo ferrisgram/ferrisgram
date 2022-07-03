@@ -17,14 +17,24 @@ use serde::{Deserialize, Serialize};
 /// - PassportElementErrorUnspecified
 /// <https://core.telegram.org/bots/api#passportelementerror>
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(tag = "source")]
 pub enum PassportElementError {
+    #[serde(rename = "data")]
     PassportElementErrorDataField(PassportElementErrorDataField),
+    #[serde(rename = "front_side")]
     PassportElementErrorFrontSide(PassportElementErrorFrontSide),
+    #[serde(rename = "reverse_side")]
     PassportElementErrorReverseSide(PassportElementErrorReverseSide),
+    #[serde(rename = "selfie")]
     PassportElementErrorSelfie(PassportElementErrorSelfie),
+    #[serde(rename = "file")]
     PassportElementErrorFile(PassportElementErrorFile),
+    #[serde(rename = "files")]
     PassportElementErrorFiles(PassportElementErrorFiles),
+    #[serde(rename = "translation_file")]
     PassportElementErrorTranslationFile(PassportElementErrorTranslationFile),
+    #[serde(rename = "translation_files")]
     PassportElementErrorTranslationFiles(PassportElementErrorTranslationFiles),
+    #[serde(rename = "unspecified")]
     PassportElementErrorUnspecified(PassportElementErrorUnspecified),
 }

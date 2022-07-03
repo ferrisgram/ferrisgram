@@ -8,7 +8,6 @@ impl ChatMemberLeft {
     /// This function creates an empty struct for the object ChatMemberLeft.
     pub fn new() -> Self {
         Self {
-            status: "".to_string(),
             user: User::new(),
         }
     }

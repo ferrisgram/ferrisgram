@@ -7,7 +7,6 @@ impl PassportElementErrorTranslationFiles {
     /// This function creates an empty struct for the object PassportElementErrorTranslationFiles.
     pub fn new() -> Self {
         Self {
-            source: "".to_string(),
             r#type: "".to_string(),
             file_hashes: Vec::new(),
             message: "".to_string(),

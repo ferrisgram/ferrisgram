@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inputvenuemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputVenueMessageContent {
-    /// Latitude of the venue in degrees
-    pub latitude: f64,
     /// Longitude of the venue in degrees
     pub longitude: f64,
     /// Name of the venue

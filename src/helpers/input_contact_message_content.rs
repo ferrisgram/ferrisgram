@@ -7,7 +7,6 @@ impl InputContactMessageContent {
     /// This function creates an empty struct for the object InputContactMessageContent.
     pub fn new() -> Self {
         Self {
-            phone_number: "".to_string(),
             first_name: "".to_string(),
             last_name: None,
             vcard: None,

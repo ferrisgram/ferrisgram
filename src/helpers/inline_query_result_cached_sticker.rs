@@ -7,7 +7,6 @@ impl InlineQueryResultCachedSticker {
     /// This function creates an empty struct for the object InlineQueryResultCachedSticker.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             sticker_file_id: "".to_string(),
             reply_markup: None,

@@ -7,7 +7,6 @@ impl InlineQueryResultCachedGif {
     /// This function creates an empty struct for the object InlineQueryResultCachedGif.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             gif_file_id: "".to_string(),
             title: None,

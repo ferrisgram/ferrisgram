@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultgif>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultGif {
-    /// Type of the result, must be gif
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// A valid URL for the GIF file. File size must not exceed 1MB

@@ -7,7 +7,6 @@ impl InputInvoiceMessageContent {
     /// This function creates an empty struct for the object InputInvoiceMessageContent.
     pub fn new() -> Self {
         Self {
-            title: "".to_string(),
             description: "".to_string(),
             payload: "".to_string(),
             provider_token: "".to_string(),

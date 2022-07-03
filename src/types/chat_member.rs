@@ -14,11 +14,18 @@ use serde::{Deserialize, Serialize};
 /// - ChatMemberBanned
 /// <https://core.telegram.org/bots/api#chatmember>
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(tag = "status")]
 pub enum ChatMember {
+    #[serde(rename = "creator")]
     ChatMemberOwner(ChatMemberOwner),
+    #[serde(rename = "administrator")]
     ChatMemberAdministrator(ChatMemberAdministrator),
+    #[serde(rename = "member")]
     ChatMemberMember(ChatMemberMember),
+    #[serde(rename = "restricted")]
     ChatMemberRestricted(ChatMemberRestricted),
+    #[serde(rename = "left")]
     ChatMemberLeft(ChatMemberLeft),
+    #[serde(rename = "kicked")]
     ChatMemberBanned(ChatMemberBanned),
 }

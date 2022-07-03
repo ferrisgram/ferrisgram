@@ -7,7 +7,6 @@ impl PassportElementErrorDataField {
     /// This function creates an empty struct for the object PassportElementErrorDataField.
     pub fn new() -> Self {
         Self {
-            source: "".to_string(),
             r#type: "".to_string(),
             field_name: "".to_string(),
             data_hash: "".to_string(),

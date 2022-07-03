@@ -7,7 +7,6 @@ impl InlineQueryResultPhoto {
     /// This function creates an empty struct for the object InlineQueryResultPhoto.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             photo_url: "".to_string(),
             thumb_url: "".to_string(),

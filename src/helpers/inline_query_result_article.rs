@@ -8,7 +8,6 @@ impl InlineQueryResultArticle {
     /// This function creates an empty struct for the object InlineQueryResultArticle.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             title: "".to_string(),
             input_message_content: InputMessageContent::new(),

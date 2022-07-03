@@ -7,7 +7,6 @@ impl InlineQueryResultDocument {
     /// This function creates an empty struct for the object InlineQueryResultDocument.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             title: "".to_string(),
             caption: None,

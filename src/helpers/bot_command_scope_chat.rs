@@ -7,7 +7,6 @@ impl BotCommandScopeChat {
     /// This function creates an empty struct for the object BotCommandScopeChat.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             chat_id: 0,
         }
     }

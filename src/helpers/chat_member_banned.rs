@@ -8,7 +8,6 @@ impl ChatMemberBanned {
     /// This function creates an empty struct for the object ChatMemberBanned.
     pub fn new() -> Self {
         Self {
-            status: "".to_string(),
             user: User::new(),
             until_date: 0,
         }

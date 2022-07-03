@@ -8,6 +8,4 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#menubuttondefault>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MenuButtonDefault {
-    /// Type of the button, must be default
-    pub r#type: String,
 }

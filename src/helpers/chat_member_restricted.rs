@@ -8,7 +8,6 @@ impl ChatMemberRestricted {
     /// This function creates an empty struct for the object ChatMemberRestricted.
     pub fn new() -> Self {
         Self {
-            status: "".to_string(),
             user: User::new(),
             is_member: false,
             can_change_info: false,

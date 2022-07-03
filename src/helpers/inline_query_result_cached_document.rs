@@ -7,7 +7,6 @@ impl InlineQueryResultCachedDocument {
     /// This function creates an empty struct for the object InlineQueryResultCachedDocument.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             title: "".to_string(),
             document_file_id: "".to_string(),

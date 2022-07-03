@@ -7,7 +7,6 @@ impl InlineQueryResultCachedPhoto {
     /// This function creates an empty struct for the object InlineQueryResultCachedPhoto.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             photo_file_id: "".to_string(),
             title: None,

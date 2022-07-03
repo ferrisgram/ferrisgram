@@ -7,7 +7,6 @@ impl InlineQueryResultVideo {
     /// This function creates an empty struct for the object InlineQueryResultVideo.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             video_url: "".to_string(),
             mime_type: "".to_string(),

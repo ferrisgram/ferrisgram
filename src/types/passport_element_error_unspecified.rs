@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#passportelementerrorunspecified>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PassportElementErrorUnspecified {
-    /// Error source, must be unspecified
-    pub source: String,
     /// Type of element of the user's Telegram Passport which has the issue
     pub r#type: String,
     /// Base64-encoded element hash

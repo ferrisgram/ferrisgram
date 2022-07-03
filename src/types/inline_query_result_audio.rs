@@ -10,8 +10,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultaudio>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultAudio {
-    /// Type of the result, must be audio
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// A valid URL for the audio file

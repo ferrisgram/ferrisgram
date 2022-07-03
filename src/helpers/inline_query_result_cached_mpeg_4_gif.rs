@@ -7,7 +7,6 @@ impl InlineQueryResultCachedMpeg4Gif {
     /// This function creates an empty struct for the object InlineQueryResultCachedMpeg4Gif.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             mpeg4_file_id: "".to_string(),
             title: None,

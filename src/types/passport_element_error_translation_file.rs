@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#passportelementerrortranslationfile>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PassportElementErrorTranslationFile {
-    /// Error source, must be translation_file
-    pub source: String,
     /// Type of element of the user's Telegram Passport which has the issue, one of "passport", "driver_license", "identity_card", "internal_passport", "utility_bill", "bank_statement", "rental_agreement", "passport_registration", "temporary_registration"
     pub r#type: String,
     /// Base64-encoded file hash

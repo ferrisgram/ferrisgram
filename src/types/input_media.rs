@@ -13,10 +13,16 @@ use serde::{Deserialize, Serialize};
 /// - InputMediaVideo
 /// <https://core.telegram.org/bots/api#inputmedia>
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(tag = "type")]
 pub enum InputMedia {
+    #[serde(rename = "animation")]
     InputMediaAnimation(InputMediaAnimation),
+    #[serde(rename = "document")]
     InputMediaDocument(InputMediaDocument),
+    #[serde(rename = "audio")]
     InputMediaAudio(InputMediaAudio),
+    #[serde(rename = "photo")]
     InputMediaPhoto(InputMediaPhoto),
+    #[serde(rename = "video")]
     InputMediaVideo(InputMediaVideo),
 }

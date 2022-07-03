@@ -7,7 +7,6 @@ impl InlineQueryResultCachedAudio {
     /// This function creates an empty struct for the object InlineQueryResultCachedAudio.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             audio_file_id: "".to_string(),
             caption: None,

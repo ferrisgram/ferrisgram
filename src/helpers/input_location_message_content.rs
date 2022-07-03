@@ -7,7 +7,6 @@ impl InputLocationMessageContent {
     /// This function creates an empty struct for the object InputLocationMessageContent.
     pub fn new() -> Self {
         Self {
-            latitude: 0.0,
             longitude: 0.0,
             horizontal_accuracy: None,
             live_period: None,

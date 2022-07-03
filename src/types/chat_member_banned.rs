@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatmemberbanned>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatMemberBanned {
-    /// The member's status in the chat, always "kicked"
-    pub status: String,
     /// Information about the user
     pub user: User,
     /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever

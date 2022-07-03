@@ -8,6 +8,4 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#botcommandscopeallprivatechats>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BotCommandScopeAllPrivateChats {
-    /// Scope type, must be all_private_chats
-    pub r#type: String,
 }

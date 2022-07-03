@@ -7,7 +7,6 @@ impl InputMediaVideo {
     /// This function creates an empty struct for the object InputMediaVideo.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             media: "".to_string(),
             thumb: None,
             caption: None,

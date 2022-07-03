@@ -15,12 +15,20 @@ use serde::{Deserialize, Serialize};
 /// - BotCommandScopeChatMember
 /// <https://core.telegram.org/bots/api#botcommandscope>
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(tag = "type")]
 pub enum BotCommandScope {
+    #[serde(rename = "default")]
     BotCommandScopeDefault(BotCommandScopeDefault),
+    #[serde(rename = "all_private_chats")]
     BotCommandScopeAllPrivateChats(BotCommandScopeAllPrivateChats),
+    #[serde(rename = "all_group_chats")]
     BotCommandScopeAllGroupChats(BotCommandScopeAllGroupChats),
+    #[serde(rename = "all_chat_administrators")]
     BotCommandScopeAllChatAdministrators(BotCommandScopeAllChatAdministrators),
+    #[serde(rename = "chat")]
     BotCommandScopeChat(BotCommandScopeChat),
+    #[serde(rename = "chat_administrators")]
     BotCommandScopeChatAdministrators(BotCommandScopeChatAdministrators),
+    #[serde(rename = "chat_member")]
     BotCommandScopeChatMember(BotCommandScopeChatMember),
 }

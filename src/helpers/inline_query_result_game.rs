@@ -7,7 +7,6 @@ impl InlineQueryResultGame {
     /// This function creates an empty struct for the object InlineQueryResultGame.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             id: "".to_string(),
             game_short_name: "".to_string(),
             reply_markup: None,

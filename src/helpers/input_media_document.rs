@@ -7,7 +7,6 @@ impl InputMediaDocument {
     /// This function creates an empty struct for the object InputMediaDocument.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             media: "".to_string(),
             thumb: None,
             caption: None,

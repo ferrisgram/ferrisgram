@@ -13,10 +13,16 @@ use serde::{Deserialize, Serialize};
 /// - InputInvoiceMessageContent
 /// <https://core.telegram.org/bots/api#inputmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(tag = "latitude")]
 pub enum InputMessageContent {
+    #[serde(rename = "characters")]
     InputTextMessageContent(InputTextMessageContent),
+    #[serde(rename = "degrees")]
     InputLocationMessageContent(InputLocationMessageContent),
+    #[serde(rename = "degrees")]
     InputVenueMessageContent(InputVenueMessageContent),
+    #[serde(rename = "number")]
     InputContactMessageContent(InputContactMessageContent),
+    #[serde(rename = "characters")]
     InputInvoiceMessageContent(InputInvoiceMessageContent),
 }

@@ -91,7 +91,11 @@ async fn create_new_fn(obj: &spec_types::TypeDescription, mut imports: String) -
     let mut attrs = String::new();
     if obj.fields.is_some() {
         let mut imported = Vec::new();
-        for field in obj.fields.as_ref().unwrap().iter() {
+        let fields = obj.fields.as_ref().unwrap();
+        for field in fields.iter() {
+            if obj.subtype_of.is_some() && field.name == fields[0].name {
+                continue;
+            }
             if field.required {
                 let mut val = field.types[0].clone();
                 if val == tg_type_string.to_string() {

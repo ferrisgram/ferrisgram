@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#passportelementerrordatafield>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PassportElementErrorDataField {
-    /// Error source, must be data
-    pub source: String,
     /// The section of the user's Telegram Passport which has the error, one of "personal_details", "passport", "driver_license", "identity_card", "internal_passport", "address"
     pub r#type: String,
     /// Name of the data field which has the error

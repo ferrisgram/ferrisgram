@@ -8,7 +8,6 @@ impl MenuButtonWebApp {
     /// This function creates an empty struct for the object MenuButtonWebApp.
     pub fn new() -> Self {
         Self {
-            r#type: "".to_string(),
             text: "".to_string(),
             web_app: WebAppInfo::new(),
         }

@@ -8,7 +8,6 @@ impl ChatMemberOwner {
     /// This function creates an empty struct for the object ChatMemberOwner.
     pub fn new() -> Self {
         Self {
-            status: "".to_string(),
             user: User::new(),
             is_anonymous: false,
             custom_title: None,

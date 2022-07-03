@@ -7,7 +7,6 @@ impl InputTextMessageContent {
     /// This function creates an empty struct for the object InputTextMessageContent.
     pub fn new() -> Self {
         Self {
-            message_text: "".to_string(),
             parse_mode: None,
             entities: None,
             disable_web_page_preview: None,

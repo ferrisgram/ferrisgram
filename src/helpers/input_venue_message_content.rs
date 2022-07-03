@@ -7,7 +7,6 @@ impl InputVenueMessageContent {
     /// This function creates an empty struct for the object InputVenueMessageContent.
     pub fn new() -> Self {
         Self {
-            latitude: 0.0,
             longitude: 0.0,
             title: "".to_string(),
             address: "".to_string(),
