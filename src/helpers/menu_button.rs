@@ -9,7 +9,6 @@ impl MenuButton {
     pub fn new() -> Self {
         Self::MenuButtonCommands(MenuButtonCommands::new())
     }
-
 }
 impl Default for MenuButton {
     fn default() -> Self {

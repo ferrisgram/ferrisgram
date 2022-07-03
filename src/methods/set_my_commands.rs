@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::{BotCommand, BotCommandScope};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
@@ -30,10 +30,9 @@ pub struct SetMyCommandsBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
-impl <'a> SetMyCommandsBuilder<'a> {
+impl<'a> SetMyCommandsBuilder<'a> {
     pub fn new(bot: &'a Bot, commands: Vec<BotCommand>) -> Self {
-        Self{
+        Self {
             bot,
             commands,
             scope: None,
@@ -45,20 +44,19 @@ impl <'a> SetMyCommandsBuilder<'a> {
         self.commands = commands;
         self
     }
-                
+
     pub fn scope(mut self, scope: BotCommandScope) -> Self {
         self.scope = Some(scope);
         self
     }
-                
+
     pub fn language_code(mut self, language_code: String) -> Self {
         self.language_code = Some(language_code);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("setMyCommands", Some(&form)).await
     }
-
 }

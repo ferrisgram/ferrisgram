@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete a message, including service messages, with the following limitations:
@@ -33,10 +33,9 @@ pub struct DeleteMessageBuilder<'a> {
     pub message_id: i64,
 }
 
-
-impl <'a> DeleteMessageBuilder<'a> {
+impl<'a> DeleteMessageBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_id,
@@ -47,15 +46,14 @@ impl <'a> DeleteMessageBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = message_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("deleteMessage", Some(&form)).await
     }
-
 }

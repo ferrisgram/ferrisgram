@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Describes why a request was unsuccessful.
 /// <https://core.telegram.org/bots/api#responseparameters>
 #[derive(Serialize, Deserialize, Debug, Clone)]

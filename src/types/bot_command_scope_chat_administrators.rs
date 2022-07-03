@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
 /// <https://core.telegram.org/bots/api#botcommandscopechatadministrators>
 #[derive(Serialize, Deserialize, Debug, Clone)]

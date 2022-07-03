@@ -4,7 +4,6 @@
 use crate::types::Location;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a location to which a chat is connected.
 /// <https://core.telegram.org/bots/api#chatlocation>
 #[derive(Serialize, Deserialize, Debug, Clone)]

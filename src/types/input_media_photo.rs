@@ -4,7 +4,6 @@
 use crate::types::MessageEntity;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a photo to be sent.
 /// <https://core.telegram.org/bots/api#inputmediaphoto>
 #[derive(Serialize, Deserialize, Debug, Clone)]

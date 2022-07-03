@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object contains basic information about an invoice.
 /// <https://core.telegram.org/bots/api#invoice>
 #[derive(Serialize, Deserialize, Debug, Clone)]

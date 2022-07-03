@@ -4,14 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::{InputFile, MaskPosition};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
     /// <https://core.telegram.org/bots/api#createnewstickerset>
-    pub fn create_new_sticker_set(&self, user_id: i64, name: String, title: String, emojis: String) -> CreateNewStickerSetBuilder {
+    pub fn create_new_sticker_set(
+        &self,
+        user_id: i64,
+        name: String,
+        title: String,
+        emojis: String,
+    ) -> CreateNewStickerSetBuilder {
         CreateNewStickerSetBuilder::new(self, user_id, name, title, emojis)
     }
 }
@@ -45,10 +51,9 @@ pub struct CreateNewStickerSetBuilder<'a> {
     pub mask_position: Option<MaskPosition>,
 }
 
-
-impl <'a> CreateNewStickerSetBuilder<'a> {
+impl<'a> CreateNewStickerSetBuilder<'a> {
     pub fn new(bot: &'a Bot, user_id: i64, name: String, title: String, emojis: String) -> Self {
-        Self{
+        Self {
             bot,
             user_id,
             name,
@@ -66,50 +71,51 @@ impl <'a> CreateNewStickerSetBuilder<'a> {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
         self.name = name;
         self
     }
-                
+
     pub fn title(mut self, title: String) -> Self {
         self.title = title;
         self
     }
-                
+
     pub fn png_sticker(mut self, png_sticker: InputFile) -> Self {
         self.png_sticker = Some(png_sticker);
         self
     }
-                
+
     pub fn tgs_sticker(mut self, tgs_sticker: InputFile) -> Self {
         self.tgs_sticker = Some(tgs_sticker);
         self
     }
-                
+
     pub fn webm_sticker(mut self, webm_sticker: InputFile) -> Self {
         self.webm_sticker = Some(webm_sticker);
         self
     }
-                
+
     pub fn emojis(mut self, emojis: String) -> Self {
         self.emojis = emojis;
         self
     }
-                
+
     pub fn contains_masks(mut self, contains_masks: bool) -> Self {
         self.contains_masks = Some(contains_masks);
         self
     }
-                
+
     pub fn mask_position(mut self, mask_position: MaskPosition) -> Self {
         self.mask_position = Some(mask_position);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("createNewStickerSet", Some(&form)).await
+        self.bot
+            .get::<bool>("createNewStickerSet", Some(&form))
+            .await
     }
-
 }

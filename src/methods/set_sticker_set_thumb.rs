@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InputFile;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Video thumbnails can be set only for video sticker sets only. Returns True on success.
@@ -29,10 +29,9 @@ pub struct SetStickerSetThumbBuilder<'a> {
     pub thumb: Option<InputFile>,
 }
 
-
-impl <'a> SetStickerSetThumbBuilder<'a> {
+impl<'a> SetStickerSetThumbBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String, user_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             name,
             user_id,
@@ -44,20 +43,21 @@ impl <'a> SetStickerSetThumbBuilder<'a> {
         self.name = name;
         self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn thumb(mut self, thumb: InputFile) -> Self {
         self.thumb = Some(thumb);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setStickerSetThumb", Some(&form)).await
+        self.bot
+            .get::<bool>("setStickerSetThumb", Some(&form))
+            .await
     }
-
 }

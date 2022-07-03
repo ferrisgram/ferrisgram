@@ -4,14 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::Message;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#forwardmessage>
-    pub fn forward_message(&self, chat_id: i64, from_chat_id: i64, message_id: i64) -> ForwardMessageBuilder {
+    pub fn forward_message(
+        &self,
+        chat_id: i64,
+        from_chat_id: i64,
+        message_id: i64,
+    ) -> ForwardMessageBuilder {
         ForwardMessageBuilder::new(self, chat_id, from_chat_id, message_id)
     }
 }
@@ -34,10 +39,9 @@ pub struct ForwardMessageBuilder<'a> {
     pub message_id: i64,
 }
 
-
-impl <'a> ForwardMessageBuilder<'a> {
+impl<'a> ForwardMessageBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, from_chat_id: i64, message_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             from_chat_id,
@@ -51,30 +55,29 @@ impl <'a> ForwardMessageBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn from_chat_id(mut self, from_chat_id: i64) -> Self {
         self.from_chat_id = from_chat_id;
         self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-                
+
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = message_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("forwardMessage", Some(&form)).await
     }
-
 }

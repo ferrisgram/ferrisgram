@@ -4,15 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{MessageEntity, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, MessageEntity};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send a native poll. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendpoll>
-    pub fn send_poll(&self, chat_id: i64, question: String, options: Vec<String>) -> SendPollBuilder {
+    pub fn send_poll(
+        &self,
+        chat_id: i64,
+        question: String,
+        options: Vec<String>,
+    ) -> SendPollBuilder {
         SendPollBuilder::new(self, chat_id, question, options)
     }
 }
@@ -74,10 +79,9 @@ pub struct SendPollBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
-impl <'a> SendPollBuilder<'a> {
+impl<'a> SendPollBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, question: String, options: Vec<String>) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             question,
@@ -104,95 +108,94 @@ impl <'a> SendPollBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn question(mut self, question: String) -> Self {
         self.question = question;
         self
     }
-                
+
     pub fn options(mut self, options: Vec<String>) -> Self {
         self.options = options;
         self
     }
-                
+
     pub fn is_anonymous(mut self, is_anonymous: bool) -> Self {
         self.is_anonymous = Some(is_anonymous);
         self
     }
-                
+
     pub fn r#type(mut self, r#type: String) -> Self {
         self.r#type = Some(r#type);
         self
     }
-                
+
     pub fn allows_multiple_answers(mut self, allows_multiple_answers: bool) -> Self {
         self.allows_multiple_answers = Some(allows_multiple_answers);
         self
     }
-                
+
     pub fn correct_option_id(mut self, correct_option_id: i64) -> Self {
         self.correct_option_id = Some(correct_option_id);
         self
     }
-                
+
     pub fn explanation(mut self, explanation: String) -> Self {
         self.explanation = Some(explanation);
         self
     }
-                
+
     pub fn explanation_parse_mode(mut self, explanation_parse_mode: String) -> Self {
         self.explanation_parse_mode = Some(explanation_parse_mode);
         self
     }
-                
+
     pub fn explanation_entities(mut self, explanation_entities: Vec<MessageEntity>) -> Self {
         self.explanation_entities = Some(explanation_entities);
         self
     }
-                
+
     pub fn open_period(mut self, open_period: i64) -> Self {
         self.open_period = Some(open_period);
         self
     }
-                
+
     pub fn close_date(mut self, close_date: i64) -> Self {
         self.close_date = Some(close_date);
         self
     }
-                
+
     pub fn is_closed(mut self, is_closed: bool) -> Self {
         self.is_closed = Some(is_closed);
         self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-                
+
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-                
+
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendPoll", Some(&form)).await
     }
-
 }

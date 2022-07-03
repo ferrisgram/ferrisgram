@@ -25,9 +25,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> ChatMemberHand
     }
 }
 
-impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone
-    for ChatMemberHandler<F>
-{
+impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for ChatMemberHandler<F> {
     fn clone(&self) -> Self {
         Self {
             callback: self.callback,
@@ -38,9 +36,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone
 }
 
 #[async_trait]
-impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
-    for ChatMemberHandler<F>
-{
+impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for ChatMemberHandler<F> {
     async fn check_update(&self, _: &Bot, update: &Update) -> bool {
         if update.chat_member.is_none() {
             return false;

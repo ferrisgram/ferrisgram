@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, MessageEntity, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, InputFile, MessageEntity};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -64,10 +64,9 @@ pub struct SendAudioBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
-impl <'a> SendAudioBuilder<'a> {
+impl<'a> SendAudioBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, audio: InputFile) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             audio,
@@ -90,75 +89,74 @@ impl <'a> SendAudioBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn audio(mut self, audio: InputFile) -> Self {
         self.audio = audio;
         self
     }
-                
+
     pub fn caption(mut self, caption: String) -> Self {
         self.caption = Some(caption);
         self
     }
-                
+
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
         self.parse_mode = Some(parse_mode);
         self
     }
-                
+
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
         self.caption_entities = Some(caption_entities);
         self
     }
-                
+
     pub fn duration(mut self, duration: i64) -> Self {
         self.duration = Some(duration);
         self
     }
-                
+
     pub fn performer(mut self, performer: String) -> Self {
         self.performer = Some(performer);
         self
     }
-                
+
     pub fn title(mut self, title: String) -> Self {
         self.title = Some(title);
         self
     }
-                
+
     pub fn thumb(mut self, thumb: InputFile) -> Self {
         self.thumb = Some(thumb);
         self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-                
+
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-                
+
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendAudio", Some(&form)).await
     }
-
 }

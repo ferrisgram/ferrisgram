@@ -4,15 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineKeyboardMarkup;
 use crate::types::Message;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send point on the map. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendlocation>
-    pub fn send_location(&self, chat_id: i64, latitude: f64, longitude: f64) -> SendLocationBuilder {
+    pub fn send_location(
+        &self,
+        chat_id: i64,
+        latitude: f64,
+        longitude: f64,
+    ) -> SendLocationBuilder {
         SendLocationBuilder::new(self, chat_id, latitude, longitude)
     }
 }
@@ -56,10 +61,9 @@ pub struct SendLocationBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
-impl <'a> SendLocationBuilder<'a> {
+impl<'a> SendLocationBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, latitude: f64, longitude: f64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             latitude,
@@ -80,65 +84,64 @@ impl <'a> SendLocationBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn latitude(mut self, latitude: f64) -> Self {
         self.latitude = latitude;
         self
     }
-                
+
     pub fn longitude(mut self, longitude: f64) -> Self {
         self.longitude = longitude;
         self
     }
-                
+
     pub fn horizontal_accuracy(mut self, horizontal_accuracy: f64) -> Self {
         self.horizontal_accuracy = Some(horizontal_accuracy);
         self
     }
-                
+
     pub fn live_period(mut self, live_period: i64) -> Self {
         self.live_period = Some(live_period);
         self
     }
-                
+
     pub fn heading(mut self, heading: i64) -> Self {
         self.heading = Some(heading);
         self
     }
-                
+
     pub fn proximity_alert_radius(mut self, proximity_alert_radius: i64) -> Self {
         self.proximity_alert_radius = Some(proximity_alert_radius);
         self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-                
+
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-                
+
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendLocation", Some(&form)).await
     }
-
 }

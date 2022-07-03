@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, InputFile};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
@@ -42,10 +42,9 @@ pub struct SendStickerBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
-impl <'a> SendStickerBuilder<'a> {
+impl<'a> SendStickerBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, sticker: InputFile) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             sticker,
@@ -61,40 +60,39 @@ impl <'a> SendStickerBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn sticker(mut self, sticker: InputFile) -> Self {
         self.sticker = sticker;
         self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-                
+
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-                
+
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendSticker", Some(&form)).await
     }
-
 }

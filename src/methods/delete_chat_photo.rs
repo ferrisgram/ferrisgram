@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -23,23 +23,18 @@ pub struct DeleteChatPhotoBuilder<'a> {
     pub chat_id: i64,
 }
 
-
-impl <'a> DeleteChatPhotoBuilder<'a> {
+impl<'a> DeleteChatPhotoBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
-            bot,
-            chat_id,
-        }
+        Self { bot, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("deleteChatPhoto", Some(&form)).await
     }
-
 }

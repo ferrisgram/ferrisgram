@@ -4,7 +4,6 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a general file (as opposed to photos, voice messages and audio files).
 /// <https://core.telegram.org/bots/api#document>
 #[derive(Serialize, Deserialize, Debug, Clone)]

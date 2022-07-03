@@ -9,7 +9,6 @@ impl InputMedia {
     pub fn new() -> Self {
         Self::InputMediaAnimation(InputMediaAnimation::new())
     }
-
 }
 impl Default for InputMedia {
     fn default() -> Self {

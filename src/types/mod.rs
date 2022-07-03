@@ -1,4 +1,3 @@
-
 mod input_contact_message_content;
 pub use input_contact_message_content::InputContactMessageContent;
 
