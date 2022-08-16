@@ -155,7 +155,7 @@ fn generate_fields(obj: &spec_types::TypeDescription) -> String {
                 if !field.required {
                     generated_fields_string = generated_fields_string.add("\n    #[serde(skip_serializing_if = \"Option::is_none\")]");
                 }
-                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(field, &common::get_data_type(&field_type))).as_str())
+                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(&common::get_data_type(&field_type), field.required)).as_str())
             }
             generated_fields_string
         },
