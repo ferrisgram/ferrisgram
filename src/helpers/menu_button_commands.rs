@@ -6,7 +6,8 @@ use crate::types::MenuButtonCommands;
 impl MenuButtonCommands {
     /// This function creates an empty struct for the object MenuButtonCommands.
     pub fn new() -> Self {
-        Self {}
+        Self {
+        }
     }
 }
 impl Default for MenuButtonCommands {

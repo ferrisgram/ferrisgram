@@ -4,19 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::InputMediaAudio;
 use crate::types::Message;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
     /// <https://core.telegram.org/bots/api#sendmediagroup>
-    pub fn send_media_group(
-        &self,
-        chat_id: i64,
-        media: Vec<InputMediaAudio>,
-    ) -> SendMediaGroupBuilder {
+    pub fn send_media_group(&self, chat_id: i64, media: Vec<InputMediaAudio>) -> SendMediaGroupBuilder {
         SendMediaGroupBuilder::new(self, chat_id, media)
     }
 }
@@ -38,14 +34,15 @@ pub struct SendMediaGroupBuilder<'a> {
     /// If the messages are a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
 }
 
-impl<'a> SendMediaGroupBuilder<'a> {
+
+impl <'a> SendMediaGroupBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, media: Vec<InputMediaAudio>) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             media,
@@ -60,36 +57,35 @@ impl<'a> SendMediaGroupBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn media(mut self, media: Vec<InputMediaAudio>) -> Self {
         self.media = media;
         self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-
+                
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-
+                
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-
+                
     pub async fn send(self) -> Result<Vec<Message>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<Message>>("sendMediaGroup", Some(&form))
-            .await
+        self.bot.get::<Vec<Message>>("sendMediaGroup", Some(&form)).await
     }
+
 }

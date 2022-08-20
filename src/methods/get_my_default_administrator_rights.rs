@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatAdministratorRights;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
@@ -25,9 +25,10 @@ pub struct GetMyDefaultAdministratorRightsBuilder<'a> {
     pub for_channels: Option<bool>,
 }
 
-impl<'a> GetMyDefaultAdministratorRightsBuilder<'a> {
+
+impl <'a> GetMyDefaultAdministratorRightsBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             for_channels: None,
         }
@@ -37,11 +38,10 @@ impl<'a> GetMyDefaultAdministratorRightsBuilder<'a> {
         self.for_channels = Some(for_channels);
         self
     }
-
+                
     pub async fn send(self) -> Result<ChatAdministratorRights> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ChatAdministratorRights>("getMyDefaultAdministratorRights", Some(&form))
-            .await
+        self.bot.get::<ChatAdministratorRights>("getMyDefaultAdministratorRights", Some(&form)).await
     }
+
 }

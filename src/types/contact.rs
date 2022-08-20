@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a phone contact.
 /// <https://core.telegram.org/bots/api#contact>
 #[derive(Serialize, Deserialize, Debug, Clone)]

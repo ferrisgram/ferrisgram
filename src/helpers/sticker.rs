@@ -9,6 +9,7 @@ impl Sticker {
         Self {
             file_id: "".to_string(),
             file_unique_id: "".to_string(),
+            r#type: "".to_string(),
             width: 0,
             height: 0,
             is_animated: false,
@@ -18,6 +19,7 @@ impl Sticker {
             set_name: None,
             premium_animation: None,
             mask_position: None,
+            custom_emoji_id: None,
             file_size: None,
         }
     }

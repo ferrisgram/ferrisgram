@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a chat photo.
 /// <https://core.telegram.org/bots/api#chatphoto>
 #[derive(Serialize, Deserialize, Debug, Clone)]

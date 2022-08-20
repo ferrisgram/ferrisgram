@@ -7,7 +7,9 @@ use crate::types::User;
 impl ChatMemberLeft {
     /// This function creates an empty struct for the object ChatMemberLeft.
     pub fn new() -> Self {
-        Self { user: User::new() }
+        Self {
+            user: User::new(),
+        }
     }
 }
 impl Default for ChatMemberLeft {

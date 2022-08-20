@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::InputFile;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
@@ -25,7 +25,7 @@ pub struct SetWebhookBuilder<'a> {
     pub url: String,
     /// Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub certificate: Option<InputFile>,
+    pub certificate: Option<String>,
     /// The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ip_address: Option<String>,
@@ -43,9 +43,10 @@ pub struct SetWebhookBuilder<'a> {
     pub secret_token: Option<String>,
 }
 
-impl<'a> SetWebhookBuilder<'a> {
+
+impl <'a> SetWebhookBuilder<'a> {
     pub fn new(bot: &'a Bot, url: String) -> Self {
-        Self {
+        Self{
             bot,
             url,
             certificate: None,
@@ -61,39 +62,40 @@ impl<'a> SetWebhookBuilder<'a> {
         self.url = url;
         self
     }
-
-    pub fn certificate(mut self, certificate: InputFile) -> Self {
+                
+    pub fn certificate(mut self, certificate: String) -> Self {
         self.certificate = Some(certificate);
         self
     }
-
+                
     pub fn ip_address(mut self, ip_address: String) -> Self {
         self.ip_address = Some(ip_address);
         self
     }
-
+                
     pub fn max_connections(mut self, max_connections: i64) -> Self {
         self.max_connections = Some(max_connections);
         self
     }
-
+                
     pub fn allowed_updates(mut self, allowed_updates: Vec<String>) -> Self {
         self.allowed_updates = Some(allowed_updates);
         self
     }
-
+                
     pub fn drop_pending_updates(mut self, drop_pending_updates: bool) -> Self {
         self.drop_pending_updates = Some(drop_pending_updates);
         self
     }
-
+                
     pub fn secret_token(mut self, secret_token: String) -> Self {
         self.secret_token = Some(secret_token);
         self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("setWebhook", Some(&form)).await
     }
+
 }

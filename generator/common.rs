@@ -6,8 +6,6 @@ use std::io::prelude::*;
 use std::ops::Add;
 use std::path::Path;
 
-use crate::spec_types;
-
 pub const IMP_URL: &str = "crate";
 
 pub const WARNING_COMMENT: &str = 
@@ -20,6 +18,7 @@ pub const tg_type_string: &str = "String";
 pub const tg_type_boolean: &str = "Boolean";
 pub const tg_type_float: &str = "Float";
 pub const tg_type_integer: &str = "Integer";
+pub const tg_type_file: &str = "InputFile";
 
 const SOURCE_PATH: &str = "../src/";
 
@@ -38,14 +37,7 @@ pub fn get_data_type(raw_type: &String) -> String {
     .replace(tg_type_boolean, "bool")
     .replace(tg_type_integer, "i64")
     .replace(tg_type_float, "f64")
-    // let data_type: &str = match raw_type.as_str() {
-    //     tg_type_string => "String",
-    //     tg_type_boolean => "bool",
-    //     tg_type_integer => "i64",
-    //     tg_type_float => "float",
-    //     _ => &raw_type
-    // };
-    // String::from(data_type)
+    .replace(tg_type_file, "String")
 }
 
 pub fn get_good_field_name(name: &String) -> String {
@@ -55,7 +47,7 @@ pub fn get_good_field_name(name: &String) -> String {
     name.clone()
 }
 
-pub fn get_type_without_optional(raw_type: &String) -> String {
+pub fn get_type(raw_type: &String, is_required: bool) -> String {
     let mut num: i16 = 0;
     let mut good_type = raw_type.clone();
     for mem in raw_type.split_whitespace() {
@@ -64,36 +56,25 @@ pub fn get_type_without_optional(raw_type: &String) -> String {
         }
     }
     if num == 0 {
+        if is_required {
+            return good_type;
+        } else {
+            return with_optional(good_type);
+        }
+    }
+    for _ in 0..num {
+        good_type = format!("Vec<{}>", good_type.replace("Array of ", ""));
+    }
+
+    if is_required {
         return good_type;
+    } else {
+        return with_optional(good_type);
     }
-    for _ in 0..num {
-        good_type = format!("Vec<{}>", good_type.replace("Array of ", ""));
-    }
-    good_type
 }
 
-pub fn get_type(field: &spec_types::Field, raw_type: &String) -> String {
-    let mut num: i16 = 0;
-    let mut good_type = raw_type.clone();
-    for mem in raw_type.split_whitespace() {
-        if mem == "Array" {
-            num += 1;
-        }
-    }
-    if num == 0 {
-        return check_optional(field, good_type);
-    }
-    for _ in 0..num {
-        good_type = format!("Vec<{}>", good_type.replace("Array of ", ""));
-    }
-    check_optional(field, good_type)
-}
-
-pub fn check_optional(field: &spec_types::Field, good_type: String) -> String {
-    if !field.required {
-        return format!("Option<{}>", good_type);
-    }
-    good_type
+pub fn with_optional(good_type: String) -> String {
+    return format!("Option<{}>", good_type);
 }
 
 pub fn create_file(name: String, text: String) -> bool {

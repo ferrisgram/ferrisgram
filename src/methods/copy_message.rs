@@ -4,20 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::MessageId;
-use crate::types::{InlineKeyboardMarkup, MessageEntity};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{MessageEntity, InlineKeyboardMarkup};
+use crate::types::MessageId;
 
 impl Bot {
-    /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+    /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
     /// <https://core.telegram.org/bots/api#copymessage>
-    pub fn copy_message(
-        &self,
-        chat_id: i64,
-        from_chat_id: i64,
-        message_id: i64,
-    ) -> CopyMessageBuilder {
+    pub fn copy_message(&self, chat_id: i64, from_chat_id: i64, message_id: i64) -> CopyMessageBuilder {
         CopyMessageBuilder::new(self, chat_id, from_chat_id, message_id)
     }
 }
@@ -50,7 +45,7 @@ pub struct CopyMessageBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -58,9 +53,10 @@ pub struct CopyMessageBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> CopyMessageBuilder<'a> {
+
+impl <'a> CopyMessageBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, from_chat_id: i64, message_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             from_chat_id,
@@ -80,59 +76,60 @@ impl<'a> CopyMessageBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn from_chat_id(mut self, from_chat_id: i64) -> Self {
         self.from_chat_id = from_chat_id;
         self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = message_id;
         self
     }
-
+                
     pub fn caption(mut self, caption: String) -> Self {
         self.caption = Some(caption);
         self
     }
-
+                
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
         self.parse_mode = Some(parse_mode);
         self
     }
-
+                
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
         self.caption_entities = Some(caption_entities);
         self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-
+                
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-
+                
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<MessageId> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<MessageId>("copyMessage", Some(&form)).await
     }
+
 }

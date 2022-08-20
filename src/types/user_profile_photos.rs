@@ -4,6 +4,7 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represent a user's profile pictures.
 /// <https://core.telegram.org/bots/api#userprofilephotos>
 #[derive(Serialize, Deserialize, Debug, Clone)]

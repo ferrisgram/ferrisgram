@@ -4,12 +4,12 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::Update;
-use crate::Bot;
 
 impl Bot {
-    /// Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
+    /// Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
     /// <https://core.telegram.org/bots/api#getupdates>
     pub fn get_updates(&self) -> GetUpdatesBuilder {
         GetUpdatesBuilder::new(self)
@@ -34,9 +34,10 @@ pub struct GetUpdatesBuilder<'a> {
     pub allowed_updates: Option<Vec<String>>,
 }
 
-impl<'a> GetUpdatesBuilder<'a> {
+
+impl <'a> GetUpdatesBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             offset: None,
             limit: None,
@@ -49,24 +50,25 @@ impl<'a> GetUpdatesBuilder<'a> {
         self.offset = Some(offset);
         self
     }
-
+                
     pub fn limit(mut self, limit: i64) -> Self {
         self.limit = Some(limit);
         self
     }
-
+                
     pub fn timeout(mut self, timeout: i64) -> Self {
         self.timeout = Some(timeout);
         self
     }
-
+                
     pub fn allowed_updates(mut self, allowed_updates: Vec<String>) -> Self {
         self.allowed_updates = Some(allowed_updates);
         self
     }
-
+                
     pub async fn send(self) -> Result<Vec<Update>> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Vec<Update>>("getUpdates", Some(&form)).await
     }
+
 }

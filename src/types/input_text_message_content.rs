@@ -4,6 +4,7 @@
 use crate::types::MessageEntity;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of a text message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputtextmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]

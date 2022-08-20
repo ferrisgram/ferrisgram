@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::User;
-use crate::Bot;
 
 impl Bot {
     /// A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
@@ -22,13 +22,17 @@ pub struct GetMeBuilder<'a> {
     bot: &'a Bot,
 }
 
-impl<'a> GetMeBuilder<'a> {
+
+impl <'a> GetMeBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self { bot }
+        Self{
+            bot,
+        }
     }
 
     pub async fn send(self) -> Result<User> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<User>("getMe", Some(&form)).await
     }
+
 }

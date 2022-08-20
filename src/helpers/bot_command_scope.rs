@@ -9,6 +9,7 @@ impl BotCommandScope {
     pub fn new() -> Self {
         Self::BotCommandScopeDefault(BotCommandScopeDefault::new())
     }
+
 }
 impl Default for BotCommandScope {
     fn default() -> Self {

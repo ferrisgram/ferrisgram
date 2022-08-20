@@ -4,17 +4,13 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
     /// <https://core.telegram.org/bots/api#approvechatjoinrequest>
-    pub fn approve_chat_join_request(
-        &self,
-        chat_id: i64,
-        user_id: i64,
-    ) -> ApproveChatJoinRequestBuilder {
+    pub fn approve_chat_join_request(&self, chat_id: i64, user_id: i64) -> ApproveChatJoinRequestBuilder {
         ApproveChatJoinRequestBuilder::new(self, chat_id, user_id)
     }
 }
@@ -29,9 +25,10 @@ pub struct ApproveChatJoinRequestBuilder<'a> {
     pub user_id: i64,
 }
 
-impl<'a> ApproveChatJoinRequestBuilder<'a> {
+
+impl <'a> ApproveChatJoinRequestBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             user_id,
@@ -42,16 +39,15 @@ impl<'a> ApproveChatJoinRequestBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("approveChatJoinRequest", Some(&form))
-            .await
+        self.bot.get::<bool>("approveChatJoinRequest", Some(&form)).await
     }
+
 }

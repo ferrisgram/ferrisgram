@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineKeyboardMarkup;
 use crate::types::Message;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -35,9 +35,10 @@ pub struct EditMessageReplyMarkupBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> EditMessageReplyMarkupBuilder<'a> {
+
+impl <'a> EditMessageReplyMarkupBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             chat_id: None,
             message_id: None,
@@ -50,26 +51,25 @@ impl<'a> EditMessageReplyMarkupBuilder<'a> {
         self.chat_id = Some(chat_id);
         self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = Some(message_id);
         self
     }
-
+                
     pub fn inline_message_id(mut self, inline_message_id: String) -> Self {
         self.inline_message_id = Some(inline_message_id);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageReplyMarkup", Some(&form))
-            .await
+        self.bot.get::<Message>("editMessageReplyMarkup", Some(&form)).await
     }
+
 }

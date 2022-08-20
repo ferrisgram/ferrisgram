@@ -3,7 +3,6 @@ mod types;
 mod methods;
 mod helpers;
 mod common;
-mod src;
 
 
 const SCHEMA_URL: &str = "https://raw.githubusercontent.com/PaulSonOfLars/telegram-bot-api-spec/main/api.json";

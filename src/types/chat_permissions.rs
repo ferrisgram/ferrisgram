@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Describes actions that a non-administrator user is allowed to take in a chat.
 /// <https://core.telegram.org/bots/api#chatpermissions>
 #[derive(Serialize, Deserialize, Debug, Clone)]
