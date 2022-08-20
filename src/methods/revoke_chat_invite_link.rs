@@ -4,18 +4,14 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatInviteLink;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
     /// <https://core.telegram.org/bots/api#revokechatinvitelink>
-    pub fn revoke_chat_invite_link(
-        &self,
-        chat_id: i64,
-        invite_link: String,
-    ) -> RevokeChatInviteLinkBuilder {
+    pub fn revoke_chat_invite_link(&self, chat_id: i64, invite_link: String) -> RevokeChatInviteLinkBuilder {
         RevokeChatInviteLinkBuilder::new(self, chat_id, invite_link)
     }
 }
@@ -30,9 +26,10 @@ pub struct RevokeChatInviteLinkBuilder<'a> {
     pub invite_link: String,
 }
 
-impl<'a> RevokeChatInviteLinkBuilder<'a> {
+
+impl <'a> RevokeChatInviteLinkBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, invite_link: String) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             invite_link,
@@ -43,16 +40,15 @@ impl<'a> RevokeChatInviteLinkBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn invite_link(mut self, invite_link: String) -> Self {
         self.invite_link = invite_link;
         self
     }
-
+                
     pub async fn send(self) -> Result<ChatInviteLink> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ChatInviteLink>("revokeChatInviteLink", Some(&form))
-            .await
+        self.bot.get::<ChatInviteLink>("revokeChatInviteLink", Some(&form)).await
     }
+
 }

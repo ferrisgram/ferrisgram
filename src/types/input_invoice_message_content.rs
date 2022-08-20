@@ -4,6 +4,7 @@
 use crate::types::LabeledPrice;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of an invoice message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputinvoicemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -39,25 +40,25 @@ pub struct InputInvoiceMessageContent {
     /// Optional. Photo height
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_height: Option<i64>,
-    /// Optional. Pass True, if you require the user's full name to complete the order
+    /// Optional. Pass True if you require the user's full name to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_name: Option<bool>,
-    /// Optional. Pass True, if you require the user's phone number to complete the order
+    /// Optional. Pass True if you require the user's phone number to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_phone_number: Option<bool>,
-    /// Optional. Pass True, if you require the user's email address to complete the order
+    /// Optional. Pass True if you require the user's email address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_email: Option<bool>,
-    /// Optional. Pass True, if you require the user's shipping address to complete the order
+    /// Optional. Pass True if you require the user's shipping address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_shipping_address: Option<bool>,
-    /// Optional. Pass True, if the user's phone number should be sent to provider
+    /// Optional. Pass True if the user's phone number should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_phone_number_to_provider: Option<bool>,
-    /// Optional. Pass True, if the user's email address should be sent to provider
+    /// Optional. Pass True if the user's email address should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_email_to_provider: Option<bool>,
-    /// Optional. Pass True, if the final price depends on the shipping method
+    /// Optional. Pass True if the final price depends on the shipping method
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_flexible: Option<bool>,
 }

@@ -4,34 +4,16 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, LabeledPrice};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{LabeledPrice, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send invoices. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendinvoice>
-    pub fn send_invoice(
-        &self,
-        chat_id: i64,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> SendInvoiceBuilder {
-        SendInvoiceBuilder::new(
-            self,
-            chat_id,
-            title,
-            description,
-            payload,
-            provider_token,
-            currency,
-            prices,
-        )
+    pub fn send_invoice(&self, chat_id: i64, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> SendInvoiceBuilder {
+        SendInvoiceBuilder::new(self, chat_id, title, description, payload, provider_token, currency, prices)
     }
 }
 
@@ -77,25 +59,25 @@ pub struct SendInvoiceBuilder<'a> {
     /// Photo height
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_height: Option<i64>,
-    /// Pass True, if you require the user's full name to complete the order
+    /// Pass True if you require the user's full name to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_name: Option<bool>,
-    /// Pass True, if you require the user's phone number to complete the order
+    /// Pass True if you require the user's phone number to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_phone_number: Option<bool>,
-    /// Pass True, if you require the user's email address to complete the order
+    /// Pass True if you require the user's email address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_email: Option<bool>,
-    /// Pass True, if you require the user's shipping address to complete the order
+    /// Pass True if you require the user's shipping address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_shipping_address: Option<bool>,
-    /// Pass True, if the user's phone number should be sent to provider
+    /// Pass True if the user's phone number should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_phone_number_to_provider: Option<bool>,
-    /// Pass True, if the user's email address should be sent to provider
+    /// Pass True if the user's email address should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_email_to_provider: Option<bool>,
-    /// Pass True, if the final price depends on the shipping method
+    /// Pass True if the final price depends on the shipping method
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_flexible: Option<bool>,
     /// Sends the message silently. Users will receive a notification with no sound.
@@ -107,7 +89,7 @@ pub struct SendInvoiceBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
@@ -115,18 +97,10 @@ pub struct SendInvoiceBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendInvoiceBuilder<'a> {
-    pub fn new(
-        bot: &'a Bot,
-        chat_id: i64,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> Self {
-        Self {
+
+impl <'a> SendInvoiceBuilder<'a> {
+    pub fn new(bot: &'a Bot, chat_id: i64, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> Self {
+        Self{
             bot,
             chat_id,
             title,
@@ -162,139 +136,140 @@ impl<'a> SendInvoiceBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub fn title(mut self, title: String) -> Self {
         self.title = title;
         self
     }
-
+                
     pub fn description(mut self, description: String) -> Self {
         self.description = description;
         self
     }
-
+                
     pub fn payload(mut self, payload: String) -> Self {
         self.payload = payload;
         self
     }
-
+                
     pub fn provider_token(mut self, provider_token: String) -> Self {
         self.provider_token = provider_token;
         self
     }
-
+                
     pub fn currency(mut self, currency: String) -> Self {
         self.currency = currency;
         self
     }
-
+                
     pub fn prices(mut self, prices: Vec<LabeledPrice>) -> Self {
         self.prices = prices;
         self
     }
-
+                
     pub fn max_tip_amount(mut self, max_tip_amount: i64) -> Self {
         self.max_tip_amount = Some(max_tip_amount);
         self
     }
-
+                
     pub fn suggested_tip_amounts(mut self, suggested_tip_amounts: Vec<i64>) -> Self {
         self.suggested_tip_amounts = Some(suggested_tip_amounts);
         self
     }
-
+                
     pub fn start_parameter(mut self, start_parameter: String) -> Self {
         self.start_parameter = Some(start_parameter);
         self
     }
-
+                
     pub fn provider_data(mut self, provider_data: String) -> Self {
         self.provider_data = Some(provider_data);
         self
     }
-
+                
     pub fn photo_url(mut self, photo_url: String) -> Self {
         self.photo_url = Some(photo_url);
         self
     }
-
+                
     pub fn photo_size(mut self, photo_size: i64) -> Self {
         self.photo_size = Some(photo_size);
         self
     }
-
+                
     pub fn photo_width(mut self, photo_width: i64) -> Self {
         self.photo_width = Some(photo_width);
         self
     }
-
+                
     pub fn photo_height(mut self, photo_height: i64) -> Self {
         self.photo_height = Some(photo_height);
         self
     }
-
+                
     pub fn need_name(mut self, need_name: bool) -> Self {
         self.need_name = Some(need_name);
         self
     }
-
+                
     pub fn need_phone_number(mut self, need_phone_number: bool) -> Self {
         self.need_phone_number = Some(need_phone_number);
         self
     }
-
+                
     pub fn need_email(mut self, need_email: bool) -> Self {
         self.need_email = Some(need_email);
         self
     }
-
+                
     pub fn need_shipping_address(mut self, need_shipping_address: bool) -> Self {
         self.need_shipping_address = Some(need_shipping_address);
         self
     }
-
+                
     pub fn send_phone_number_to_provider(mut self, send_phone_number_to_provider: bool) -> Self {
         self.send_phone_number_to_provider = Some(send_phone_number_to_provider);
         self
     }
-
+                
     pub fn send_email_to_provider(mut self, send_email_to_provider: bool) -> Self {
         self.send_email_to_provider = Some(send_email_to_provider);
         self
     }
-
+                
     pub fn is_flexible(mut self, is_flexible: bool) -> Self {
         self.is_flexible = Some(is_flexible);
         self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
         self.disable_notification = Some(disable_notification);
         self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
         self.protect_content = Some(protect_content);
         self
     }
-
+                
     pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
         self.reply_to_message_id = Some(reply_to_message_id);
         self
     }
-
+                
     pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
         self.allow_sending_without_reply = Some(allow_sending_without_reply);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Message>("sendInvoice", Some(&form)).await
     }
+
 }

@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Describes a Web App.
 /// <https://core.telegram.org/bots/api#webappinfo>
 #[derive(Serialize, Deserialize, Debug, Clone)]

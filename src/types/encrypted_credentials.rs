@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Describes data required for decrypting and authenticating EncryptedPassportElement. See the Telegram Passport Documentation for a complete description of the data decryption and authentication processes.
 /// <https://core.telegram.org/bots/api#encryptedcredentials>
 #[derive(Serialize, Deserialize, Debug, Clone)]

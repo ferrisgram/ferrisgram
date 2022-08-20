@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the rights of an administrator in a chat.
 /// <https://core.telegram.org/bots/api#chatadministratorrights>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -3,7 +3,9 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the scope of bot commands, covering all group and supergroup chats.
 /// <https://core.telegram.org/bots/api#botcommandscopeallgroupchats>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct BotCommandScopeAllGroupChats {}
+pub struct BotCommandScopeAllGroupChats {
+}

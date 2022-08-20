@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::File;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. On success, a File object is returned. The file can then be downloaded via the link https://api.telegram.org/file/bot<token>/<file_path>, where <file_path> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile again.
@@ -25,18 +25,23 @@ pub struct GetFileBuilder<'a> {
     pub file_id: String,
 }
 
-impl<'a> GetFileBuilder<'a> {
+
+impl <'a> GetFileBuilder<'a> {
     pub fn new(bot: &'a Bot, file_id: String) -> Self {
-        Self { bot, file_id }
+        Self{
+            bot,
+            file_id,
+        }
     }
 
     pub fn file_id(mut self, file_id: String) -> Self {
         self.file_id = file_id;
         self
     }
-
+                
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<File>("getFile", Some(&form)).await
     }
+
 }

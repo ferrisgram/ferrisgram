@@ -4,19 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineKeyboardMarkup;
 use crate::types::Message;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
     /// <https://core.telegram.org/bots/api#editmessagelivelocation>
-    pub fn edit_message_live_location(
-        &self,
-        latitude: f64,
-        longitude: f64,
-    ) -> EditMessageLiveLocationBuilder {
+    pub fn edit_message_live_location(&self, latitude: f64, longitude: f64) -> EditMessageLiveLocationBuilder {
         EditMessageLiveLocationBuilder::new(self, latitude, longitude)
     }
 }
@@ -52,9 +48,10 @@ pub struct EditMessageLiveLocationBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> EditMessageLiveLocationBuilder<'a> {
+
+impl <'a> EditMessageLiveLocationBuilder<'a> {
     pub fn new(bot: &'a Bot, latitude: f64, longitude: f64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id: None,
             message_id: None,
@@ -72,51 +69,50 @@ impl<'a> EditMessageLiveLocationBuilder<'a> {
         self.chat_id = Some(chat_id);
         self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
         self.message_id = Some(message_id);
         self
     }
-
+                
     pub fn inline_message_id(mut self, inline_message_id: String) -> Self {
         self.inline_message_id = Some(inline_message_id);
         self
     }
-
+                
     pub fn latitude(mut self, latitude: f64) -> Self {
         self.latitude = latitude;
         self
     }
-
+                
     pub fn longitude(mut self, longitude: f64) -> Self {
         self.longitude = longitude;
         self
     }
-
+                
     pub fn horizontal_accuracy(mut self, horizontal_accuracy: f64) -> Self {
         self.horizontal_accuracy = Some(horizontal_accuracy);
         self
     }
-
+                
     pub fn heading(mut self, heading: i64) -> Self {
         self.heading = Some(heading);
         self
     }
-
+                
     pub fn proximity_alert_radius(mut self, proximity_alert_radius: i64) -> Self {
         self.proximity_alert_radius = Some(proximity_alert_radius);
         self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
         self.reply_markup = Some(reply_markup);
         self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageLiveLocation", Some(&form))
-            .await
+        self.bot.get::<Message>("editMessageLiveLocation", Some(&form)).await
     }
+
 }

@@ -4,19 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::File;
-use crate::types::InputFile;
 use crate::Bot;
+use crate::error::Result;
+use crate::types::InputFile;
+use crate::types::File;
 
 impl Bot {
     /// Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
-    pub fn upload_sticker_file(
-        &self,
-        user_id: i64,
-        png_sticker: InputFile,
-    ) -> UploadStickerFileBuilder {
+    pub fn upload_sticker_file(&self, user_id: i64, png_sticker: String) -> UploadStickerFileBuilder {
         UploadStickerFileBuilder::new(self, user_id, png_sticker)
     }
 }
@@ -28,12 +24,13 @@ pub struct UploadStickerFileBuilder<'a> {
     /// User identifier of sticker file owner
     pub user_id: i64,
     /// PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub png_sticker: InputFile,
+    pub png_sticker: String,
 }
 
-impl<'a> UploadStickerFileBuilder<'a> {
-    pub fn new(bot: &'a Bot, user_id: i64, png_sticker: InputFile) -> Self {
-        Self {
+
+impl <'a> UploadStickerFileBuilder<'a> {
+    pub fn new(bot: &'a Bot, user_id: i64, png_sticker: String) -> Self {
+        Self{
             bot,
             user_id,
             png_sticker,
@@ -44,14 +41,15 @@ impl<'a> UploadStickerFileBuilder<'a> {
         self.user_id = user_id;
         self
     }
-
-    pub fn png_sticker(mut self, png_sticker: InputFile) -> Self {
+                
+    pub fn png_sticker(mut self, png_sticker: String) -> Self {
         self.png_sticker = png_sticker;
         self
     }
-
+                
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<File>("uploadStickerFile", Some(&form)).await
     }
+
 }

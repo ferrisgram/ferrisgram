@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
@@ -24,9 +24,10 @@ pub struct DeleteWebhookBuilder<'a> {
     pub drop_pending_updates: Option<bool>,
 }
 
-impl<'a> DeleteWebhookBuilder<'a> {
+
+impl <'a> DeleteWebhookBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             drop_pending_updates: None,
         }
@@ -36,9 +37,10 @@ impl<'a> DeleteWebhookBuilder<'a> {
         self.drop_pending_updates = Some(drop_pending_updates);
         self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("deleteWebhook", Some(&form)).await
     }
+
 }

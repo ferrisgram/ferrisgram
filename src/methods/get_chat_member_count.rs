@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to get the number of members in a chat. Returns Int on success.
@@ -23,18 +23,23 @@ pub struct GetChatMemberCountBuilder<'a> {
     pub chat_id: i64,
 }
 
-impl<'a> GetChatMemberCountBuilder<'a> {
+
+impl <'a> GetChatMemberCountBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self { bot, chat_id }
+        Self{
+            bot,
+            chat_id,
+        }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-
+                
     pub async fn send(self) -> Result<i64> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<i64>("getChatMemberCount", Some(&form)).await
     }
+
 }

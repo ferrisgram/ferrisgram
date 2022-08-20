@@ -4,31 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::LabeledPrice;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to create a link for an invoice. Returns the created invoice link as String on success.
     /// <https://core.telegram.org/bots/api#createinvoicelink>
-    pub fn create_invoice_link(
-        &self,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> CreateInvoiceLinkBuilder {
-        CreateInvoiceLinkBuilder::new(
-            self,
-            title,
-            description,
-            payload,
-            provider_token,
-            currency,
-            prices,
-        )
+    pub fn create_invoice_link(&self, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> CreateInvoiceLinkBuilder {
+        CreateInvoiceLinkBuilder::new(self, title, description, payload, provider_token, currency, prices)
     }
 }
 
@@ -69,40 +53,33 @@ pub struct CreateInvoiceLinkBuilder<'a> {
     /// Photo height
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_height: Option<i64>,
-    /// Pass True, if you require the user's full name to complete the order
+    /// Pass True if you require the user's full name to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_name: Option<bool>,
-    /// Pass True, if you require the user's phone number to complete the order
+    /// Pass True if you require the user's phone number to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_phone_number: Option<bool>,
-    /// Pass True, if you require the user's email address to complete the order
+    /// Pass True if you require the user's email address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_email: Option<bool>,
-    /// Pass True, if you require the user's shipping address to complete the order
+    /// Pass True if you require the user's shipping address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_shipping_address: Option<bool>,
-    /// Pass True, if the user's phone number should be sent to the provider
+    /// Pass True if the user's phone number should be sent to the provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_phone_number_to_provider: Option<bool>,
-    /// Pass True, if the user's email address should be sent to the provider
+    /// Pass True if the user's email address should be sent to the provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_email_to_provider: Option<bool>,
-    /// Pass True, if the final price depends on the shipping method
+    /// Pass True if the final price depends on the shipping method
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_flexible: Option<bool>,
 }
 
-impl<'a> CreateInvoiceLinkBuilder<'a> {
-    pub fn new(
-        bot: &'a Bot,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> Self {
-        Self {
+
+impl <'a> CreateInvoiceLinkBuilder<'a> {
+    pub fn new(bot: &'a Bot, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> Self {
+        Self{
             bot,
             title,
             description,
@@ -131,106 +108,105 @@ impl<'a> CreateInvoiceLinkBuilder<'a> {
         self.title = title;
         self
     }
-
+                
     pub fn description(mut self, description: String) -> Self {
         self.description = description;
         self
     }
-
+                
     pub fn payload(mut self, payload: String) -> Self {
         self.payload = payload;
         self
     }
-
+                
     pub fn provider_token(mut self, provider_token: String) -> Self {
         self.provider_token = provider_token;
         self
     }
-
+                
     pub fn currency(mut self, currency: String) -> Self {
         self.currency = currency;
         self
     }
-
+                
     pub fn prices(mut self, prices: Vec<LabeledPrice>) -> Self {
         self.prices = prices;
         self
     }
-
+                
     pub fn max_tip_amount(mut self, max_tip_amount: i64) -> Self {
         self.max_tip_amount = Some(max_tip_amount);
         self
     }
-
+                
     pub fn suggested_tip_amounts(mut self, suggested_tip_amounts: Vec<i64>) -> Self {
         self.suggested_tip_amounts = Some(suggested_tip_amounts);
         self
     }
-
+                
     pub fn provider_data(mut self, provider_data: String) -> Self {
         self.provider_data = Some(provider_data);
         self
     }
-
+                
     pub fn photo_url(mut self, photo_url: String) -> Self {
         self.photo_url = Some(photo_url);
         self
     }
-
+                
     pub fn photo_size(mut self, photo_size: i64) -> Self {
         self.photo_size = Some(photo_size);
         self
     }
-
+                
     pub fn photo_width(mut self, photo_width: i64) -> Self {
         self.photo_width = Some(photo_width);
         self
     }
-
+                
     pub fn photo_height(mut self, photo_height: i64) -> Self {
         self.photo_height = Some(photo_height);
         self
     }
-
+                
     pub fn need_name(mut self, need_name: bool) -> Self {
         self.need_name = Some(need_name);
         self
     }
-
+                
     pub fn need_phone_number(mut self, need_phone_number: bool) -> Self {
         self.need_phone_number = Some(need_phone_number);
         self
     }
-
+                
     pub fn need_email(mut self, need_email: bool) -> Self {
         self.need_email = Some(need_email);
         self
     }
-
+                
     pub fn need_shipping_address(mut self, need_shipping_address: bool) -> Self {
         self.need_shipping_address = Some(need_shipping_address);
         self
     }
-
+                
     pub fn send_phone_number_to_provider(mut self, send_phone_number_to_provider: bool) -> Self {
         self.send_phone_number_to_provider = Some(send_phone_number_to_provider);
         self
     }
-
+                
     pub fn send_email_to_provider(mut self, send_email_to_provider: bool) -> Self {
         self.send_email_to_provider = Some(send_email_to_provider);
         self
     }
-
+                
     pub fn is_flexible(mut self, is_flexible: bool) -> Self {
         self.is_flexible = Some(is_flexible);
         self
     }
-
+                
     pub async fn send(self) -> Result<String> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<String>("createInvoiceLink", Some(&form))
-            .await
+        self.bot.get::<String>("createInvoiceLink", Some(&form)).await
     }
+
 }

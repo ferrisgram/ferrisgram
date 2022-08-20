@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents an invite link for a chat.
 /// <https://core.telegram.org/bots/api#chatinvitelink>
 #[derive(Serialize, Deserialize, Debug, Clone)]

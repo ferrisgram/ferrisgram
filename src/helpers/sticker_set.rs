@@ -9,9 +9,9 @@ impl StickerSet {
         Self {
             name: "".to_string(),
             title: "".to_string(),
+            sticker_type: "".to_string(),
             is_animated: false,
             is_video: false,
-            contains_masks: false,
             stickers: Vec::new(),
             thumb: None,
         }

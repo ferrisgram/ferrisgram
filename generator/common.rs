@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 #![allow(non_upper_case_globals)]
 
-use std::fs::read_to_string;
 use std::fs::File;
 use std::io::prelude::*;
 use std::ops::Add;

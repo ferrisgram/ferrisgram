@@ -4,6 +4,7 @@
 use crate::types::Location;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a venue.
 /// <https://core.telegram.org/bots/api#venue>
 #[derive(Serialize, Deserialize, Debug, Clone)]
