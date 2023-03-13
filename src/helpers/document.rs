@@ -9,7 +9,7 @@ impl Document {
         Self {
             file_id: "".to_string(),
             file_unique_id: "".to_string(),
-            thumb: None,
+            thumbnail: None,
             file_name: None,
             mime_type: None,
             file_size: None,

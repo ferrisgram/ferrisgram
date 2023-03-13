@@ -28,6 +28,9 @@ pub struct SendPollBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Poll question, 1-300 characters
     pub question: String,
     /// A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
@@ -59,7 +62,7 @@ pub struct SendPollBuilder<'a> {
     /// Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with open_period.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub close_date: Option<i64>,
-    /// Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
+    /// Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_closed: Option<bool>,
     /// Sends the message silently. Users will receive a notification with no sound.
@@ -71,7 +74,7 @@ pub struct SendPollBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -84,6 +87,7 @@ impl<'a> SendPollBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             question,
             options,
             is_anonymous: None,
@@ -106,6 +110,11 @@ impl<'a> SendPollBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 

@@ -16,9 +16,9 @@ impl InlineQueryResultArticle {
             url: None,
             hide_url: None,
             description: None,
-            thumb_url: None,
-            thumb_width: None,
-            thumb_height: None,
+            thumbnail_url: None,
+            thumbnail_width: None,
+            thumbnail_height: None,
         }
     }
 }

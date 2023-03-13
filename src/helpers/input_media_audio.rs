@@ -9,7 +9,7 @@ impl InputMediaAudio {
         Self {
             r#type: "".to_string(),
             media: "".to_string(),
-            thumb: None,
+            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,

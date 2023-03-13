@@ -13,6 +13,7 @@ impl WebhookInfo {
             ip_address: None,
             last_error_date: None,
             last_error_message: None,
+            last_synchronization_error_date: None,
             max_connections: None,
             allowed_updates: None,
         }

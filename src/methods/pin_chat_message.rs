@@ -23,7 +23,7 @@ pub struct PinChatMessageBuilder<'a> {
     pub chat_id: i64,
     /// Identifier of a message to pin
     pub message_id: i64,
-    /// Pass True, if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
+    /// Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels and private chats.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
 }

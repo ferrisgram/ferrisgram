@@ -24,15 +24,33 @@ pub struct Chat {
     /// Optional. Last name of the other party in a private chat
     #[serde(skip_serializing_if = "Option::is_none")]
     pub last_name: Option<String>,
+    /// Optional. True, if the supergroup chat is a forum (has topics enabled)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_forum: Option<bool>,
     /// Optional. Chat photo. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo: Option<ChatPhoto>,
+    /// Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub active_usernames: Option<Vec<String>>,
+    /// Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub emoji_status_custom_emoji_id: Option<String>,
     /// Optional. Bio of the other party in a private chat. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bio: Option<String>,
     /// Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub has_private_forwards: Option<bool>,
+    /// Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub has_restricted_voice_and_video_messages: Option<bool>,
+    /// Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub join_to_send_messages: Option<bool>,
+    /// Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub join_by_request: Option<bool>,
     /// Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
@@ -51,6 +69,12 @@ pub struct Chat {
     /// Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_auto_delete_time: Option<i64>,
+    /// Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub has_aggressive_anti_spam_enabled: Option<bool>,
+    /// Optional. True, if non-administrators can only get the list of bots and administrators in the chat. Returned only in getChat.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub has_hidden_members: Option<bool>,
     /// Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub has_protected_content: Option<bool>,

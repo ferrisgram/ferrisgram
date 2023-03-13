@@ -10,7 +10,7 @@ use crate::types::{InlineKeyboardMarkup, MessageEntity};
 use crate::Bot;
 
 impl Bot {
-    /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+    /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
     /// <https://core.telegram.org/bots/api#copymessage>
     pub fn copy_message(
         &self,
@@ -28,6 +28,9 @@ pub struct CopyMessageBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
     pub from_chat_id: i64,
     /// Message identifier in the chat specified in from_chat_id
@@ -50,7 +53,7 @@ pub struct CopyMessageBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -63,6 +66,7 @@ impl<'a> CopyMessageBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             from_chat_id,
             message_id,
             caption: None,
@@ -78,6 +82,11 @@ impl<'a> CopyMessageBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 

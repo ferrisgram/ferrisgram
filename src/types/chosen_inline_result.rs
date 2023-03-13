@@ -5,7 +5,7 @@ use crate::types::{Location, User};
 use serde::{Deserialize, Serialize};
 
 /// Represents a result of an inline query that was chosen by the user and sent to their chat partner.
-/// Note: It is necessary to enable inline feedback via @Botfather in order to receive these objects in updates.
+/// Note: It is necessary to enable inline feedback via @BotFather in order to receive these objects in updates.
 /// <https://core.telegram.org/bots/api#choseninlineresult>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChosenInlineResult {

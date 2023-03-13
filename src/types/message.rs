@@ -2,10 +2,13 @@
 // DO NOT EDIT!!!
 
 use crate::types::{
-    Animation, Audio, Chat, Contact, Dice, Document, Game, InlineKeyboardMarkup, Invoice, Location,
+    Animation, Audio, Chat, ChatShared, Contact, Dice, Document, ForumTopicClosed,
+    ForumTopicCreated, ForumTopicEdited, ForumTopicReopened, Game, GeneralForumTopicHidden,
+    GeneralForumTopicUnhidden, InlineKeyboardMarkup, Invoice, Location,
     MessageAutoDeleteTimerChanged, MessageEntity, PassportData, PhotoSize, Poll,
-    ProximityAlertTriggered, Sticker, SuccessfulPayment, User, Venue, Video, VideoNote, Voice,
-    VoiceChatEnded, VoiceChatParticipantsInvited, VoiceChatScheduled, VoiceChatStarted,
+    ProximityAlertTriggered, Sticker, SuccessfulPayment, User, UserShared, Venue, Video,
+    VideoChatEnded, VideoChatParticipantsInvited, VideoChatScheduled, VideoChatStarted, VideoNote,
+    Voice, WebAppData, WriteAccessAllowed,
 };
 use serde::{Deserialize, Serialize};
 
@@ -15,10 +18,13 @@ use serde::{Deserialize, Serialize};
 pub struct Message {
     /// Unique message identifier inside this chat
     pub message_id: i64,
+    /// Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub from: Option<User>,
-    /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group.  For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+    /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sender_chat: Option<Chat>,
     /// Date the message was sent in Unix time
@@ -43,6 +49,9 @@ pub struct Message {
     /// Optional. For forwarded messages, date the original message was sent in Unix time
     #[serde(skip_serializing_if = "Option::is_none")]
     pub forward_date: Option<i64>,
+    /// Optional. True, if the message is sent to a forum topic
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_topic_message: Option<bool>,
     /// Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_automatic_forward: Option<bool>,
@@ -64,7 +73,7 @@ pub struct Message {
     /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
     #[serde(skip_serializing_if = "Option::is_none")]
     pub author_signature: Option<String>,
-    /// Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters
+    /// Optional. For text messages, the actual UTF-8 text of the message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
     /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
@@ -94,12 +103,15 @@ pub struct Message {
     /// Optional. Message is a voice message, information about the file
     #[serde(skip_serializing_if = "Option::is_none")]
     pub voice: Option<Voice>,
-    /// Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters
+    /// Optional. Caption for the animation, audio, document, photo, video or voice
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
     /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption_entities: Option<Vec<MessageEntity>>,
+    /// Optional. True, if the message media is covered by a spoiler animation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub has_media_spoiler: Option<bool>,
     /// Optional. Message is a shared contact, information about the contact
     #[serde(skip_serializing_if = "Option::is_none")]
     pub contact: Option<Contact>,
@@ -160,27 +172,57 @@ pub struct Message {
     /// Optional. Message is a service message about a successful payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
     #[serde(skip_serializing_if = "Option::is_none")]
     pub successful_payment: Option<SuccessfulPayment>,
+    /// Optional. Service message: a user was shared with the bot
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_shared: Option<UserShared>,
+    /// Optional. Service message: a chat was shared with the bot
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub chat_shared: Option<ChatShared>,
     /// Optional. The domain name of the website on which the user has logged in. More about Telegram Login: https://core.telegram.org/widgets/login
     #[serde(skip_serializing_if = "Option::is_none")]
     pub connected_website: Option<String>,
+    /// Optional. Service message: the user allowed the bot added to the attachment menu to write messages
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub write_access_allowed: Option<WriteAccessAllowed>,
     /// Optional. Telegram Passport data
     #[serde(skip_serializing_if = "Option::is_none")]
     pub passport_data: Option<PassportData>,
     /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub proximity_alert_triggered: Option<ProximityAlertTriggered>,
-    /// Optional. Service message: voice chat scheduled
+    /// Optional. Service message: forum topic created
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub voice_chat_scheduled: Option<VoiceChatScheduled>,
-    /// Optional. Service message: voice chat started
+    pub forum_topic_created: Option<ForumTopicCreated>,
+    /// Optional. Service message: forum topic edited
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub voice_chat_started: Option<VoiceChatStarted>,
-    /// Optional. Service message: voice chat ended
+    pub forum_topic_edited: Option<ForumTopicEdited>,
+    /// Optional. Service message: forum topic closed
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub voice_chat_ended: Option<VoiceChatEnded>,
-    /// Optional. Service message: new participants invited to a voice chat
+    pub forum_topic_closed: Option<ForumTopicClosed>,
+    /// Optional. Service message: forum topic reopened
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub voice_chat_participants_invited: Option<VoiceChatParticipantsInvited>,
+    pub forum_topic_reopened: Option<ForumTopicReopened>,
+    /// Optional. Service message: the 'General' forum topic hidden
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub general_forum_topic_hidden: Option<GeneralForumTopicHidden>,
+    /// Optional. Service message: the 'General' forum topic unhidden
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub general_forum_topic_unhidden: Option<GeneralForumTopicUnhidden>,
+    /// Optional. Service message: video chat scheduled
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub video_chat_scheduled: Option<VideoChatScheduled>,
+    /// Optional. Service message: video chat started
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub video_chat_started: Option<VideoChatStarted>,
+    /// Optional. Service message: video chat ended
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub video_chat_ended: Option<VideoChatEnded>,
+    /// Optional. Service message: new participants invited to a video chat
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub video_chat_participants_invited: Option<VideoChatParticipantsInvited>,
+    /// Optional. Service message: data sent by a Web App
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub web_app_data: Option<WebAppData>,
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,

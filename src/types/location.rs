@@ -20,7 +20,7 @@ pub struct Location {
     /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub heading: Option<i64>,
-    /// Optional. Maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
+    /// Optional. The maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub proximity_alert_radius: Option<i64>,
 }

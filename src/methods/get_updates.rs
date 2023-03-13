@@ -9,7 +9,7 @@ use crate::types::Update;
 use crate::Bot;
 
 impl Bot {
-    /// Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
+    /// Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
     /// <https://core.telegram.org/bots/api#getupdates>
     pub fn get_updates(&self) -> GetUpdatesBuilder {
         GetUpdatesBuilder::new(self)

@@ -41,13 +41,16 @@ pub struct SendInvoiceBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Product name, 1-32 characters
     pub title: String,
     /// Product description, 1-255 characters
     pub description: String,
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     pub payload: String,
-    /// Payments provider token, obtained via Botfather
+    /// Payment provider token, obtained via @BotFather
     pub provider_token: String,
     /// Three-letter ISO 4217 currency code, see more on currencies
     pub currency: String,
@@ -62,13 +65,13 @@ pub struct SendInvoiceBuilder<'a> {
     /// Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter
     #[serde(skip_serializing_if = "Option::is_none")]
     pub start_parameter: Option<String>,
-    /// A JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
+    /// JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub provider_data: Option<String>,
     /// URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_url: Option<String>,
-    /// Photo size
+    /// Photo size in bytes
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_size: Option<i64>,
     /// Photo width
@@ -77,25 +80,25 @@ pub struct SendInvoiceBuilder<'a> {
     /// Photo height
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_height: Option<i64>,
-    /// Pass True, if you require the user's full name to complete the order
+    /// Pass True if you require the user's full name to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_name: Option<bool>,
-    /// Pass True, if you require the user's phone number to complete the order
+    /// Pass True if you require the user's phone number to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_phone_number: Option<bool>,
-    /// Pass True, if you require the user's email address to complete the order
+    /// Pass True if you require the user's email address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_email: Option<bool>,
-    /// Pass True, if you require the user's shipping address to complete the order
+    /// Pass True if you require the user's shipping address to complete the order
     #[serde(skip_serializing_if = "Option::is_none")]
     pub need_shipping_address: Option<bool>,
-    /// Pass True, if user's phone number should be sent to provider
+    /// Pass True if the user's phone number should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_phone_number_to_provider: Option<bool>,
-    /// Pass True, if user's email address should be sent to provider
+    /// Pass True if the user's email address should be sent to provider
     #[serde(skip_serializing_if = "Option::is_none")]
     pub send_email_to_provider: Option<bool>,
-    /// Pass True, if the final price depends on the shipping method
+    /// Pass True if the final price depends on the shipping method
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_flexible: Option<bool>,
     /// Sends the message silently. Users will receive a notification with no sound.
@@ -107,7 +110,7 @@ pub struct SendInvoiceBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
@@ -129,6 +132,7 @@ impl<'a> SendInvoiceBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             title,
             description,
             payload,
@@ -160,6 +164,11 @@ impl<'a> SendInvoiceBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 

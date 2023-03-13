@@ -9,7 +9,8 @@ use crate::types::InlineQueryResult;
 use crate::Bot;
 
 impl Bot {
-    /// Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
+    /// Use this method to send answers to an inline query. On success, True is returned.
+    /// No more than 50 results per query are allowed.
     /// <https://core.telegram.org/bots/api#answerinlinequery>
     pub fn answer_inline_query(
         &self,
@@ -31,7 +32,7 @@ pub struct AnswerInlineQueryBuilder<'a> {
     /// The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cache_time: Option<i64>,
-    /// Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
+    /// Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_personal: Option<bool>,
     /// Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.

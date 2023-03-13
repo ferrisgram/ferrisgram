@@ -23,6 +23,9 @@ pub struct SendMessageBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Text of the message to be sent, 1-4096 characters after entities parsing
     pub text: String,
     /// Mode for parsing entities in the message text. See formatting options for more details.
@@ -43,7 +46,7 @@ pub struct SendMessageBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -56,6 +59,7 @@ impl<'a> SendMessageBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             text,
             parse_mode: None,
             entities: None,
@@ -70,6 +74,11 @@ impl<'a> SendMessageBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 

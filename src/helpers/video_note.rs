@@ -11,7 +11,7 @@ impl VideoNote {
             file_unique_id: "".to_string(),
             length: 0,
             duration: 0,
-            thumb: None,
+            thumbnail: None,
             file_size: None,
         }
     }

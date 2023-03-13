@@ -14,7 +14,7 @@ impl ChatMemberAdministrator {
             is_anonymous: false,
             can_manage_chat: false,
             can_delete_messages: false,
-            can_manage_voice_chats: false,
+            can_manage_video_chats: false,
             can_restrict_members: false,
             can_promote_members: false,
             can_change_info: false,
@@ -22,6 +22,7 @@ impl ChatMemberAdministrator {
             can_post_messages: None,
             can_edit_messages: None,
             can_pin_messages: None,
+            can_manage_topics: None,
             custom_title: None,
         }
     }

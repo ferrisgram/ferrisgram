@@ -12,7 +12,7 @@ pub struct InlineQueryResultCachedMpeg4Gif {
     pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
-    /// A valid file identifier for the MP4 file
+    /// A valid file identifier for the MPEG4 file
     pub mpeg4_file_id: String,
     /// Optional. Title for the result
     #[serde(skip_serializing_if = "Option::is_none")]

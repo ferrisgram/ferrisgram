@@ -34,7 +34,7 @@ pub struct EditChatInviteLinkBuilder<'a> {
     /// Point in time (Unix timestamp) when the link will expire
     #[serde(skip_serializing_if = "Option::is_none")]
     pub expire_date: Option<i64>,
-    /// Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+    /// The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
     #[serde(skip_serializing_if = "Option::is_none")]
     pub member_limit: Option<i64>,
     /// True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified

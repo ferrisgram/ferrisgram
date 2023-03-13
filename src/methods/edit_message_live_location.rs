@@ -44,7 +44,7 @@ pub struct EditMessageLiveLocationBuilder<'a> {
     /// Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub heading: Option<i64>,
-    /// Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+    /// The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub proximity_alert_radius: Option<i64>,
     /// A JSON-serialized object for a new inline keyboard.

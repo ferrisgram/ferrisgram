@@ -4,7 +4,7 @@
 use crate::types::{EncryptedCredentials, EncryptedPassportElement};
 use serde::{Deserialize, Serialize};
 
-/// Contains information about Telegram Passport data shared with the bot by the user.
+/// Describes Telegram Passport data shared with the bot by the user.
 /// <https://core.telegram.org/bots/api#passportdata>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PassportData {

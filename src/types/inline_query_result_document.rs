@@ -26,7 +26,7 @@ pub struct InlineQueryResultDocument {
     pub caption_entities: Option<Vec<MessageEntity>>,
     /// A valid URL for the file
     pub document_url: String,
-    /// Mime type of the content of the file, either "application/pdf" or "application/zip"
+    /// MIME type of the content of the file, either "application/pdf" or "application/zip"
     pub mime_type: String,
     /// Optional. Short description of the result
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -39,11 +39,11 @@ pub struct InlineQueryResultDocument {
     pub input_message_content: Option<InputMessageContent>,
     /// Optional. URL of the thumbnail (JPEG only) for the file
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_url: Option<String>,
+    pub thumbnail_url: Option<String>,
     /// Optional. Thumbnail width
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_width: Option<i64>,
+    pub thumbnail_width: Option<i64>,
     /// Optional. Thumbnail height
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_height: Option<i64>,
+    pub thumbnail_height: Option<i64>,
 }

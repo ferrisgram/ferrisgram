@@ -27,6 +27,9 @@ pub struct SendMediaGroupBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// A JSON-serialized array describing messages to be sent, must include 2-10 items
     pub media: Vec<InputMediaAudio>,
     /// Sends messages silently. Users will receive a notification with no sound.
@@ -38,7 +41,7 @@ pub struct SendMediaGroupBuilder<'a> {
     /// If the messages are a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
 }
@@ -48,6 +51,7 @@ impl<'a> SendMediaGroupBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             media,
             disable_notification: None,
             protect_content: None,
@@ -58,6 +62,11 @@ impl<'a> SendMediaGroupBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 

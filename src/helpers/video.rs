@@ -12,7 +12,7 @@ impl Video {
             width: 0,
             height: 0,
             duration: 0,
-            thumb: None,
+            thumbnail: None,
             file_name: None,
             mime_type: None,
             file_size: None,

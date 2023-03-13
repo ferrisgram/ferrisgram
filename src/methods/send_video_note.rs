@@ -10,7 +10,7 @@ use crate::types::{InlineKeyboardMarkup, InputFile};
 use crate::Bot;
 
 impl Bot {
-    /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
+    /// As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendvideonote>
     pub fn send_video_note(&self, chat_id: i64, video_note: InputFile) -> SendVideoNoteBuilder {
         SendVideoNoteBuilder::new(self, chat_id, video_note)
@@ -23,7 +23,10 @@ pub struct SendVideoNoteBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More info on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
+    /// Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
     pub video_note: InputFile,
     /// Duration of sent video in seconds
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -31,9 +34,9 @@ pub struct SendVideoNoteBuilder<'a> {
     /// Video width and height, i.e. diameter of the video message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub length: Option<i64>,
-    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More info on Sending Files: https://core.telegram.org/bots/api#sending-files
+    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<InputFile>,
+    pub thumbnail: Option<InputFile>,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
@@ -43,7 +46,7 @@ pub struct SendVideoNoteBuilder<'a> {
     /// If the message is a reply, ID of the original message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message_id: Option<i64>,
-    /// Pass True, if the message should be sent even if the specified replied-to message is not found
+    /// Pass True if the message should be sent even if the specified replied-to message is not found
     #[serde(skip_serializing_if = "Option::is_none")]
     pub allow_sending_without_reply: Option<bool>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
@@ -56,10 +59,11 @@ impl<'a> SendVideoNoteBuilder<'a> {
         Self {
             bot,
             chat_id,
+            message_thread_id: None,
             video_note,
             duration: None,
             length: None,
-            thumb: None,
+            thumbnail: None,
             disable_notification: None,
             protect_content: None,
             reply_to_message_id: None,
@@ -70,6 +74,11 @@ impl<'a> SendVideoNoteBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
 
@@ -88,8 +97,8 @@ impl<'a> SendVideoNoteBuilder<'a> {
         self
     }
 
-    pub fn thumb(mut self, thumb: InputFile) -> Self {
-        self.thumb = Some(thumb);
+    pub fn thumbnail(mut self, thumbnail: InputFile) -> Self {
+        self.thumbnail = Some(thumbnail);
         self
     }
 

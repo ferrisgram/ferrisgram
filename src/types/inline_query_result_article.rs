@@ -22,7 +22,7 @@ pub struct InlineQueryResultArticle {
     /// Optional. URL of the result
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
-    /// Optional. Pass True, if you don't want the URL to be shown in the message
+    /// Optional. Pass True if you don't want the URL to be shown in the message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub hide_url: Option<bool>,
     /// Optional. Short description of the result
@@ -30,11 +30,11 @@ pub struct InlineQueryResultArticle {
     pub description: Option<String>,
     /// Optional. Url of the thumbnail for the result
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_url: Option<String>,
+    pub thumbnail_url: Option<String>,
     /// Optional. Thumbnail width
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_width: Option<i64>,
+    pub thumbnail_width: Option<i64>,
     /// Optional. Thumbnail height
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_height: Option<i64>,
+    pub thumbnail_height: Option<i64>,
 }

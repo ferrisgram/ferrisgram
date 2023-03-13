@@ -11,7 +11,7 @@ impl InlineQueryResultVideo {
             id: "".to_string(),
             video_url: "".to_string(),
             mime_type: "".to_string(),
-            thumb_url: "".to_string(),
+            thumbnail_url: "".to_string(),
             title: "".to_string(),
             caption: None,
             parse_mode: None,

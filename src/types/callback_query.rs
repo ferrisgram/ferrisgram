@@ -20,7 +20,7 @@ pub struct CallbackQuery {
     pub inline_message_id: Option<String>,
     /// Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
     pub chat_instance: String,
-    /// Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this field.
+    /// Optional. Data associated with the callback button. Be aware that the message originated the query can contain no callback buttons with this data.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
     /// Optional. Short name of a Game to be returned, serves as the unique identifier for the game

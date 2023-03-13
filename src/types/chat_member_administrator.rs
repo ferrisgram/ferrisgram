@@ -20,11 +20,11 @@ pub struct ChatMemberAdministrator {
     pub can_manage_chat: bool,
     /// True, if the administrator can delete messages of other users
     pub can_delete_messages: bool,
-    /// True, if the administrator can manage voice chats
-    pub can_manage_voice_chats: bool,
+    /// True, if the administrator can manage video chats
+    pub can_manage_video_chats: bool,
     /// True, if the administrator can restrict, ban or unban chat members
     pub can_restrict_members: bool,
-    /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
+    /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
     pub can_promote_members: bool,
     /// True, if the user is allowed to change the chat title, photo and other settings
     pub can_change_info: bool,
@@ -39,6 +39,9 @@ pub struct ChatMemberAdministrator {
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
+    /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_manage_topics: Option<bool>,
     /// Optional. Custom title for this user
     #[serde(skip_serializing_if = "Option::is_none")]
     pub custom_title: Option<String>,

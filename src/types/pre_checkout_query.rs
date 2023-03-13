@@ -21,7 +21,7 @@ pub struct PreCheckoutQuery {
     /// Optional. Identifier of the shipping option chosen by the user
     #[serde(skip_serializing_if = "Option::is_none")]
     pub shipping_option_id: Option<String>,
-    /// Optional. Order info provided by the user
+    /// Optional. Order information provided by the user
     #[serde(skip_serializing_if = "Option::is_none")]
     pub order_info: Option<OrderInfo>,
 }

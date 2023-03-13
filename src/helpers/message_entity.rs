@@ -13,6 +13,7 @@ impl MessageEntity {
             url: None,
             user: None,
             language: None,
+            custom_emoji_id: None,
         }
     }
 }
