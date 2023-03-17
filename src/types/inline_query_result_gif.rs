@@ -23,10 +23,10 @@ pub struct InlineQueryResultGif {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub gif_duration: Option<i64>,
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
-    pub thumb_url: String,
+    pub thumbnail_url: String,
     /// Optional. MIME type of the thumbnail, must be one of "image/jpeg", "image/gif", or "video/mp4". Defaults to "image/jpeg"
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb_mime_type: Option<String>,
+    pub thumbnail_mime_type: Option<String>,
     /// Optional. Title for the result
     #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,

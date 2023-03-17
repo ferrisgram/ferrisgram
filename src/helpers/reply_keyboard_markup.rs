@@ -8,6 +8,7 @@ impl ReplyKeyboardMarkup {
     pub fn new() -> Self {
         Self {
             keyboard: Vec::new(),
+            is_persistent: None,
             resize_keyboard: None,
             one_time_keyboard: None,
             input_field_placeholder: None,

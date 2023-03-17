@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, InlineKeyboardMarkup};
+use crate::types::InlineKeyboardMarkup;
 use crate::types::Message;
 
 impl Bot {
@@ -23,6 +23,9 @@ pub struct SendVideoNoteBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
     pub video_note: String,
     /// Duration of sent video in seconds
@@ -33,7 +36,7 @@ pub struct SendVideoNoteBuilder<'a> {
     pub length: Option<i64>,
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<String>,
+    pub thumbnail: Option<String>,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
@@ -57,10 +60,11 @@ impl <'a> SendVideoNoteBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             video_note,
             duration: None,
             length: None,
-            thumb: None,
+            thumbnail: None,
             disable_notification: None,
             protect_content: None,
             reply_to_message_id: None,
@@ -71,6 +75,11 @@ impl <'a> SendVideoNoteBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+                
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
                 
@@ -89,8 +98,8 @@ impl <'a> SendVideoNoteBuilder<'a> {
         self
     }
                 
-    pub fn thumb(mut self, thumb: String) -> Self {
-        self.thumb = Some(thumb);
+    pub fn thumbnail(mut self, thumbnail: String) -> Self {
+        self.thumbnail = Some(thumbnail);
         self
     }
                 

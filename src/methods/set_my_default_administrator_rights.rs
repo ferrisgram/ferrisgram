@@ -9,7 +9,7 @@ use crate::error::Result;
 use crate::types::ChatAdministratorRights;
 
 impl Bot {
-    /// Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. Returns True on success.
+    /// Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
     /// <https://core.telegram.org/bots/api#setmydefaultadministratorrights>
     pub fn set_my_default_administrator_rights(&self) -> SetMyDefaultAdministratorRightsBuilder {
         SetMyDefaultAdministratorRightsBuilder::new(self)

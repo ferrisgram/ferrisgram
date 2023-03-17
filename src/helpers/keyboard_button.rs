@@ -8,6 +8,8 @@ impl KeyboardButton {
     pub fn new() -> Self {
         Self {
             text: "".to_string(),
+            request_user: None,
+            request_chat: None,
             request_contact: None,
             request_location: None,
             request_poll: None,

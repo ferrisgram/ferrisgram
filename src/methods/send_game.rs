@@ -23,6 +23,9 @@ pub struct SendGameBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
     pub game_short_name: String,
     /// Sends the message silently. Users will receive a notification with no sound.
@@ -48,6 +51,7 @@ impl <'a> SendGameBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             game_short_name,
             disable_notification: None,
             protect_content: None,
@@ -59,6 +63,11 @@ impl <'a> SendGameBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+                
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
                 

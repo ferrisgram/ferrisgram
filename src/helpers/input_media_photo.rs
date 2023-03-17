@@ -11,6 +11,7 @@ impl InputMediaPhoto {
             caption: None,
             parse_mode: None,
             caption_entities: None,
+            has_spoiler: None,
         }
     }
 }

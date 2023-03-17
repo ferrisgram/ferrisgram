@@ -32,5 +32,5 @@ pub struct Audio {
     pub file_size: Option<i64>,
     /// Optional. Thumbnail of the album cover to which the music file belongs
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<PhotoSize>,
+    pub thumbnail: Option<PhotoSize>,
 }

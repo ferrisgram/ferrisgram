@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, InlineKeyboardMarkup};
+use crate::types::InlineKeyboardMarkup;
 use crate::types::Message;
 
 impl Bot {
@@ -23,8 +23,14 @@ pub struct SendStickerBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
+    /// Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL.
     pub sticker: String,
+    /// Emoji associated with the sticker; only for just uploaded stickers
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub emoji: Option<String>,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
@@ -48,7 +54,9 @@ impl <'a> SendStickerBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             sticker,
+            emoji: None,
             disable_notification: None,
             protect_content: None,
             reply_to_message_id: None,
@@ -62,8 +70,18 @@ impl <'a> SendStickerBuilder<'a> {
         self
     }
                 
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
+        self
+    }
+                
     pub fn sticker(mut self, sticker: String) -> Self {
         self.sticker = sticker;
+        self
+    }
+                
+    pub fn emoji(mut self, emoji: String) -> Self {
+        self.emoji = Some(emoji);
         self
     }
                 

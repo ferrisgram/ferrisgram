@@ -8,7 +8,7 @@ impl InputMediaVideo {
     pub fn new() -> Self {
         Self {
             media: "".to_string(),
-            thumb: None,
+            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -16,6 +16,7 @@ impl InputMediaVideo {
             height: None,
             duration: None,
             supports_streaming: None,
+            has_spoiler: None,
         }
     }
 }

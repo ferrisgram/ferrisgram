@@ -22,6 +22,9 @@ pub struct SendChatActionBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread; supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
     pub action: String,
 }
@@ -32,12 +35,18 @@ impl <'a> SendChatActionBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             action,
         }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+                
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
                 

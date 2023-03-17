@@ -9,7 +9,7 @@ impl InlineQueryResultPhoto {
         Self {
             id: "".to_string(),
             photo_url: "".to_string(),
-            thumb_url: "".to_string(),
+            thumbnail_url: "".to_string(),
             photo_width: None,
             photo_height: None,
             title: None,

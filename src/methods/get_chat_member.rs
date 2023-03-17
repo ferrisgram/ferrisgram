@@ -9,7 +9,7 @@ use crate::error::Result;
 use crate::types::ChatMember;
 
 impl Bot {
-    /// Use this method to get information about a member of a chat. Returns a ChatMember object on success.
+    /// Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
     /// <https://core.telegram.org/bots/api#getchatmember>
     pub fn get_chat_member(&self, chat_id: i64, user_id: i64) -> GetChatMemberBuilder {
         GetChatMemberBuilder::new(self, chat_id, user_id)

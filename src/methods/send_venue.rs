@@ -23,6 +23,9 @@ pub struct SendVenueBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Latitude of the venue
     pub latitude: f64,
     /// Longitude of the venue
@@ -66,6 +69,7 @@ impl <'a> SendVenueBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             latitude,
             longitude,
             title,
@@ -84,6 +88,11 @@ impl <'a> SendVenueBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+                
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
                 

@@ -21,7 +21,7 @@ pub struct Video {
     pub duration: i64,
     /// Optional. Video thumbnail
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<PhotoSize>,
+    pub thumbnail: Option<PhotoSize>,
     /// Optional. Original filename as defined by sender
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_name: Option<String>,

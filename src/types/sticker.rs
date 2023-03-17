@@ -25,7 +25,7 @@ pub struct Sticker {
     pub is_video: bool,
     /// Optional. Sticker thumbnail in the .WEBP or .JPG format
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<PhotoSize>,
+    pub thumbnail: Option<PhotoSize>,
     /// Optional. Emoji associated with the sticker
     #[serde(skip_serializing_if = "Option::is_none")]
     pub emoji: Option<String>,
@@ -41,6 +41,9 @@ pub struct Sticker {
     /// Optional. For custom emoji stickers, unique identifier of the custom emoji
     #[serde(skip_serializing_if = "Option::is_none")]
     pub custom_emoji_id: Option<String>,
+    /// Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub needs_repainting: Option<bool>,
     /// Optional. File size in bytes
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_size: Option<i64>,

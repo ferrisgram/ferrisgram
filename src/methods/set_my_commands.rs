@@ -9,7 +9,7 @@ use crate::error::Result;
 use crate::types::{BotCommand, BotCommandScope};
 
 impl Bot {
-    /// Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
+    /// Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
     /// <https://core.telegram.org/bots/api#setmycommands>
     pub fn set_my_commands(&self, commands: Vec<BotCommand>) -> SetMyCommandsBuilder {
         SetMyCommandsBuilder::new(self, commands)

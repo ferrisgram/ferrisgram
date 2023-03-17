@@ -16,7 +16,7 @@ pub struct InlineQueryResultVideo {
     /// MIME type of the content of the video URL, "text/html" or "video/mp4"
     pub mime_type: String,
     /// URL of the thumbnail (JPEG only) for the video
-    pub thumb_url: String,
+    pub thumbnail_url: String,
     /// Title for the result
     pub title: String,
     /// Optional. Caption of the video to be sent, 0-1024 characters after entities parsing

@@ -14,12 +14,13 @@ impl Sticker {
             height: 0,
             is_animated: false,
             is_video: false,
-            thumb: None,
+            thumbnail: None,
             emoji: None,
             set_name: None,
             premium_animation: None,
             mask_position: None,
             custom_emoji_id: None,
+            needs_repainting: None,
             file_size: None,
         }
     }

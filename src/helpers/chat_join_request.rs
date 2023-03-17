@@ -11,6 +11,7 @@ impl ChatJoinRequest {
         Self {
             chat: Chat::new(),
             from: User::new(),
+            user_chat_id: 0,
             date: 0,
             bio: None,
             invite_link: None,

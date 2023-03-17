@@ -44,7 +44,7 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator can restrict, ban or unban chat members
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_restrict_members: Option<bool>,
-    /// Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
+    /// Pass True if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by him)
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_promote_members: Option<bool>,
     /// Pass True if the administrator can change chat title, photo and other settings
@@ -56,6 +56,9 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator can pin messages, supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
+    /// Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_manage_topics: Option<bool>,
 }
 
 
@@ -76,6 +79,7 @@ impl <'a> PromoteChatMemberBuilder<'a> {
             can_change_info: None,
             can_invite_users: None,
             can_pin_messages: None,
+            can_manage_topics: None,
         }
     }
 
@@ -141,6 +145,11 @@ impl <'a> PromoteChatMemberBuilder<'a> {
                 
     pub fn can_pin_messages(mut self, can_pin_messages: bool) -> Self {
         self.can_pin_messages = Some(can_pin_messages);
+        self
+    }
+                
+    pub fn can_manage_topics(mut self, can_manage_topics: bool) -> Self {
+        self.can_manage_topics = Some(can_manage_topics);
         self
     }
                 

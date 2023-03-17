@@ -15,7 +15,7 @@ impl Audio {
             file_name: None,
             mime_type: None,
             file_size: None,
-            thumb: None,
+            thumbnail: None,
         }
     }
 }

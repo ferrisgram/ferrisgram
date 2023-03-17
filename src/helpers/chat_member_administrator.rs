@@ -21,6 +21,7 @@ impl ChatMemberAdministrator {
             can_post_messages: None,
             can_edit_messages: None,
             can_pin_messages: None,
+            can_manage_topics: None,
             custom_title: None,
         }
     }

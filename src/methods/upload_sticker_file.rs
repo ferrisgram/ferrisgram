@@ -6,14 +6,13 @@ use serde::Serialize;
 
 use crate::Bot;
 use crate::error::Result;
-use crate::types::InputFile;
 use crate::types::File;
 
 impl Bot {
-    /// Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
+    /// Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
-    pub fn upload_sticker_file(&self, user_id: i64, png_sticker: String) -> UploadStickerFileBuilder {
-        UploadStickerFileBuilder::new(self, user_id, png_sticker)
+    pub fn upload_sticker_file(&self, user_id: i64, sticker: String, sticker_format: String) -> UploadStickerFileBuilder {
+        UploadStickerFileBuilder::new(self, user_id, sticker, sticker_format)
     }
 }
 
@@ -23,17 +22,20 @@ pub struct UploadStickerFileBuilder<'a> {
     bot: &'a Bot,
     /// User identifier of sticker file owner
     pub user_id: i64,
-    /// PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub png_sticker: String,
+    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
+    pub sticker: String,
+    /// Format of the sticker, must be one of "static", "animated", "video"
+    pub sticker_format: String,
 }
 
 
 impl <'a> UploadStickerFileBuilder<'a> {
-    pub fn new(bot: &'a Bot, user_id: i64, png_sticker: String) -> Self {
+    pub fn new(bot: &'a Bot, user_id: i64, sticker: String, sticker_format: String) -> Self {
         Self{
             bot,
             user_id,
-            png_sticker,
+            sticker,
+            sticker_format,
         }
     }
 
@@ -42,8 +44,13 @@ impl <'a> UploadStickerFileBuilder<'a> {
         self
     }
                 
-    pub fn png_sticker(mut self, png_sticker: String) -> Self {
-        self.png_sticker = png_sticker;
+    pub fn sticker(mut self, sticker: String) -> Self {
+        self.sticker = sticker;
+        self
+    }
+                
+    pub fn sticker_format(mut self, sticker_format: String) -> Self {
+        self.sticker_format = sticker_format;
         self
     }
                 

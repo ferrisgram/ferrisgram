@@ -21,7 +21,7 @@ pub struct Animation {
     pub duration: i64,
     /// Optional. Animation thumbnail as defined by sender
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<PhotoSize>,
+    pub thumbnail: Option<PhotoSize>,
     /// Optional. Original animation filename as defined by sender
     #[serde(skip_serializing_if = "Option::is_none")]
     pub file_name: Option<String>,

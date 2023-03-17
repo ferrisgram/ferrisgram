@@ -11,6 +11,9 @@ use serde::{Deserialize, Serialize};
 pub struct ReplyKeyboardMarkup {
     /// Array of button rows, each represented by an Array of KeyboardButton objects
     pub keyboard: Vec<Vec<KeyboardButton>>,
+    /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub is_persistent: Option<bool>,
     /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resize_keyboard: Option<bool>,

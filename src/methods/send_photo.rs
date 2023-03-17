@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, MessageEntity, InlineKeyboardMarkup};
+use crate::types::{MessageEntity, InlineKeyboardMarkup};
 use crate::types::Message;
 
 impl Bot {
@@ -23,6 +23,9 @@ pub struct SendPhotoBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     pub photo: String,
     /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
@@ -34,6 +37,9 @@ pub struct SendPhotoBuilder<'a> {
     /// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption_entities: Option<Vec<MessageEntity>>,
+    /// Pass True if the photo needs to be covered with a spoiler animation
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub has_spoiler: Option<bool>,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
@@ -57,10 +63,12 @@ impl <'a> SendPhotoBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             photo,
             caption: None,
             parse_mode: None,
             caption_entities: None,
+            has_spoiler: None,
             disable_notification: None,
             protect_content: None,
             reply_to_message_id: None,
@@ -71,6 +79,11 @@ impl <'a> SendPhotoBuilder<'a> {
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
+        self
+    }
+                
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
         self
     }
                 
@@ -91,6 +104,11 @@ impl <'a> SendPhotoBuilder<'a> {
                 
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
         self.caption_entities = Some(caption_entities);
+        self
+    }
+                
+    pub fn has_spoiler(mut self, has_spoiler: bool) -> Self {
+        self.has_spoiler = Some(has_spoiler);
         self
     }
                 

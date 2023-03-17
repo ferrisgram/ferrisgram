@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::Bot;
 use crate::error::Result;
-use crate::types::{InputFile, MessageEntity, InlineKeyboardMarkup};
+use crate::types::{MessageEntity, InlineKeyboardMarkup};
 use crate::types::Message;
 
 impl Bot {
@@ -23,11 +23,14 @@ pub struct SendDocumentBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_thread_id: Option<i64>,
     /// File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     pub document: String,
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumb: Option<String>,
+    pub thumbnail: Option<String>,
     /// Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
@@ -63,8 +66,9 @@ impl <'a> SendDocumentBuilder<'a> {
         Self{
             bot,
             chat_id,
+            message_thread_id: None,
             document,
-            thumb: None,
+            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -82,13 +86,18 @@ impl <'a> SendDocumentBuilder<'a> {
         self
     }
                 
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
+        self
+    }
+                
     pub fn document(mut self, document: String) -> Self {
         self.document = document;
         self
     }
                 
-    pub fn thumb(mut self, thumb: String) -> Self {
-        self.thumb = Some(thumb);
+    pub fn thumbnail(mut self, thumbnail: String) -> Self {
+        self.thumbnail = Some(thumbnail);
         self
     }
                 

@@ -13,7 +13,7 @@ impl StickerSet {
             is_animated: false,
             is_video: false,
             stickers: Vec::new(),
-            thumb: None,
+            thumbnail: None,
         }
     }
 }

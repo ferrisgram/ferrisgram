@@ -8,13 +8,14 @@ impl InputMediaAnimation {
     pub fn new() -> Self {
         Self {
             media: "".to_string(),
-            thumb: None,
+            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,
             width: None,
             height: None,
             duration: None,
+            has_spoiler: None,
         }
     }
 }

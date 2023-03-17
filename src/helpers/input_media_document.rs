@@ -8,7 +8,7 @@ impl InputMediaDocument {
     pub fn new() -> Self {
         Self {
             media: "".to_string(),
-            thumb: None,
+            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,

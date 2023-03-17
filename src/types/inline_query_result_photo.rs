@@ -14,7 +14,7 @@ pub struct InlineQueryResultPhoto {
     /// A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
     pub photo_url: String,
     /// URL of the thumbnail for the photo
-    pub thumb_url: String,
+    pub thumbnail_url: String,
     /// Optional. Width of the photo
     #[serde(skip_serializing_if = "Option::is_none")]
     pub photo_width: Option<i64>,
