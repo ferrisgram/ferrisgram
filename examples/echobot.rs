@@ -40,7 +40,7 @@ async fn main() {
 
 // This is our callable function for the command handler that we declared earlier
 // It will be triggered when someone send /start to the bot.
-async fn start(bot: Bot, ctx: Context) -> Result<GroupIteration> {
+async fn start(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
     // Same logic as chat applies on unwrapping effective message here.
     let msg = ctx.effective_message.unwrap();
     // Ferrisgram offers some custom helpers which make your work easy
@@ -66,7 +66,7 @@ I will repeat your messages.",
 
 // This is our callable function for our message handler which will be used to
 // repeat the text.
-async fn echo(bot: Bot, ctx: Context) -> Result<GroupIteration> {
+async fn echo(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
     // Command Handler recieves message updates which have chat as a compulsory field.
     // Hence we can unwrap effective chat without checking if it is none.
     let chat = ctx.effective_chat.unwrap();

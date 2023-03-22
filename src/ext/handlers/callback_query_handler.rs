@@ -7,13 +7,13 @@ use crate::types::Update;
 use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct CallbackQueryHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
-    pub callback: fn(Bot, Context) -> F,
+    pub callback: fn(&Bot, &Context) -> F,
     pub filter: Box<dyn CallbackQueryFilter>,
     pub allow_channel: bool,
 }
 
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> CallbackQueryHandler<F> {
-    pub fn new(callback: fn(Bot, Context) -> F, filter: Box<dyn CallbackQueryFilter>) -> Box<Self> {
+    pub fn new(callback: fn(&Bot, &Context) -> F, filter: Box<dyn CallbackQueryFilter>) -> Box<Self> {
         Box::new(Self {
             callback,
             filter,
@@ -52,6 +52,6 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
         self.filter.check_filter(callback_query)
     }
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot.clone(), context.clone()).await
+        (self.callback)(bot, context).await
     }
 }

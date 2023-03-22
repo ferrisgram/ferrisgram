@@ -3,62 +3,53 @@ use crate::{
     types::{Chat, Message, Update, User},
 };
 
-#[derive(Clone)]
-pub struct Context {
-    pub effective_user: Option<User>,
-    pub effective_chat: Option<Chat>,
-    pub effective_message: Option<Box<Message>>,
-    pub update: Update,
+
+pub struct Context<'a> {
+    pub effective_user: Option<&'a User>,
+    pub effective_chat: Option<&'a Chat>,
+    pub effective_message: Option<&'a Message>,
+    pub update: &'a Update,
 }
 
-impl Context {
-    pub fn new(update: &Update) -> Self {
-        let udp = update.clone();
+impl<'a> Context<'a> {
+    pub fn new(update: &'a Update) -> Self {
         let mut ctx = Self {
             effective_user: None,
             effective_chat: None,
             effective_message: None,
-            update: update.clone(),
+            update,
         };
-        if update.message.is_some() {
-            let msg = update.clone().message.unwrap();
-            ctx.effective_message = udp.message;
-            ctx.effective_user = msg.from;
-            ctx.effective_chat = Some(msg.chat)
-        } else if update.edited_message.is_some() {
-            let msg = update.clone().edited_message.unwrap();
-            ctx.effective_message = udp.edited_message;
-            ctx.effective_user = msg.from;
-            ctx.effective_chat = Some(msg.chat)
-        } else if update.channel_post.is_some() {
-            let msg = update.clone().channel_post.unwrap();
-            ctx.effective_message = udp.channel_post;
-            ctx.effective_chat = Some(msg.chat)
-        } else if update.edited_channel_post.is_some() {
-            let msg = update.clone().edited_channel_post.unwrap();
-            ctx.effective_message = udp.edited_channel_post;
-            ctx.effective_chat = Some(msg.chat)
-        } else if update.inline_query.is_some() {
-            let msg = update.clone().inline_query.unwrap();
-            ctx.effective_user = Some(msg.from)
-        } else if update.callback_query.is_some() {
-            let msg = update.clone().callback_query.unwrap();
-            ctx.effective_message = Some(Box::new(msg.message.unwrap()));
-            ctx.effective_user = Some(msg.from)
-        } else if update.chosen_inline_result.is_some() {
-            ctx.effective_user = Some(udp.chosen_inline_result.unwrap().from)
-        } else if update.shipping_query.is_some() {
-            ctx.effective_user = Some(udp.shipping_query.unwrap().from)
-        } else if update.pre_checkout_query.is_some() {
-            ctx.effective_user = Some(udp.pre_checkout_query.unwrap().from)
-        } else if update.my_chat_member.is_some() {
-            let msg = update.clone().my_chat_member.unwrap();
-            ctx.effective_user = Some(msg.from);
-            ctx.effective_chat = Some(msg.chat)
-        } else if update.chat_join_request.is_some() {
-            let msg = update.clone().chat_join_request.unwrap();
-            ctx.effective_user = Some(msg.from);
-            ctx.effective_chat = Some(msg.chat)
+        if let Some(msg) = &update.message {
+            ctx.effective_message = Some(msg);
+            ctx.effective_user = msg.from.as_ref();
+            ctx.effective_chat = Some(&msg.chat);
+        } else if let Some(msg) = &update.edited_message {
+            ctx.effective_message = Some(msg);
+            ctx.effective_user = msg.from.as_ref();
+            ctx.effective_chat = Some(&msg.chat);
+        } else if let Some(msg) = &update.channel_post {
+            ctx.effective_message = Some(msg);
+            ctx.effective_chat = Some(&msg.chat);
+        } else if let Some(msg) = &update.edited_channel_post {
+            ctx.effective_message = Some(msg);
+            ctx.effective_chat = Some(&msg.chat);
+        } else if let Some(msg) = &update.inline_query {
+            ctx.effective_user = Some(&msg.from);
+        } else if let Some(msg) = &update.callback_query {
+            ctx.effective_message = msg.message.as_ref();
+            ctx.effective_user = Some(&msg.from);
+        } else if let Some(msg) = &update.chosen_inline_result {
+            ctx.effective_user = Some(&msg.from);
+        } else if let Some(msg) = &update.shipping_query {
+            ctx.effective_user = Some(&msg.from);
+        } else if let Some(msg) = &update.pre_checkout_query {
+            ctx.effective_user = Some(&msg.from);
+        } else if let Some(msg) = &update.my_chat_member {
+            ctx.effective_user = Some(&msg.from);
+            ctx.effective_chat = Some(&msg.chat);
+        } else if let Some(msg) = &update.chat_join_request {
+            ctx.effective_user = Some(&msg.from);
+            ctx.effective_chat = Some(&msg.chat);
         }
         ctx
     }
