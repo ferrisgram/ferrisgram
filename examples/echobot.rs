@@ -8,18 +8,18 @@ use ferrisgram::Bot;
 #[tokio::main]
 async fn main() {
     // This function creates a new bot instance and the error is handled accordingly
-    let bot = match Bot::new("Bot Token Here", None).await {
+    let bot = match Bot::new("6235161018:AAFTYKzh6ygKiAzK1BSBExPdkRHshTGz8eY", None).await {
         Ok(bot) => bot,
-        Err(error) => panic!("failed to create bot: {}", &error),
+        Err(error) => panic!("failed to create bot: {}", error)
     };
 
     // dispatcher is a part of internal functionality of updater
     // you may use it for adding handlers.
-    let mut dispatcher = &mut Dispatcher::new(&bot);
+    let mut dispatcher = Dispatcher::new(&bot);
 
     // add_handler method maps the provided handler in group 0 automatically
     dispatcher.add_handler(CommandHandler::new("start", start));
-
+    
     // add_handler_to_group is used to map the provided handler to a group manually.
     // note that handler groups are processed in ascending order.
     dispatcher.add_handler_to_group(
@@ -27,12 +27,12 @@ async fn main() {
             echo,
             // This will restrict our echo function to the messages which
             // contain either text or a caption.
-            message::Text::filter().or(message::Caption::filter()),
+            message::Text::filter().or(message::Caption::filter())
         ),
-        1,
+        1
     );
 
-    let mut updater = Updater::new(&bot, dispatcher);
+    let mut updater = Updater::new(&bot, &mut dispatcher);
 
     // This method will start long polling through the getUpdates method
     updater.start_polling(true).await;
@@ -40,23 +40,17 @@ async fn main() {
 
 // This is our callable function for the command handler that we declared earlier
 // It will be triggered when someone send /start to the bot.
-async fn start(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
+async fn start(bot: Bot, ctx: Context) -> Result<GroupIteration> {
     // Same logic as chat applies on unwrapping effective message here.
-    let msg = ctx.effective_message.unwrap();
+    let msg = ctx.effective_message.as_ref().unwrap();
+
     // Ferrisgram offers some custom helpers which make your work easy
     // Here we have used one of those helpers known as msg.reply
-    msg.reply(
-        &bot,
-        "Hey! I am an echo bot built using [Ferrisgram](https://github.com/ferrisgram/ferrisgram).
-I will repeat your messages.",
-    )
-    // this method will ensure that our text will be sent with markdown formatting.
-    .parse_mode("markdown".to_string())
-    // this method will disable the web page preview for out message
-    .disable_web_page_preview(true)
-    // You must use this send() method in order to send the request to the API
-    .send()
-    .await?;
+    msg.reply(&bot, "Hey! I am an echo bot built using [Ferrisgram](https://github.com/ferrisgram/ferrisgram). I will repeat your messages.")
+        .parse_mode("markdown".to_string())     // this method will ensure that our text will be sent with markdown formatting.
+        .disable_web_page_preview(true)     // this method will disable the web page preview for out message
+        .send()     // You must use this send() method in order to send the request to the API
+        .await?;
 
     // GroupIteration::EndGroups will end iteration of groups for an update.
     // This means that rest of the pending groups and their handlers won't be checked
@@ -66,16 +60,15 @@ I will repeat your messages.",
 
 // This is our callable function for our message handler which will be used to
 // repeat the text.
-async fn echo(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
+async fn echo(bot: Bot, ctx: Context) -> Result<GroupIteration> {
     // Command Handler recieves message updates which have chat as a compulsory field.
     // Hence we can unwrap effective chat without checking if it is none.
-    let chat = ctx.effective_chat.unwrap();
-    // Same logic as chat applies on unwrapping effective message here.
-    let msg = ctx.effective_message.unwrap();
+    let chat = ctx.effective_chat.as_ref().unwrap();
+    let msg = ctx.effective_message.as_ref().unwrap();     // Same logic as chat applies on unwrapping effective message here.
+
     // Every api method creates a builder which contains various parameters of that respective method.
     bot.copy_message(chat.id, chat.id, msg.message_id)
-        // You must use this send() method in order to send the request to the API
-        .send()
+        .send() // You must use this send() method in order to send the request to the API
         .await?;
 
     // GroupIteration::EndGroups will end iteration of groups for an update.
