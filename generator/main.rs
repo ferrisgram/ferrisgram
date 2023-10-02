@@ -5,7 +5,7 @@ mod helpers;
 mod common;
 
 
-const SCHEMA_URL: &str = "https://raw.githubusercontent.com/PaulSonOfLars/telegram-bot-api-spec/main/api.json";
+const SCHEMA_URL: &str = "https://github.com/PaulSonOfLars/telegram-bot-api-spec/raw/main/api.json";
 
 #[tokio::main]
 pub async fn main() {
