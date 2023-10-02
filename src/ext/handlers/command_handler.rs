@@ -52,7 +52,7 @@ impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send> Com
     }
 }
 
-#[allow(clippy::clone_double_ref)]
+#[allow(suspicious_double_ref_op)]
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for CommandHandler<'_, F> {
     fn clone(&self) -> Self {
         Self {

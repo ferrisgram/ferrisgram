@@ -12,7 +12,7 @@ pub mod helpers_ext;
 pub static DEFAULT_API_URL: &str = "https://api.telegram.org";
 
 /// Use this method to convert slice of slice of InlineKeyboardButton to Vector form.
-#[allow(clippy::clone_double_ref)]
+#[allow(suspicious_double_ref_op)]
 pub fn build_keyboard(
     kb: &[&[types::InlineKeyboardButton]],
 ) -> Vec<Vec<types::InlineKeyboardButton>> {
