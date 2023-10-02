@@ -18,7 +18,7 @@ pub fn build_keyboard(
 ) -> Vec<Vec<types::InlineKeyboardButton>> {
     let mut trv: Vec<Vec<types::InlineKeyboardButton>> = Vec::new();
     for clmn in kb {
-        trv.push(Vec::from(clmn.clone()))
+        trv.push(Vec::from(clmn.to_owned()))
     }
     trv
 }
