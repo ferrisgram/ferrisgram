@@ -4,7 +4,6 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a chat member that isn't currently a member of the chat, but may join it themselves.
 /// <https://core.telegram.org/bots/api#chatmemberleft>
 #[derive(Serialize, Deserialize, Debug, Clone)]

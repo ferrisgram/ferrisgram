@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::Chat;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
@@ -24,23 +24,18 @@ pub struct GetChatBuilder<'a> {
     pub chat_id: i64,
 }
 
-
-impl <'a> GetChatBuilder<'a> {
+impl<'a> GetChatBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
-            bot,
-            chat_id,
-        }
+        Self { bot, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<Chat> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Chat>("getChat", Some(&form)).await
     }
-
 }

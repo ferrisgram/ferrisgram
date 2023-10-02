@@ -3,7 +3,6 @@ use crate::{
     types::{Chat, Message, Update, User},
 };
 
-
 pub struct Context<'a> {
     pub effective_user: Option<&'a User>,
     pub effective_chat: Option<&'a Chat>,

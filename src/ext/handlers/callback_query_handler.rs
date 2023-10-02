@@ -13,7 +13,10 @@ pub struct CallbackQueryHandler<F: Future<Output = Result<GroupIteration>> + Sen
 }
 
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> CallbackQueryHandler<F> {
-    pub fn new(callback: fn(&Bot, &Context) -> F, filter: Box<dyn CallbackQueryFilter>) -> Box<Self> {
+    pub fn new(
+        callback: fn(&Bot, &Context) -> F,
+        filter: Box<dyn CallbackQueryFilter>,
+    ) -> Box<Self> {
         Box::new(Self {
             callback,
             filter,

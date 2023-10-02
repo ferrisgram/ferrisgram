@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatMember;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
@@ -26,10 +26,9 @@ pub struct GetChatMemberBuilder<'a> {
     pub user_id: i64,
 }
 
-
-impl <'a> GetChatMemberBuilder<'a> {
+impl<'a> GetChatMemberBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             user_id,
@@ -40,15 +39,16 @@ impl <'a> GetChatMemberBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<ChatMember> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<ChatMember>("getChatMember", Some(&form)).await
+        self.bot
+            .get::<ChatMember>("getChatMember", Some(&form))
+            .await
     }
-
 }

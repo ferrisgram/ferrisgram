@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::Update;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -20,7 +20,7 @@ impl Bot {
 pub struct GetUpdatesBuilder<'a> {
     #[serde(skip)]
     bot: &'a Bot,
-    /// Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will forgotten.
+    /// Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub offset: Option<i64>,
     /// Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
@@ -34,10 +34,9 @@ pub struct GetUpdatesBuilder<'a> {
     pub allowed_updates: Option<Vec<String>>,
 }
 
-
-impl <'a> GetUpdatesBuilder<'a> {
+impl<'a> GetUpdatesBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             offset: None,
             limit: None,
@@ -50,25 +49,24 @@ impl <'a> GetUpdatesBuilder<'a> {
         self.offset = Some(offset);
         self
     }
-                
+
     pub fn limit(mut self, limit: i64) -> Self {
         self.limit = Some(limit);
         self
     }
-                
+
     pub fn timeout(mut self, timeout: i64) -> Self {
         self.timeout = Some(timeout);
         self
     }
-                
+
     pub fn allowed_updates(mut self, allowed_updates: Vec<String>) -> Self {
         self.allowed_updates = Some(allowed_updates);
         self
     }
-                
+
     pub async fn send(self) -> Result<Vec<Update>> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<Vec<Update>>("getUpdates", Some(&form)).await
     }
-
 }

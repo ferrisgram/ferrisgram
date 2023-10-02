@@ -4,13 +4,18 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::types::InputFile;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickersetthumbnail>
-    pub fn set_sticker_set_thumbnail(&self, name: String, user_id: i64) -> SetStickerSetThumbnailBuilder {
+    pub fn set_sticker_set_thumbnail(
+        &self,
+        name: String,
+        user_id: i64,
+    ) -> SetStickerSetThumbnailBuilder {
         SetStickerSetThumbnailBuilder::new(self, name, user_id)
     }
 }
@@ -28,10 +33,9 @@ pub struct SetStickerSetThumbnailBuilder<'a> {
     pub thumbnail: Option<String>,
 }
 
-
-impl <'a> SetStickerSetThumbnailBuilder<'a> {
+impl<'a> SetStickerSetThumbnailBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String, user_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             name,
             user_id,
@@ -43,20 +47,21 @@ impl <'a> SetStickerSetThumbnailBuilder<'a> {
         self.name = name;
         self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn thumbnail(mut self, thumbnail: String) -> Self {
         self.thumbnail = Some(thumbnail);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setStickerSetThumbnail", Some(&form)).await
+        self.bot
+            .get::<bool>("setStickerSetThumbnail", Some(&form))
+            .await
     }
-
 }

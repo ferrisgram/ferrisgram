@@ -18,6 +18,9 @@ impl ChatAdministratorRights {
             can_post_messages: None,
             can_edit_messages: None,
             can_pin_messages: None,
+            can_post_stories: None,
+            can_edit_stories: None,
+            can_delete_stories: None,
             can_manage_topics: None,
         }
     }

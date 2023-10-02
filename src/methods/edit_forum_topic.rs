@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
@@ -31,10 +31,9 @@ pub struct EditForumTopicBuilder<'a> {
     pub icon_custom_emoji_id: Option<String>,
 }
 
-
-impl <'a> EditForumTopicBuilder<'a> {
+impl<'a> EditForumTopicBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_thread_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_thread_id,
@@ -47,25 +46,24 @@ impl <'a> EditForumTopicBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
         self.message_thread_id = message_thread_id;
         self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
         self.name = Some(name);
         self
     }
-                
+
     pub fn icon_custom_emoji_id(mut self, icon_custom_emoji_id: String) -> Self {
         self.icon_custom_emoji_id = Some(icon_custom_emoji_id);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("editForumTopic", Some(&form)).await
     }
-
 }

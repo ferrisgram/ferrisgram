@@ -4,14 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::File;
+use crate::types::InputFile;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
-    pub fn upload_sticker_file(&self, user_id: i64, sticker: String, sticker_format: String) -> UploadStickerFileBuilder {
+    pub fn upload_sticker_file(
+        &self,
+        user_id: i64,
+        sticker: String,
+        sticker_format: String,
+    ) -> UploadStickerFileBuilder {
         UploadStickerFileBuilder::new(self, user_id, sticker, sticker_format)
     }
 }
@@ -28,10 +34,9 @@ pub struct UploadStickerFileBuilder<'a> {
     pub sticker_format: String,
 }
 
-
-impl <'a> UploadStickerFileBuilder<'a> {
+impl<'a> UploadStickerFileBuilder<'a> {
     pub fn new(bot: &'a Bot, user_id: i64, sticker: String, sticker_format: String) -> Self {
-        Self{
+        Self {
             bot,
             user_id,
             sticker,
@@ -43,20 +48,19 @@ impl <'a> UploadStickerFileBuilder<'a> {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn sticker(mut self, sticker: String) -> Self {
         self.sticker = sticker;
         self
     }
-                
+
     pub fn sticker_format(mut self, sticker_format: String) -> Self {
         self.sticker_format = sticker_format;
         self
     }
-                
+
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<File>("uploadStickerFile", Some(&form)).await
     }
-
 }

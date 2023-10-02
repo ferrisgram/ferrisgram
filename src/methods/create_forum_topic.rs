@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ForumTopic;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
@@ -32,10 +32,9 @@ pub struct CreateForumTopicBuilder<'a> {
     pub icon_custom_emoji_id: Option<String>,
 }
 
-
-impl <'a> CreateForumTopicBuilder<'a> {
+impl<'a> CreateForumTopicBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, name: String) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             name,
@@ -48,25 +47,26 @@ impl <'a> CreateForumTopicBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
         self.name = name;
         self
     }
-                
+
     pub fn icon_color(mut self, icon_color: i64) -> Self {
         self.icon_color = Some(icon_color);
         self
     }
-                
+
     pub fn icon_custom_emoji_id(mut self, icon_custom_emoji_id: String) -> Self {
         self.icon_custom_emoji_id = Some(icon_custom_emoji_id);
         self
     }
-                
+
     pub async fn send(self) -> Result<ForumTopic> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<ForumTopic>("createForumTopic", Some(&form)).await
+        self.bot
+            .get::<ForumTopic>("createForumTopic", Some(&form))
+            .await
     }
-
 }

@@ -4,14 +4,21 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InputSticker;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
     /// <https://core.telegram.org/bots/api#createnewstickerset>
-    pub fn create_new_sticker_set(&self, user_id: i64, name: String, title: String, stickers: Vec<InputSticker>, sticker_format: String) -> CreateNewStickerSetBuilder {
+    pub fn create_new_sticker_set(
+        &self,
+        user_id: i64,
+        name: String,
+        title: String,
+        stickers: Vec<InputSticker>,
+        sticker_format: String,
+    ) -> CreateNewStickerSetBuilder {
         CreateNewStickerSetBuilder::new(self, user_id, name, title, stickers, sticker_format)
     }
 }
@@ -38,10 +45,16 @@ pub struct CreateNewStickerSetBuilder<'a> {
     pub needs_repainting: Option<bool>,
 }
 
-
-impl <'a> CreateNewStickerSetBuilder<'a> {
-    pub fn new(bot: &'a Bot, user_id: i64, name: String, title: String, stickers: Vec<InputSticker>, sticker_format: String) -> Self {
-        Self{
+impl<'a> CreateNewStickerSetBuilder<'a> {
+    pub fn new(
+        bot: &'a Bot,
+        user_id: i64,
+        name: String,
+        title: String,
+        stickers: Vec<InputSticker>,
+        sticker_format: String,
+    ) -> Self {
+        Self {
             bot,
             user_id,
             name,
@@ -57,40 +70,41 @@ impl <'a> CreateNewStickerSetBuilder<'a> {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
         self.name = name;
         self
     }
-                
+
     pub fn title(mut self, title: String) -> Self {
         self.title = title;
         self
     }
-                
+
     pub fn stickers(mut self, stickers: Vec<InputSticker>) -> Self {
         self.stickers = stickers;
         self
     }
-                
+
     pub fn sticker_format(mut self, sticker_format: String) -> Self {
         self.sticker_format = sticker_format;
         self
     }
-                
+
     pub fn sticker_type(mut self, sticker_type: String) -> Self {
         self.sticker_type = Some(sticker_type);
         self
     }
-                
+
     pub fn needs_repainting(mut self, needs_repainting: bool) -> Self {
         self.needs_repainting = Some(needs_repainting);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("createNewStickerSet", Some(&form)).await
+        self.bot
+            .get::<bool>("createNewStickerSet", Some(&form))
+            .await
     }
-
 }

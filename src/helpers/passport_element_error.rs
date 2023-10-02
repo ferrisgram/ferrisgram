@@ -9,7 +9,6 @@ impl PassportElementError {
     pub fn new() -> Self {
         Self::PassportElementErrorDataField(PassportElementErrorDataField::new())
     }
-
 }
 impl Default for PassportElementError {
     fn default() -> Self {

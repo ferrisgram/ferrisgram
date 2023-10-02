@@ -6,8 +6,7 @@ use crate::types::ForumTopicReopened;
 impl ForumTopicReopened {
     /// This function creates an empty struct for the object ForumTopicReopened.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }
 impl Default for ForumTopicReopened {

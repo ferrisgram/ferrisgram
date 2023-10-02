@@ -2,14 +2,14 @@
 // DO NOT EDIT!!!
 
 use crate::types::PollAnswer;
-use crate::types::User;
 
 impl PollAnswer {
     /// This function creates an empty struct for the object PollAnswer.
     pub fn new() -> Self {
         Self {
             poll_id: "".to_string(),
-            user: User::new(),
+            voter_chat: None,
+            user: None,
             option_ids: Vec::new(),
         }
     }

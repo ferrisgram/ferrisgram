@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
@@ -23,23 +23,18 @@ pub struct LeaveChatBuilder<'a> {
     pub chat_id: i64,
 }
 
-
-impl <'a> LeaveChatBuilder<'a> {
+impl<'a> LeaveChatBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
-            bot,
-            chat_id,
-        }
+        Self { bot, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("leaveChat", Some(&form)).await
     }
-
 }

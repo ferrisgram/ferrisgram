@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::MenuButton;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
@@ -25,23 +25,20 @@ pub struct GetChatMenuButtonBuilder<'a> {
     pub chat_id: Option<i64>,
 }
 
-
-impl <'a> GetChatMenuButtonBuilder<'a> {
+impl<'a> GetChatMenuButtonBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
-            bot,
-            chat_id: None,
-        }
+        Self { bot, chat_id: None }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
         self.chat_id = Some(chat_id);
         self
     }
-                
+
     pub async fn send(self) -> Result<MenuButton> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<MenuButton>("getChatMenuButton", Some(&form)).await
+        self.bot
+            .get::<MenuButton>("getChatMenuButton", Some(&form))
+            .await
     }
-
 }

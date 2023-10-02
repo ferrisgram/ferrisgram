@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatAdministratorRights;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
@@ -28,10 +28,9 @@ pub struct SetMyDefaultAdministratorRightsBuilder<'a> {
     pub for_channels: Option<bool>,
 }
 
-
-impl <'a> SetMyDefaultAdministratorRightsBuilder<'a> {
+impl<'a> SetMyDefaultAdministratorRightsBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             rights: None,
             for_channels: None,
@@ -42,15 +41,16 @@ impl <'a> SetMyDefaultAdministratorRightsBuilder<'a> {
         self.rights = Some(rights);
         self
     }
-                
+
     pub fn for_channels(mut self, for_channels: bool) -> Self {
         self.for_channels = Some(for_channels);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setMyDefaultAdministratorRights", Some(&form)).await
+        self.bot
+            .get::<bool>("setMyDefaultAdministratorRights", Some(&form))
+            .await
     }
-
 }

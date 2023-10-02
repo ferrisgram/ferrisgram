@@ -4,15 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::InlineQueryResult;
 use crate::types::SentWebAppMessage;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
     /// <https://core.telegram.org/bots/api#answerwebappquery>
-    pub fn answer_web_app_query(&self, web_app_query_id: String, result: InlineQueryResult) -> AnswerWebAppQueryBuilder {
+    pub fn answer_web_app_query(
+        &self,
+        web_app_query_id: String,
+        result: InlineQueryResult,
+    ) -> AnswerWebAppQueryBuilder {
         AnswerWebAppQueryBuilder::new(self, web_app_query_id, result)
     }
 }
@@ -27,10 +31,9 @@ pub struct AnswerWebAppQueryBuilder<'a> {
     pub result: InlineQueryResult,
 }
 
-
-impl <'a> AnswerWebAppQueryBuilder<'a> {
+impl<'a> AnswerWebAppQueryBuilder<'a> {
     pub fn new(bot: &'a Bot, web_app_query_id: String, result: InlineQueryResult) -> Self {
-        Self{
+        Self {
             bot,
             web_app_query_id,
             result,
@@ -41,15 +44,16 @@ impl <'a> AnswerWebAppQueryBuilder<'a> {
         self.web_app_query_id = web_app_query_id;
         self
     }
-                
+
     pub fn result(mut self, result: InlineQueryResult) -> Self {
         self.result = result;
         self
     }
-                
+
     pub async fn send(self) -> Result<SentWebAppMessage> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<SentWebAppMessage>("answerWebAppQuery", Some(&form)).await
+        self.bot
+            .get::<SentWebAppMessage>("answerWebAppQuery", Some(&form))
+            .await
     }
-
 }

@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
@@ -26,10 +26,9 @@ pub struct SetStickerKeywordsBuilder<'a> {
     pub keywords: Option<Vec<String>>,
 }
 
-
-impl <'a> SetStickerKeywordsBuilder<'a> {
+impl<'a> SetStickerKeywordsBuilder<'a> {
     pub fn new(bot: &'a Bot, sticker: String) -> Self {
-        Self{
+        Self {
             bot,
             sticker,
             keywords: None,
@@ -40,15 +39,16 @@ impl <'a> SetStickerKeywordsBuilder<'a> {
         self.sticker = sticker;
         self
     }
-                
+
     pub fn keywords(mut self, keywords: Vec<String>) -> Self {
         self.keywords = Some(keywords);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setStickerKeywords", Some(&form)).await
+        self.bot
+            .get::<bool>("setStickerKeywords", Some(&form))
+            .await
     }
-
 }

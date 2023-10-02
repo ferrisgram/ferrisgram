@@ -13,7 +13,7 @@ pub struct CommandHandler<'a, F: Future<Output = Result<GroupIteration>> + Send 
     pub allow_channel: bool,
 }
 
-impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send > CommandHandler<'a, F> {
+impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send> CommandHandler<'a, F> {
     pub fn new(command: &'a str, callback: fn(&Bot, &Context) -> F) -> Box<Self> {
         Box::new(Self {
             prefix: Vec::from(['/']),

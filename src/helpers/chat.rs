@@ -17,6 +17,7 @@ impl Chat {
             photo: None,
             active_usernames: None,
             emoji_status_custom_emoji_id: None,
+            emoji_status_expiration_date: None,
             bio: None,
             has_private_forwards: None,
             has_restricted_voice_and_video_messages: None,

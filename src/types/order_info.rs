@@ -4,7 +4,6 @@
 use crate::types::ShippingAddress;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents information about an order.
 /// <https://core.telegram.org/bots/api#orderinfo>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -7,6 +7,9 @@ impl WriteAccessAllowed {
     /// This function creates an empty struct for the object WriteAccessAllowed.
     pub fn new() -> Self {
         Self {
+            from_request: None,
+            web_app_name: None,
+            from_attachment_menu: None,
         }
     }
 }

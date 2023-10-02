@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Describes the current status of a webhook.
 /// <https://core.telegram.org/bots/api#webhookinfo>
 #[derive(Serialize, Deserialize, Debug, Clone)]

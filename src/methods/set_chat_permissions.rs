@@ -4,14 +4,18 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatPermissions;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatpermissions>
-    pub fn set_chat_permissions(&self, chat_id: i64, permissions: ChatPermissions) -> SetChatPermissionsBuilder {
+    pub fn set_chat_permissions(
+        &self,
+        chat_id: i64,
+        permissions: ChatPermissions,
+    ) -> SetChatPermissionsBuilder {
         SetChatPermissionsBuilder::new(self, chat_id, permissions)
     }
 }
@@ -29,10 +33,9 @@ pub struct SetChatPermissionsBuilder<'a> {
     pub use_independent_chat_permissions: Option<bool>,
 }
 
-
-impl <'a> SetChatPermissionsBuilder<'a> {
+impl<'a> SetChatPermissionsBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, permissions: ChatPermissions) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             permissions,
@@ -44,20 +47,24 @@ impl <'a> SetChatPermissionsBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn permissions(mut self, permissions: ChatPermissions) -> Self {
         self.permissions = permissions;
         self
     }
-                
-    pub fn use_independent_chat_permissions(mut self, use_independent_chat_permissions: bool) -> Self {
+
+    pub fn use_independent_chat_permissions(
+        mut self,
+        use_independent_chat_permissions: bool,
+    ) -> Self {
         self.use_independent_chat_permissions = Some(use_independent_chat_permissions);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setChatPermissions", Some(&form)).await
+        self.bot
+            .get::<bool>("setChatPermissions", Some(&form))
+            .await
     }
-
 }

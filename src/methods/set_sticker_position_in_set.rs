@@ -4,13 +4,17 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickerpositioninset>
-    pub fn set_sticker_position_in_set(&self, sticker: String, position: i64) -> SetStickerPositionInSetBuilder {
+    pub fn set_sticker_position_in_set(
+        &self,
+        sticker: String,
+        position: i64,
+    ) -> SetStickerPositionInSetBuilder {
         SetStickerPositionInSetBuilder::new(self, sticker, position)
     }
 }
@@ -25,10 +29,9 @@ pub struct SetStickerPositionInSetBuilder<'a> {
     pub position: i64,
 }
 
-
-impl <'a> SetStickerPositionInSetBuilder<'a> {
+impl<'a> SetStickerPositionInSetBuilder<'a> {
     pub fn new(bot: &'a Bot, sticker: String, position: i64) -> Self {
-        Self{
+        Self {
             bot,
             sticker,
             position,
@@ -39,15 +42,16 @@ impl <'a> SetStickerPositionInSetBuilder<'a> {
         self.sticker = sticker;
         self
     }
-                
+
     pub fn position(mut self, position: i64) -> Self {
         self.position = position;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setStickerPositionInSet", Some(&form)).await
+        self.bot
+            .get::<bool>("setStickerPositionInSet", Some(&form))
+            .await
     }
-
 }

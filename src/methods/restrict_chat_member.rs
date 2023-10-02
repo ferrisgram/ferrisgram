@@ -4,14 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatPermissions;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
     /// <https://core.telegram.org/bots/api#restrictchatmember>
-    pub fn restrict_chat_member(&self, chat_id: i64, user_id: i64, permissions: ChatPermissions) -> RestrictChatMemberBuilder {
+    pub fn restrict_chat_member(
+        &self,
+        chat_id: i64,
+        user_id: i64,
+        permissions: ChatPermissions,
+    ) -> RestrictChatMemberBuilder {
         RestrictChatMemberBuilder::new(self, chat_id, user_id, permissions)
     }
 }
@@ -29,15 +34,14 @@ pub struct RestrictChatMemberBuilder<'a> {
     /// Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios, can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and can_send_voice_notes permissions; the can_send_polls permission will imply the can_send_messages permission.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub use_independent_chat_permissions: Option<bool>,
-    /// Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
+    /// Date when restrictions will be lifted for the user; Unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever
     #[serde(skip_serializing_if = "Option::is_none")]
     pub until_date: Option<i64>,
 }
 
-
-impl <'a> RestrictChatMemberBuilder<'a> {
+impl<'a> RestrictChatMemberBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64, permissions: ChatPermissions) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             user_id,
@@ -51,30 +55,34 @@ impl <'a> RestrictChatMemberBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
         self.user_id = user_id;
         self
     }
-                
+
     pub fn permissions(mut self, permissions: ChatPermissions) -> Self {
         self.permissions = permissions;
         self
     }
-                
-    pub fn use_independent_chat_permissions(mut self, use_independent_chat_permissions: bool) -> Self {
+
+    pub fn use_independent_chat_permissions(
+        mut self,
+        use_independent_chat_permissions: bool,
+    ) -> Self {
         self.use_independent_chat_permissions = Some(use_independent_chat_permissions);
         self
     }
-                
+
     pub fn until_date(mut self, until_date: i64) -> Self {
         self.until_date = Some(until_date);
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("restrictChatMember", Some(&form)).await
+        self.bot
+            .get::<bool>("restrictChatMember", Some(&form))
+            .await
     }
-
 }

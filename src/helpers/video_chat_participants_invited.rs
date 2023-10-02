@@ -6,9 +6,7 @@ use crate::types::VideoChatParticipantsInvited;
 impl VideoChatParticipantsInvited {
     /// This function creates an empty struct for the object VideoChatParticipantsInvited.
     pub fn new() -> Self {
-        Self {
-            users: Vec::new(),
-        }
+        Self { users: Vec::new() }
     }
 }
 impl Default for VideoChatParticipantsInvited {

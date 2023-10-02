@@ -3,14 +3,13 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Represents the rights of an administrator in a chat.
 /// <https://core.telegram.org/bots/api#chatadministratorrights>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatAdministratorRights {
     /// True, if the user's presence in the chat is hidden
     pub is_anonymous: bool,
-    /// True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// True, if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     pub can_manage_chat: bool,
     /// True, if the administrator can delete messages of other users
     pub can_delete_messages: bool,
@@ -24,7 +23,7 @@ pub struct ChatAdministratorRights {
     pub can_change_info: bool,
     /// True, if the user is allowed to invite new users to the chat
     pub can_invite_users: bool,
-    /// Optional. True, if the administrator can post in the channel; channels only
+    /// Optional. True, if the administrator can post messages in the channel; channels only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_post_messages: Option<bool>,
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
@@ -33,6 +32,15 @@ pub struct ChatAdministratorRights {
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
+    /// Optional. True, if the administrator can post stories in the channel; channels only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_post_stories: Option<bool>,
+    /// Optional. True, if the administrator can edit stories posted by other users; channels only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_edit_stories: Option<bool>,
+    /// Optional. True, if the administrator can delete stories posted by other users; channels only
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_delete_stories: Option<bool>,
     /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_manage_topics: Option<bool>,

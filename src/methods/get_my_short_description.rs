@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::BotShortDescription;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get the current bot short description for the given user language. Returns BotShortDescription on success.
@@ -25,10 +25,9 @@ pub struct GetMyShortDescriptionBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
-impl <'a> GetMyShortDescriptionBuilder<'a> {
+impl<'a> GetMyShortDescriptionBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             language_code: None,
         }
@@ -38,10 +37,11 @@ impl <'a> GetMyShortDescriptionBuilder<'a> {
         self.language_code = Some(language_code);
         self
     }
-                
+
     pub async fn send(self) -> Result<BotShortDescription> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<BotShortDescription>("getMyShortDescription", Some(&form)).await
+        self.bot
+            .get::<BotShortDescription>("getMyShortDescription", Some(&form))
+            .await
     }
-
 }

@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
@@ -29,10 +29,9 @@ pub struct SendChatActionBuilder<'a> {
     pub action: String,
 }
 
-
-impl <'a> SendChatActionBuilder<'a> {
+impl<'a> SendChatActionBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, action: String) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_thread_id: None,
@@ -44,20 +43,19 @@ impl <'a> SendChatActionBuilder<'a> {
         self.chat_id = chat_id;
         self
     }
-                
+
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
         self.message_thread_id = Some(message_thread_id);
         self
     }
-                
+
     pub fn action(mut self, action: String) -> Self {
         self.action = action;
         self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get::<bool>("sendChatAction", Some(&form)).await
     }
-
 }
