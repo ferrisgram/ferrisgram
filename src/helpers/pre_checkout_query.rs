@@ -6,20 +6,21 @@ use crate::types::User;
 
 impl PreCheckoutQuery {
     /// This function creates an empty struct for the object PreCheckoutQuery.
-    pub fn new() -> Self {
+    pub fn new(
+        id: String,
+        from: User,
+        currency: String,
+        total_amount: i64,
+        invoice_payload: String,
+    ) -> Self {
         Self {
-            id: "".to_string(),
-            from: User::new(),
-            currency: "".to_string(),
-            total_amount: 0,
-            invoice_payload: "".to_string(),
+            id,
+            from,
+            currency,
+            total_amount,
+            invoice_payload,
             shipping_option_id: None,
             order_info: None,
         }
-    }
-}
-impl Default for PreCheckoutQuery {
-    fn default() -> Self {
-        Self::new()
     }
 }

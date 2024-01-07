@@ -6,19 +6,14 @@ use crate::types::User;
 
 impl InlineQuery {
     /// This function creates an empty struct for the object InlineQuery.
-    pub fn new() -> Self {
+    pub fn new(id: String, from: User, query: String, offset: String) -> Self {
         Self {
-            id: "".to_string(),
-            from: User::new(),
-            query: "".to_string(),
-            offset: "".to_string(),
+            id,
+            from,
+            query,
+            offset,
             chat_type: None,
             location: None,
         }
-    }
-}
-impl Default for InlineQuery {
-    fn default() -> Self {
-        Self::new()
     }
 }

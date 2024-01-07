@@ -104,7 +104,7 @@ fn generate_bot_imp(method: &spec_types::MethodDescription, builder_name: &Strin
             let field_name = get_good_field_name(&field.name);
             let field_type = field.types[0].clone();
             
-            let dtype = common::get_type(&common::get_data_type(&field_type), field.required);
+            let dtype = common::get_type(&common::get_data_type(&field_type), field.required, false);
             args = args.add(format!(", {field_name}: {dtype}").as_str());
             vals = vals.add(format!(", {field_name}").as_str())
         }
@@ -145,7 +145,7 @@ fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -
             for field in fields.iter() {
                 let field_name = get_good_field_name(&field.name);
                 let field_type = field.types[0].clone();
-                let dtype = common::get_type(&common::get_data_type(&field_type), field.required);
+                let dtype = common::get_type(&common::get_data_type(&field_type), field.required, false);
                 let field_value: String; 
                 if field.required {
                     field_value = field_name.clone();
@@ -160,7 +160,7 @@ fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -
         self.{field_name} = {field_value};
         self
     }}
-                ", rtype=common::get_type(&common::get_data_type(&field_type), true)).as_str());
+                ", rtype=common::get_type(&common::get_data_type(&field_type), true, false)).as_str());
             }
         (new_fn_attr, new_fn_cntnt, builder_fns)
         },
@@ -173,7 +173,7 @@ fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -
         let form = serde_json::to_value(&self)?;
         self.bot.get::<{to_return}>(\"{raw_method_name}\", Some(&form)).await
     }}
-", to_return=common::get_type(&common::get_data_type(&method.returns[0]), true), raw_method_name=method.name).as_str());
+", to_return=common::get_type(&common::get_data_type(&method.returns[0]), true, false), raw_method_name=method.name).as_str());
 
     let impl_new_fn_string = format!("
 impl <'a> {}<'a> {{
@@ -200,7 +200,7 @@ fn generate_fields(obj: &spec_types::MethodDescription) -> String {
                 if !field.required {
                     generated_fields_string = generated_fields_string.add(format!("\n    #[serde(skip_serializing_if = \"Option::is_none\")]").as_str());
                 }
-                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(&common::get_data_type(&field_type), field.required)).as_str())
+                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(&common::get_data_type(&field_type), field.required, false)).as_str())
             }
             generated_fields_string
         },

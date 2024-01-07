@@ -7,17 +7,17 @@ use crate::types::User;
 
 impl ShippingQuery {
     /// This function creates an empty struct for the object ShippingQuery.
-    pub fn new() -> Self {
+    pub fn new(
+        id: String,
+        from: User,
+        invoice_payload: String,
+        shipping_address: ShippingAddress,
+    ) -> Self {
         Self {
-            id: "".to_string(),
-            from: User::new(),
-            invoice_payload: "".to_string(),
-            shipping_address: ShippingAddress::new(),
+            id,
+            from,
+            invoice_payload,
+            shipping_address,
         }
-    }
-}
-impl Default for ShippingQuery {
-    fn default() -> Self {
-        Self::new()
     }
 }

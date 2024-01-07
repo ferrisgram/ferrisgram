@@ -10,5 +10,5 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineKeyboardMarkup {
     /// Array of button rows, each represented by an Array of InlineKeyboardButton objects
-    pub inline_keyboard: Vec<Vec<InlineKeyboardButton>>,
+    pub inline_keyboard: Vec<InlineKeyboardButton>,
 }

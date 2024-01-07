@@ -5,16 +5,12 @@ use crate::types::InputTextMessageContent;
 
 impl InputTextMessageContent {
     /// This function creates an empty struct for the object InputTextMessageContent.
-    pub fn new() -> Self {
+    pub fn new(message_text: String) -> Self {
         Self {
+            message_text,
             parse_mode: None,
             entities: None,
-            disable_web_page_preview: None,
+            link_preview_options: None,
         }
-    }
-}
-impl Default for InputTextMessageContent {
-    fn default() -> Self {
-        Self::new()
     }
 }

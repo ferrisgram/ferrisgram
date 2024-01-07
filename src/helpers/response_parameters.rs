@@ -12,8 +12,3 @@ impl ResponseParameters {
         }
     }
 }
-impl Default for ResponseParameters {
-    fn default() -> Self {
-        Self::new()
-    }
-}

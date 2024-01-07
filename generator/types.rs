@@ -95,13 +95,13 @@ pub async fn generate_types(spec: &spec_types::ApiDescription) {
         }
     }
     for (_, obj) in spec.types.iter() {
-        let good_tname = generate_type(obj, &bound_types_map, &scfv_map);
+        let good_tname = generate_type(spec, obj, &bound_types_map, &scfv_map);
         data = data.add(format!("\nmod {};\npub use {}::{};\n", good_tname, good_tname, obj.name).as_str());
     }
     create_file(String::from("types/mod.rs"), data);
 }
 
-fn generate_type(obj: &spec_types::TypeDescription, btm: &HashMap<String, String>, sm: &HashMap<String, HashMap<String, String>>) -> String {
+fn generate_type(spec: &spec_types::ApiDescription, obj: &spec_types::TypeDescription, btm: &HashMap<String, String>, sm: &HashMap<String, HashMap<String, String>>) -> String {
     let name = &obj.name.to_case(Case::Snake); 
     let mut data = String::from(common::WARNING_COMMENT);
     data = data.add(&create_import_crate(obj));
@@ -127,35 +127,62 @@ pub enum {} {{{}}}
         data = data.add(format!("
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct {} {{{}
-}}", &obj.name, generate_fields(obj)).as_str());
+}}", &obj.name, generate_fields(spec, obj)).as_str());
     }
     // let mut data = String::new();
     create_file(String::from(format!("types/{}.rs", &name)), data);
     name.clone()
 }
 
-fn generate_fields(obj: &spec_types::TypeDescription) -> String {
+pub fn should_box_field(spec: &spec_types::ApiDescription, obj_name: String, field_type: String) -> bool {
+    if obj_name == field_type {
+        return true;
+    }
+    let obj = spec.types.get(&field_type);
+    if obj.is_none() {
+        return false;
+    }
+    let fields = &obj.unwrap().fields;
+    if fields.is_some() {
+        for field in fields.as_ref().unwrap() {
+            if field.types[0] == obj_name {
+                return true;
+            }
+        }
+    }
+    let subtypes = &obj.unwrap().subtypes;
+    if subtypes.is_some() {
+        for subtype in subtypes.as_ref().unwrap() {
+            if subtype == &obj_name {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+pub fn generate_fields(spec: &spec_types::ApiDescription, obj: &spec_types::TypeDescription) -> String {
     match &obj.fields {
         Some(fields) => {
             let mut generated_fields_string = String::new();
             for field in fields.iter() {
-                if obj.subtype_of.is_some() {
-                    if field.name == fields.first().unwrap().name {
-                        continue;
-                    }
-                    // let stof = &obj.subtype_of.as_ref().unwrap()[0];
-                    // let cf = btm.get(stof).unwrap();
-                    // if field.
-                }
-                let mut field_type = field.types[0].clone();
-                if obj.name == field_type || (obj.name == "Chat" && field_type == "Message") || obj.name == "Update" && field_type == "Message" {
-                    field_type = format!("Box<{}>", field_type)
-                }
+                // if obj.subtype_of.is_some() {
+                //     if field.name == fields.first().unwrap().name {
+                //         continue;
+                //     }
+                //     // let stof = &obj.subtype_of.as_ref().unwrap()[0];
+                //     // let cf = btm.get(stof).unwrap();
+                //     // if field.
+                // }
+                let field_type = field.types[0].clone();
+                // if obj.name == field_type || (obj.name == "Chat" && field_type == "Message") || (obj.name == "Update" && field_type == "Message") || (obj.name == "Message" && field_type == "MaybeInaccessibleMessage") || (obj.name == "Message" && field_type == "GiveawayCompleted") {
+                //     field_type = format!("Box<{}>", field_type)
+                // }
                 generated_fields_string = generated_fields_string.add(format!("\n    /// {}", field.description).as_str());
                 if !field.required {
                     generated_fields_string = generated_fields_string.add("\n    #[serde(skip_serializing_if = \"Option::is_none\")]");
                 }
-                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(&common::get_data_type(&field_type), field.required)).as_str())
+                generated_fields_string = generated_fields_string.add(format!("\n    pub {name}: {dtype},",name=common::get_good_field_name(&field.name), dtype=common::get_type(&common::get_data_type(&field_type), field.required, should_box_field(spec, obj.name.clone(), field_type))).as_str())
             }
             generated_fields_string
         },

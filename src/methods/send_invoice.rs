@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::error::Result;
 use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, LabeledPrice};
+use crate::types::{InlineKeyboardMarkup, LabeledPrice, ReplyParameters};
 use crate::Bot;
 
 impl Bot {
@@ -107,12 +107,9 @@ pub struct SendInvoiceBuilder<'a> {
     /// Protects the contents of the sent message from forwarding and saving
     #[serde(skip_serializing_if = "Option::is_none")]
     pub protect_content: Option<bool>,
-    /// If the message is a reply, ID of the original message
+    /// Description of the message to reply to
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub reply_to_message_id: Option<i64>,
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub allow_sending_without_reply: Option<bool>,
+    pub reply_parameters: Option<ReplyParameters>,
     /// A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
@@ -156,8 +153,7 @@ impl<'a> SendInvoiceBuilder<'a> {
             is_flexible: None,
             disable_notification: None,
             protect_content: None,
-            reply_to_message_id: None,
-            allow_sending_without_reply: None,
+            reply_parameters: None,
             reply_markup: None,
         }
     }
@@ -287,13 +283,8 @@ impl<'a> SendInvoiceBuilder<'a> {
         self
     }
 
-    pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
-        self.reply_to_message_id = Some(reply_to_message_id);
-        self
-    }
-
-    pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
-        self.allow_sending_without_reply = Some(allow_sending_without_reply);
+    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
+        self.reply_parameters = Some(reply_parameters);
         self
     }
 

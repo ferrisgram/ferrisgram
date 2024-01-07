@@ -5,15 +5,10 @@ use crate::types::ChatShared;
 
 impl ChatShared {
     /// This function creates an empty struct for the object ChatShared.
-    pub fn new() -> Self {
+    pub fn new(request_id: i64, chat_id: i64) -> Self {
         Self {
-            request_id: 0,
-            chat_id: 0,
+            request_id,
+            chat_id,
         }
-    }
-}
-impl Default for ChatShared {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -6,20 +6,15 @@ use crate::types::Venue;
 
 impl Venue {
     /// This function creates an empty struct for the object Venue.
-    pub fn new() -> Self {
+    pub fn new(location: Location, title: String, address: String) -> Self {
         Self {
-            location: Location::new(),
-            title: "".to_string(),
-            address: "".to_string(),
+            location,
+            title,
+            address,
             foursquare_id: None,
             foursquare_type: None,
             google_place_id: None,
             google_place_type: None,
         }
-    }
-}
-impl Default for Venue {
-    fn default() -> Self {
-        Self::new()
     }
 }

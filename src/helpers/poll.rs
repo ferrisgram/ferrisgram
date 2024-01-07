@@ -2,29 +2,34 @@
 // DO NOT EDIT!!!
 
 use crate::types::Poll;
+use crate::types::PollOption;
 
 impl Poll {
     /// This function creates an empty struct for the object Poll.
-    pub fn new() -> Self {
+    pub fn new(
+        id: String,
+        question: String,
+        options: Vec<PollOption>,
+        total_voter_count: i64,
+        is_closed: bool,
+        is_anonymous: bool,
+        r#type: String,
+        allows_multiple_answers: bool,
+    ) -> Self {
         Self {
-            id: "".to_string(),
-            question: "".to_string(),
-            options: Vec::new(),
-            total_voter_count: 0,
-            is_closed: false,
-            is_anonymous: false,
-            r#type: "".to_string(),
-            allows_multiple_answers: false,
+            id,
+            question,
+            options,
+            total_voter_count,
+            is_closed,
+            is_anonymous,
+            r#type,
+            allows_multiple_answers,
             correct_option_id: None,
             explanation: None,
             explanation_entities: None,
             open_period: None,
             close_date: None,
         }
-    }
-}
-impl Default for Poll {
-    fn default() -> Self {
-        Self::new()
     }
 }

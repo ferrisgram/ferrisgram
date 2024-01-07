@@ -6,12 +6,7 @@ use crate::types::User;
 
 impl ChatMemberMember {
     /// This function creates an empty struct for the object ChatMemberMember.
-    pub fn new() -> Self {
-        Self { user: User::new() }
-    }
-}
-impl Default for ChatMemberMember {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(status: String, user: User) -> Self {
+        Self { status, user }
     }
 }

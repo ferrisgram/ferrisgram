@@ -5,16 +5,11 @@ use crate::types::InlineQueryResultsButton;
 
 impl InlineQueryResultsButton {
     /// This function creates an empty struct for the object InlineQueryResultsButton.
-    pub fn new() -> Self {
+    pub fn new(text: String) -> Self {
         Self {
-            text: "".to_string(),
+            text,
             web_app: None,
             start_parameter: None,
         }
-    }
-}
-impl Default for InlineQueryResultsButton {
-    fn default() -> Self {
-        Self::new()
     }
 }

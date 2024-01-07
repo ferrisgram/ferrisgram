@@ -6,23 +6,20 @@ use crate::types::Message;
 
 impl Message {
     /// This function creates an empty struct for the object Message.
-    pub fn new() -> Self {
+    pub fn new(message_id: i64, date: i64, chat: Box<Chat>) -> Self {
         Self {
-            message_id: 0,
+            message_id,
             message_thread_id: None,
             from: None,
             sender_chat: None,
-            date: 0,
-            chat: Chat::new(),
-            forward_from: None,
-            forward_from_chat: None,
-            forward_from_message_id: None,
-            forward_signature: None,
-            forward_sender_name: None,
-            forward_date: None,
+            date,
+            chat,
+            forward_origin: None,
             is_topic_message: None,
             is_automatic_forward: None,
             reply_to_message: None,
+            external_reply: None,
+            quote: None,
             via_bot: None,
             edit_date: None,
             has_protected_content: None,
@@ -30,6 +27,7 @@ impl Message {
             author_signature: None,
             text: None,
             entities: None,
+            link_preview_options: None,
             animation: None,
             audio: None,
             document: None,
@@ -62,7 +60,7 @@ impl Message {
             pinned_message: None,
             invoice: None,
             successful_payment: None,
-            user_shared: None,
+            users_shared: None,
             chat_shared: None,
             connected_website: None,
             write_access_allowed: None,
@@ -74,6 +72,10 @@ impl Message {
             forum_topic_reopened: None,
             general_forum_topic_hidden: None,
             general_forum_topic_unhidden: None,
+            giveaway_created: None,
+            giveaway: None,
+            giveaway_winners: None,
+            giveaway_completed: None,
             video_chat_scheduled: None,
             video_chat_started: None,
             video_chat_ended: None,
@@ -81,10 +83,5 @@ impl Message {
             web_app_data: None,
             reply_markup: None,
         }
-    }
-}
-impl Default for Message {
-    fn default() -> Self {
-        Self::new()
     }
 }

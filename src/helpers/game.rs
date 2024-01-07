@@ -2,22 +2,18 @@
 // DO NOT EDIT!!!
 
 use crate::types::Game;
+use crate::types::PhotoSize;
 
 impl Game {
     /// This function creates an empty struct for the object Game.
-    pub fn new() -> Self {
+    pub fn new(title: String, description: String, photo: Vec<PhotoSize>) -> Self {
         Self {
-            title: "".to_string(),
-            description: "".to_string(),
-            photo: Vec::new(),
+            title,
+            description,
+            photo,
             text: None,
             text_entities: None,
             animation: None,
         }
-    }
-}
-impl Default for Game {
-    fn default() -> Self {
-        Self::new()
     }
 }

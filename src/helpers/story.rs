@@ -9,8 +9,3 @@ impl Story {
         Self {}
     }
 }
-impl Default for Story {
-    fn default() -> Self {
-        Self::new()
-    }
-}

@@ -5,16 +5,12 @@ use crate::types::InlineQueryResultGame;
 
 impl InlineQueryResultGame {
     /// This function creates an empty struct for the object InlineQueryResultGame.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, game_short_name: String) -> Self {
         Self {
-            id: "".to_string(),
-            game_short_name: "".to_string(),
+            r#type,
+            id,
+            game_short_name,
             reply_markup: None,
         }
-    }
-}
-impl Default for InlineQueryResultGame {
-    fn default() -> Self {
-        Self::new()
     }
 }

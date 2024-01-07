@@ -5,18 +5,19 @@ use crate::types::Invoice;
 
 impl Invoice {
     /// This function creates an empty struct for the object Invoice.
-    pub fn new() -> Self {
+    pub fn new(
+        title: String,
+        description: String,
+        start_parameter: String,
+        currency: String,
+        total_amount: i64,
+    ) -> Self {
         Self {
-            title: "".to_string(),
-            description: "".to_string(),
-            start_parameter: "".to_string(),
-            currency: "".to_string(),
-            total_amount: 0,
+            title,
+            description,
+            start_parameter,
+            currency,
+            total_amount,
         }
-    }
-}
-impl Default for Invoice {
-    fn default() -> Self {
-        Self::new()
     }
 }

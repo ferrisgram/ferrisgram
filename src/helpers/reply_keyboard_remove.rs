@@ -5,15 +5,10 @@ use crate::types::ReplyKeyboardRemove;
 
 impl ReplyKeyboardRemove {
     /// This function creates an empty struct for the object ReplyKeyboardRemove.
-    pub fn new() -> Self {
+    pub fn new(remove_keyboard: bool) -> Self {
         Self {
-            remove_keyboard: false,
+            remove_keyboard,
             selective: None,
         }
-    }
-}
-impl Default for ReplyKeyboardRemove {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -9,8 +9,3 @@ impl VideoChatStarted {
         Self {}
     }
 }
-impl Default for VideoChatStarted {
-    fn default() -> Self {
-        Self::new()
-    }
-}

@@ -3,7 +3,7 @@ use std::future::Future;
 
 use crate::ext::filters::CallbackQueryFilter;
 use crate::ext::{Context, Handler};
-use crate::types::Update;
+use crate::types::{MaybeInaccessibleMessage, Update};
 use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct CallbackQueryHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
@@ -46,11 +46,12 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
             return false;
         }
         let callback_query = update.callback_query.as_ref().unwrap();
-        if !self.allow_channel
-            && callback_query.message.is_some()
-            && callback_query.message.as_ref().unwrap().chat.r#type == "channel"
-        {
-            return false;
+        if !self.allow_channel && callback_query.message.is_some() {
+            let chat = match callback_query.message.as_ref().unwrap() {
+                MaybeInaccessibleMessage::Message(m) => &*m.chat,
+                MaybeInaccessibleMessage::InaccessibleMessage(m) => &m.chat,
+            };
+            return chat.r#type == "channel";
         }
         self.filter.check_filter(callback_query)
     }

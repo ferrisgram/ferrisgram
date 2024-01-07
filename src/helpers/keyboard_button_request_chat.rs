@@ -5,10 +5,10 @@ use crate::types::KeyboardButtonRequestChat;
 
 impl KeyboardButtonRequestChat {
     /// This function creates an empty struct for the object KeyboardButtonRequestChat.
-    pub fn new() -> Self {
+    pub fn new(request_id: i64, chat_is_channel: bool) -> Self {
         Self {
-            request_id: 0,
-            chat_is_channel: false,
+            request_id,
+            chat_is_channel,
             chat_is_forum: None,
             chat_has_username: None,
             chat_is_created: None,
@@ -16,10 +16,5 @@ impl KeyboardButtonRequestChat {
             bot_administrator_rights: None,
             bot_is_member: None,
         }
-    }
-}
-impl Default for KeyboardButtonRequestChat {
-    fn default() -> Self {
-        Self::new()
     }
 }

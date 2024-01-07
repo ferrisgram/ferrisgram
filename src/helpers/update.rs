@@ -5,13 +5,15 @@ use crate::types::Update;
 
 impl Update {
     /// This function creates an empty struct for the object Update.
-    pub fn new() -> Self {
+    pub fn new(update_id: i64) -> Self {
         Self {
-            update_id: 0,
+            update_id,
             message: None,
             edited_message: None,
             channel_post: None,
             edited_channel_post: None,
+            message_reaction: None,
+            message_reaction_count: None,
             inline_query: None,
             chosen_inline_result: None,
             callback_query: None,
@@ -22,11 +24,8 @@ impl Update {
             my_chat_member: None,
             chat_member: None,
             chat_join_request: None,
+            chat_boost: None,
+            removed_chat_boost: None,
         }
-    }
-}
-impl Default for Update {
-    fn default() -> Self {
-        Self::new()
     }
 }

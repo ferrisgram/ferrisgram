@@ -5,10 +5,11 @@ use crate::types::InlineQueryResultCachedGif;
 
 impl InlineQueryResultCachedGif {
     /// This function creates an empty struct for the object InlineQueryResultCachedGif.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, gif_file_id: String) -> Self {
         Self {
-            id: "".to_string(),
-            gif_file_id: "".to_string(),
+            r#type,
+            id,
+            gif_file_id,
             title: None,
             caption: None,
             parse_mode: None,
@@ -16,10 +17,5 @@ impl InlineQueryResultCachedGif {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultCachedGif {
-    fn default() -> Self {
-        Self::new()
     }
 }

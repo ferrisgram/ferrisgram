@@ -5,11 +5,12 @@ use crate::types::InlineQueryResultAudio;
 
 impl InlineQueryResultAudio {
     /// This function creates an empty struct for the object InlineQueryResultAudio.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, audio_url: String, title: String) -> Self {
         Self {
-            id: "".to_string(),
-            audio_url: "".to_string(),
-            title: "".to_string(),
+            r#type,
+            id,
+            audio_url,
+            title,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -18,10 +19,5 @@ impl InlineQueryResultAudio {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultAudio {
-    fn default() -> Self {
-        Self::new()
     }
 }

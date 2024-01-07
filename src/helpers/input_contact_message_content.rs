@@ -5,16 +5,12 @@ use crate::types::InputContactMessageContent;
 
 impl InputContactMessageContent {
     /// This function creates an empty struct for the object InputContactMessageContent.
-    pub fn new() -> Self {
+    pub fn new(phone_number: String, first_name: String) -> Self {
         Self {
-            first_name: "".to_string(),
+            phone_number,
+            first_name,
             last_name: None,
             vcard: None,
         }
-    }
-}
-impl Default for InputContactMessageContent {
-    fn default() -> Self {
-        Self::new()
     }
 }

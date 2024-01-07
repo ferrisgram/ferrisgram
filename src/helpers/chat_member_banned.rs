@@ -6,15 +6,11 @@ use crate::types::User;
 
 impl ChatMemberBanned {
     /// This function creates an empty struct for the object ChatMemberBanned.
-    pub fn new() -> Self {
+    pub fn new(status: String, user: User, until_date: i64) -> Self {
         Self {
-            user: User::new(),
-            until_date: 0,
+            status,
+            user,
+            until_date,
         }
-    }
-}
-impl Default for ChatMemberBanned {
-    fn default() -> Self {
-        Self::new()
     }
 }

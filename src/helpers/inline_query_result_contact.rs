@@ -5,11 +5,12 @@ use crate::types::InlineQueryResultContact;
 
 impl InlineQueryResultContact {
     /// This function creates an empty struct for the object InlineQueryResultContact.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, phone_number: String, first_name: String) -> Self {
         Self {
-            id: "".to_string(),
-            phone_number: "".to_string(),
-            first_name: "".to_string(),
+            r#type,
+            id,
+            phone_number,
+            first_name,
             last_name: None,
             vcard: None,
             reply_markup: None,
@@ -18,10 +19,5 @@ impl InlineQueryResultContact {
             thumbnail_width: None,
             thumbnail_height: None,
         }
-    }
-}
-impl Default for InlineQueryResultContact {
-    fn default() -> Self {
-        Self::new()
     }
 }

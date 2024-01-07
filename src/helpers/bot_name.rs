@@ -5,14 +5,7 @@ use crate::types::BotName;
 
 impl BotName {
     /// This function creates an empty struct for the object BotName.
-    pub fn new() -> Self {
-        Self {
-            name: "".to_string(),
-        }
-    }
-}
-impl Default for BotName {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(name: String) -> Self {
+        Self { name }
     }
 }

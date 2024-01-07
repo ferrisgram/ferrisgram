@@ -5,10 +5,10 @@ use crate::types::Chat;
 
 impl Chat {
     /// This function creates an empty struct for the object Chat.
-    pub fn new() -> Self {
+    pub fn new(id: i64, r#type: String) -> Self {
         Self {
-            id: 0,
-            r#type: "".to_string(),
+            id,
+            r#type,
             title: None,
             username: None,
             first_name: None,
@@ -16,6 +16,11 @@ impl Chat {
             is_forum: None,
             photo: None,
             active_usernames: None,
+            available_reactions: None,
+            accent_color_id: None,
+            background_custom_emoji_id: None,
+            profile_accent_color_id: None,
+            profile_background_custom_emoji_id: None,
             emoji_status_custom_emoji_id: None,
             emoji_status_expiration_date: None,
             bio: None,
@@ -32,15 +37,11 @@ impl Chat {
             has_aggressive_anti_spam_enabled: None,
             has_hidden_members: None,
             has_protected_content: None,
+            has_visible_history: None,
             sticker_set_name: None,
             can_set_sticker_set: None,
             linked_chat_id: None,
             location: None,
         }
-    }
-}
-impl Default for Chat {
-    fn default() -> Self {
-        Self::new()
     }
 }

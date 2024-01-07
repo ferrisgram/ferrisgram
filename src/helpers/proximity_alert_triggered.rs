@@ -6,16 +6,11 @@ use crate::types::User;
 
 impl ProximityAlertTriggered {
     /// This function creates an empty struct for the object ProximityAlertTriggered.
-    pub fn new() -> Self {
+    pub fn new(traveler: User, watcher: User, distance: i64) -> Self {
         Self {
-            traveler: User::new(),
-            watcher: User::new(),
-            distance: 0,
+            traveler,
+            watcher,
+            distance,
         }
-    }
-}
-impl Default for ProximityAlertTriggered {
-    fn default() -> Self {
-        Self::new()
     }
 }

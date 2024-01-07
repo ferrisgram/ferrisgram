@@ -5,11 +5,12 @@ use crate::types::InlineQueryResultPhoto;
 
 impl InlineQueryResultPhoto {
     /// This function creates an empty struct for the object InlineQueryResultPhoto.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, photo_url: String, thumbnail_url: String) -> Self {
         Self {
-            id: "".to_string(),
-            photo_url: "".to_string(),
-            thumbnail_url: "".to_string(),
+            r#type,
+            id,
+            photo_url,
+            thumbnail_url,
             photo_width: None,
             photo_height: None,
             title: None,
@@ -20,10 +21,5 @@ impl InlineQueryResultPhoto {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultPhoto {
-    fn default() -> Self {
-        Self::new()
     }
 }

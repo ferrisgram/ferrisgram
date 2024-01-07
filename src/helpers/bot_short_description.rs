@@ -5,14 +5,7 @@ use crate::types::BotShortDescription;
 
 impl BotShortDescription {
     /// This function creates an empty struct for the object BotShortDescription.
-    pub fn new() -> Self {
-        Self {
-            short_description: "".to_string(),
-        }
-    }
-}
-impl Default for BotShortDescription {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(short_description: String) -> Self {
+        Self { short_description }
     }
 }

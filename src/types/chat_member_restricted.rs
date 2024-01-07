@@ -8,11 +8,13 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatmemberrestricted>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatMemberRestricted {
+    /// The member's status in the chat, always "restricted"
+    pub status: String,
     /// Information about the user
     pub user: User,
     /// True, if the user is a member of the chat at the moment of the request
     pub is_member: bool,
-    /// True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+    /// True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     pub can_send_messages: bool,
     /// True, if the user is allowed to send audios
     pub can_send_audios: bool,

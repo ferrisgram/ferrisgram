@@ -57,7 +57,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for Comm
     fn clone(&self) -> Self {
         Self {
             prefix: self.prefix.clone(),
-            command: self.command.clone(),
+            command: self.command,
             callback: self.callback,
             allow_channel: self.allow_channel,
             allow_edited: self.allow_edited,

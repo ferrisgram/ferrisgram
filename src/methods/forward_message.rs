@@ -9,7 +9,7 @@ use crate::types::Message;
 use crate::Bot;
 
 impl Bot {
-    /// Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+    /// Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#forwardmessage>
     pub fn forward_message(
         &self,

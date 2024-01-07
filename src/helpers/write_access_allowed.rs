@@ -13,8 +13,3 @@ impl WriteAccessAllowed {
         }
     }
 }
-impl Default for WriteAccessAllowed {
-    fn default() -> Self {
-        Self::new()
-    }
-}

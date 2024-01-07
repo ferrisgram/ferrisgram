@@ -5,17 +5,12 @@ use crate::types::PassportFile;
 
 impl PassportFile {
     /// This function creates an empty struct for the object PassportFile.
-    pub fn new() -> Self {
+    pub fn new(file_id: String, file_unique_id: String, file_size: i64, file_date: i64) -> Self {
         Self {
-            file_id: "".to_string(),
-            file_unique_id: "".to_string(),
-            file_size: 0,
-            file_date: 0,
+            file_id,
+            file_unique_id,
+            file_size,
+            file_date,
         }
-    }
-}
-impl Default for PassportFile {
-    fn default() -> Self {
-        Self::new()
     }
 }

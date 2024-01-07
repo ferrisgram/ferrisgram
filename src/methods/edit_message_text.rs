@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::error::Result;
 use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, MessageEntity};
+use crate::types::{InlineKeyboardMarkup, LinkPreviewOptions, MessageEntity};
 use crate::Bot;
 
 impl Bot {
@@ -38,9 +38,9 @@ pub struct EditMessageTextBuilder<'a> {
     /// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     #[serde(skip_serializing_if = "Option::is_none")]
     pub entities: Option<Vec<MessageEntity>>,
-    /// Disables link previews for links in this message
+    /// Link preview generation options for the message
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub disable_web_page_preview: Option<bool>,
+    pub link_preview_options: Option<LinkPreviewOptions>,
     /// A JSON-serialized object for an inline keyboard.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
@@ -56,7 +56,7 @@ impl<'a> EditMessageTextBuilder<'a> {
             text,
             parse_mode: None,
             entities: None,
-            disable_web_page_preview: None,
+            link_preview_options: None,
             reply_markup: None,
         }
     }
@@ -91,8 +91,8 @@ impl<'a> EditMessageTextBuilder<'a> {
         self
     }
 
-    pub fn disable_web_page_preview(mut self, disable_web_page_preview: bool) -> Self {
-        self.disable_web_page_preview = Some(disable_web_page_preview);
+    pub fn link_preview_options(mut self, link_preview_options: LinkPreviewOptions) -> Self {
+        self.link_preview_options = Some(link_preview_options);
         self
     }
 

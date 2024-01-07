@@ -1,6 +1,6 @@
 use crate::{
     helpers_ext::StringPatch,
-    types::{Chat, Message, Update, User},
+    types::{Chat, MaybeInaccessibleMessage, Message, Update, User},
 };
 
 pub struct Context<'a> {
@@ -35,7 +35,17 @@ impl<'a> Context<'a> {
         } else if let Some(msg) = &update.inline_query {
             ctx.effective_user = Some(&msg.from);
         } else if let Some(msg) = &update.callback_query {
-            ctx.effective_message = msg.message.as_ref();
+            if let Some(rmsg) = &msg.message {
+                match rmsg {
+                    MaybeInaccessibleMessage::Message(m) => {
+                        ctx.effective_message = Some(&m);
+                        ctx.effective_chat = Some(&*m.chat)
+                    }
+                    MaybeInaccessibleMessage::InaccessibleMessage(m) => {
+                        ctx.effective_chat = Some(&m.chat)
+                    }
+                }
+            }
             ctx.effective_user = Some(&msg.from);
         } else if let Some(msg) = &update.chosen_inline_result {
             ctx.effective_user = Some(&msg.from);

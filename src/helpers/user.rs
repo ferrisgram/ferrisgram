@@ -5,11 +5,11 @@ use crate::types::User;
 
 impl User {
     /// This function creates an empty struct for the object User.
-    pub fn new() -> Self {
+    pub fn new(id: i64, is_bot: bool, first_name: String) -> Self {
         Self {
-            id: 0,
-            is_bot: false,
-            first_name: "".to_string(),
+            id,
+            is_bot,
+            first_name,
             last_name: None,
             username: None,
             language_code: None,
@@ -19,10 +19,5 @@ impl User {
             can_read_all_group_messages: None,
             supports_inline_queries: None,
         }
-    }
-}
-impl Default for User {
-    fn default() -> Self {
-        Self::new()
     }
 }

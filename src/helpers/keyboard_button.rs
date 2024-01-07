@@ -5,20 +5,15 @@ use crate::types::KeyboardButton;
 
 impl KeyboardButton {
     /// This function creates an empty struct for the object KeyboardButton.
-    pub fn new() -> Self {
+    pub fn new(text: String) -> Self {
         Self {
-            text: "".to_string(),
-            request_user: None,
+            text,
+            request_users: None,
             request_chat: None,
             request_contact: None,
             request_location: None,
             request_poll: None,
             web_app: None,
         }
-    }
-}
-impl Default for KeyboardButton {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -9,8 +9,3 @@ impl CallbackGame {
         Self {}
     }
 }
-impl Default for CallbackGame {
-    fn default() -> Self {
-        Self::new()
-    }
-}

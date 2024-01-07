@@ -8,20 +8,21 @@ use crate::types::User;
 
 impl ChatMemberUpdated {
     /// This function creates an empty struct for the object ChatMemberUpdated.
-    pub fn new() -> Self {
+    pub fn new(
+        chat: Chat,
+        from: User,
+        date: i64,
+        old_chat_member: ChatMember,
+        new_chat_member: ChatMember,
+    ) -> Self {
         Self {
-            chat: Chat::new(),
-            from: User::new(),
-            date: 0,
-            old_chat_member: ChatMember::new(),
-            new_chat_member: ChatMember::new(),
+            chat,
+            from,
+            date,
+            old_chat_member,
+            new_chat_member,
             invite_link: None,
             via_chat_folder_invite_link: None,
         }
-    }
-}
-impl Default for ChatMemberUpdated {
-    fn default() -> Self {
-        Self::new()
     }
 }

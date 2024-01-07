@@ -2,13 +2,14 @@
 // DO NOT EDIT!!!
 
 use crate::types::{
-    Animation, Audio, Chat, ChatShared, Contact, Dice, Document, ForumTopicClosed,
-    ForumTopicCreated, ForumTopicEdited, ForumTopicReopened, Game, GeneralForumTopicHidden,
-    GeneralForumTopicUnhidden, InlineKeyboardMarkup, Invoice, Location,
-    MessageAutoDeleteTimerChanged, MessageEntity, PassportData, PhotoSize, Poll,
-    ProximityAlertTriggered, Sticker, Story, SuccessfulPayment, User, UserShared, Venue, Video,
-    VideoChatEnded, VideoChatParticipantsInvited, VideoChatScheduled, VideoChatStarted, VideoNote,
-    Voice, WebAppData, WriteAccessAllowed,
+    Animation, Audio, Chat, ChatShared, Contact, Dice, Document, ExternalReplyInfo,
+    ForumTopicClosed, ForumTopicCreated, ForumTopicEdited, ForumTopicReopened, Game,
+    GeneralForumTopicHidden, GeneralForumTopicUnhidden, Giveaway, GiveawayCompleted,
+    GiveawayCreated, GiveawayWinners, InlineKeyboardMarkup, Invoice, LinkPreviewOptions, Location,
+    MaybeInaccessibleMessage, MessageAutoDeleteTimerChanged, MessageEntity, MessageOrigin,
+    PassportData, PhotoSize, Poll, ProximityAlertTriggered, Sticker, Story, SuccessfulPayment,
+    TextQuote, User, UsersShared, Venue, Video, VideoChatEnded, VideoChatParticipantsInvited,
+    VideoChatScheduled, VideoChatStarted, VideoNote, Voice, WebAppData, WriteAccessAllowed,
 };
 use serde::{Deserialize, Serialize};
 
@@ -26,38 +27,29 @@ pub struct Message {
     pub from: Option<User>,
     /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub sender_chat: Option<Chat>,
-    /// Date the message was sent in Unix time
+    pub sender_chat: Option<Box<Chat>>,
+    /// Date the message was sent in Unix time. It is always a positive number, representing a valid date.
     pub date: i64,
-    /// Conversation the message belongs to
-    pub chat: Chat,
-    /// Optional. For forwarded messages, sender of the original message
+    /// Chat the message belongs to
+    pub chat: Box<Chat>,
+    /// Optional. Information about the original message for forwarded messages
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_from: Option<User>,
-    /// Optional. For messages forwarded from channels or from anonymous administrators, information about the original sender chat
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_from_chat: Option<Chat>,
-    /// Optional. For messages forwarded from channels, identifier of the original message in the channel
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_from_message_id: Option<i64>,
-    /// Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator, signature of the message sender if present
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_signature: Option<String>,
-    /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_sender_name: Option<String>,
-    /// Optional. For forwarded messages, date the original message was sent in Unix time
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub forward_date: Option<i64>,
+    pub forward_origin: Option<MessageOrigin>,
     /// Optional. True, if the message is sent to a forum topic
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_topic_message: Option<bool>,
     /// Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_automatic_forward: Option<bool>,
-    /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+    /// Optional. For replies in the same chat and message thread, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_to_message: Option<Box<Message>>,
+    /// Optional. Information about the message that is being replied to, which may come from another chat or forum topic
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub external_reply: Option<ExternalReplyInfo>,
+    /// Optional. For replies that quote part of the original message, the quoted part of the message
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub quote: Option<TextQuote>,
     /// Optional. Bot through which the message was sent
     #[serde(skip_serializing_if = "Option::is_none")]
     pub via_bot: Option<User>,
@@ -79,6 +71,9 @@ pub struct Message {
     /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
     #[serde(skip_serializing_if = "Option::is_none")]
     pub entities: Option<Vec<MessageEntity>>,
+    /// Optional. Options used for link preview generation for the message, if it is a text message and link preview options were changed
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub link_preview_options: Option<LinkPreviewOptions>,
     /// Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the document field will also be set
     #[serde(skip_serializing_if = "Option::is_none")]
     pub animation: Option<Animation>,
@@ -166,18 +161,18 @@ pub struct Message {
     /// Optional. The supergroup has been migrated from a group with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub migrate_from_chat_id: Option<i64>,
-    /// Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+    /// Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub pinned_message: Option<Box<Message>>,
+    pub pinned_message: Option<Box<MaybeInaccessibleMessage>>,
     /// Optional. Message is an invoice for a payment, information about the invoice. More about payments: https://core.telegram.org/bots/api#payments
     #[serde(skip_serializing_if = "Option::is_none")]
     pub invoice: Option<Invoice>,
     /// Optional. Message is a service message about a successful payment, information about the payment. More about payments: https://core.telegram.org/bots/api#payments
     #[serde(skip_serializing_if = "Option::is_none")]
     pub successful_payment: Option<SuccessfulPayment>,
-    /// Optional. Service message: a user was shared with the bot
+    /// Optional. Service message: users were shared with the bot
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub user_shared: Option<UserShared>,
+    pub users_shared: Option<UsersShared>,
     /// Optional. Service message: a chat was shared with the bot
     #[serde(skip_serializing_if = "Option::is_none")]
     pub chat_shared: Option<ChatShared>,
@@ -211,6 +206,18 @@ pub struct Message {
     /// Optional. Service message: the 'General' forum topic unhidden
     #[serde(skip_serializing_if = "Option::is_none")]
     pub general_forum_topic_unhidden: Option<GeneralForumTopicUnhidden>,
+    /// Optional. Service message: a scheduled giveaway was created
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub giveaway_created: Option<GiveawayCreated>,
+    /// Optional. The message is a scheduled giveaway message
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub giveaway: Option<Giveaway>,
+    /// Optional. A giveaway with public winners was completed
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub giveaway_winners: Option<GiveawayWinners>,
+    /// Optional. Service message: a giveaway without public winners was completed
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub giveaway_completed: Option<Box<GiveawayCompleted>>,
     /// Optional. Service message: video chat scheduled
     #[serde(skip_serializing_if = "Option::is_none")]
     pub video_chat_scheduled: Option<VideoChatScheduled>,

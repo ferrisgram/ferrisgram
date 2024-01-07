@@ -5,18 +5,14 @@ use crate::types::InputMediaPhoto;
 
 impl InputMediaPhoto {
     /// This function creates an empty struct for the object InputMediaPhoto.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, media: String) -> Self {
         Self {
-            media: "".to_string(),
+            r#type,
+            media,
             caption: None,
             parse_mode: None,
             caption_entities: None,
             has_spoiler: None,
         }
-    }
-}
-impl Default for InputMediaPhoto {
-    fn default() -> Self {
-        Self::new()
     }
 }

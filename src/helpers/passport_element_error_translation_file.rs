@@ -5,16 +5,12 @@ use crate::types::PassportElementErrorTranslationFile;
 
 impl PassportElementErrorTranslationFile {
     /// This function creates an empty struct for the object PassportElementErrorTranslationFile.
-    pub fn new() -> Self {
+    pub fn new(source: String, r#type: String, file_hash: String, message: String) -> Self {
         Self {
-            r#type: "".to_string(),
-            file_hash: "".to_string(),
-            message: "".to_string(),
+            source,
+            r#type,
+            file_hash,
+            message,
         }
-    }
-}
-impl Default for PassportElementErrorTranslationFile {
-    fn default() -> Self {
-        Self::new()
     }
 }

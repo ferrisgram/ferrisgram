@@ -5,9 +5,9 @@ use crate::types::EncryptedPassportElement;
 
 impl EncryptedPassportElement {
     /// This function creates an empty struct for the object EncryptedPassportElement.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, hash: String) -> Self {
         Self {
-            r#type: "".to_string(),
+            r#type,
             data: None,
             phone_number: None,
             email: None,
@@ -16,12 +16,7 @@ impl EncryptedPassportElement {
             reverse_side: None,
             selfie: None,
             translation: None,
-            hash: "".to_string(),
+            hash,
         }
-    }
-}
-impl Default for EncryptedPassportElement {
-    fn default() -> Self {
-        Self::new()
     }
 }

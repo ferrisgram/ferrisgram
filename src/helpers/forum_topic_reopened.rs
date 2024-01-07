@@ -9,8 +9,3 @@ impl ForumTopicReopened {
         Self {}
     }
 }
-impl Default for ForumTopicReopened {
-    fn default() -> Self {
-        Self::new()
-    }
-}

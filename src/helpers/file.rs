@@ -5,17 +5,12 @@ use crate::types::File;
 
 impl File {
     /// This function creates an empty struct for the object File.
-    pub fn new() -> Self {
+    pub fn new(file_id: String, file_unique_id: String) -> Self {
         Self {
-            file_id: "".to_string(),
-            file_unique_id: "".to_string(),
+            file_id,
+            file_unique_id,
             file_size: None,
             file_path: None,
         }
-    }
-}
-impl Default for File {
-    fn default() -> Self {
-        Self::new()
     }
 }

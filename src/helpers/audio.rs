@@ -5,11 +5,11 @@ use crate::types::Audio;
 
 impl Audio {
     /// This function creates an empty struct for the object Audio.
-    pub fn new() -> Self {
+    pub fn new(file_id: String, file_unique_id: String, duration: i64) -> Self {
         Self {
-            file_id: "".to_string(),
-            file_unique_id: "".to_string(),
-            duration: 0,
+            file_id,
+            file_unique_id,
+            duration,
             performer: None,
             title: None,
             file_name: None,
@@ -17,10 +17,5 @@ impl Audio {
             file_size: None,
             thumbnail: None,
         }
-    }
-}
-impl Default for Audio {
-    fn default() -> Self {
-        Self::new()
     }
 }

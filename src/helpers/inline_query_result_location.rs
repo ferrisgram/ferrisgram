@@ -5,12 +5,13 @@ use crate::types::InlineQueryResultLocation;
 
 impl InlineQueryResultLocation {
     /// This function creates an empty struct for the object InlineQueryResultLocation.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, latitude: f64, longitude: f64, title: String) -> Self {
         Self {
-            id: "".to_string(),
-            latitude: 0.0,
-            longitude: 0.0,
-            title: "".to_string(),
+            r#type,
+            id,
+            latitude,
+            longitude,
+            title,
             horizontal_accuracy: None,
             live_period: None,
             heading: None,
@@ -21,10 +22,5 @@ impl InlineQueryResultLocation {
             thumbnail_width: None,
             thumbnail_height: None,
         }
-    }
-}
-impl Default for InlineQueryResultLocation {
-    fn default() -> Self {
-        Self::new()
     }
 }

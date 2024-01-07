@@ -5,15 +5,22 @@ use crate::types::InlineQueryResultDocument;
 
 impl InlineQueryResultDocument {
     /// This function creates an empty struct for the object InlineQueryResultDocument.
-    pub fn new() -> Self {
+    pub fn new(
+        r#type: String,
+        id: String,
+        title: String,
+        document_url: String,
+        mime_type: String,
+    ) -> Self {
         Self {
-            id: "".to_string(),
-            title: "".to_string(),
+            r#type,
+            id,
+            title,
             caption: None,
             parse_mode: None,
             caption_entities: None,
-            document_url: "".to_string(),
-            mime_type: "".to_string(),
+            document_url,
+            mime_type,
             description: None,
             reply_markup: None,
             input_message_content: None,
@@ -21,10 +28,5 @@ impl InlineQueryResultDocument {
             thumbnail_width: None,
             thumbnail_height: None,
         }
-    }
-}
-impl Default for InlineQueryResultDocument {
-    fn default() -> Self {
-        Self::new()
     }
 }

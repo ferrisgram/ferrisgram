@@ -98,7 +98,7 @@ pub struct Forwarded {
 }
 impl MessageFilter for Forwarded {
     fn check_filter(&self, m: &Message) -> bool {
-        self.check_integral_filter(m, m.forward_date.is_some())
+        self.check_integral_filter(m, m.forward_origin.is_some())
     }
 }
 filter_extension!(Forwarded, Message, dyn MessageFilter);

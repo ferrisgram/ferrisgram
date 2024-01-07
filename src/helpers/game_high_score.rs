@@ -6,16 +6,11 @@ use crate::types::User;
 
 impl GameHighScore {
     /// This function creates an empty struct for the object GameHighScore.
-    pub fn new() -> Self {
+    pub fn new(position: i64, user: User, score: i64) -> Self {
         Self {
-            position: 0,
-            user: User::new(),
-            score: 0,
+            position,
+            user,
+            score,
         }
-    }
-}
-impl Default for GameHighScore {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,17 +5,17 @@ use crate::types::ChatPhoto;
 
 impl ChatPhoto {
     /// This function creates an empty struct for the object ChatPhoto.
-    pub fn new() -> Self {
+    pub fn new(
+        small_file_id: String,
+        small_file_unique_id: String,
+        big_file_id: String,
+        big_file_unique_id: String,
+    ) -> Self {
         Self {
-            small_file_id: "".to_string(),
-            small_file_unique_id: "".to_string(),
-            big_file_id: "".to_string(),
-            big_file_unique_id: "".to_string(),
+            small_file_id,
+            small_file_unique_id,
+            big_file_id,
+            big_file_unique_id,
         }
-    }
-}
-impl Default for ChatPhoto {
-    fn default() -> Self {
-        Self::new()
     }
 }

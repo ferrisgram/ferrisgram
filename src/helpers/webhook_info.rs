@@ -5,11 +5,11 @@ use crate::types::WebhookInfo;
 
 impl WebhookInfo {
     /// This function creates an empty struct for the object WebhookInfo.
-    pub fn new() -> Self {
+    pub fn new(url: String, has_custom_certificate: bool, pending_update_count: i64) -> Self {
         Self {
-            url: "".to_string(),
-            has_custom_certificate: false,
-            pending_update_count: 0,
+            url,
+            has_custom_certificate,
+            pending_update_count,
             ip_address: None,
             last_error_date: None,
             last_error_message: None,
@@ -17,10 +17,5 @@ impl WebhookInfo {
             max_connections: None,
             allowed_updates: None,
         }
-    }
-}
-impl Default for WebhookInfo {
-    fn default() -> Self {
-        Self::new()
     }
 }

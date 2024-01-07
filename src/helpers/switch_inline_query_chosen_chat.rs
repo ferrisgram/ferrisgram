@@ -15,8 +15,3 @@ impl SwitchInlineQueryChosenChat {
         }
     }
 }
-impl Default for SwitchInlineQueryChosenChat {
-    fn default() -> Self {
-        Self::new()
-    }
-}

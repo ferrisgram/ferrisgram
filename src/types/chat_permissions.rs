@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatpermissions>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatPermissions {
-    /// Optional. True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+    /// Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_send_messages: Option<bool>,
     /// Optional. True, if the user is allowed to send audios

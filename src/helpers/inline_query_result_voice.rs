@@ -5,11 +5,12 @@ use crate::types::InlineQueryResultVoice;
 
 impl InlineQueryResultVoice {
     /// This function creates an empty struct for the object InlineQueryResultVoice.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, voice_url: String, title: String) -> Self {
         Self {
-            id: "".to_string(),
-            voice_url: "".to_string(),
-            title: "".to_string(),
+            r#type,
+            id,
+            voice_url,
+            title,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -17,10 +18,5 @@ impl InlineQueryResultVoice {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultVoice {
-    fn default() -> Self {
-        Self::new()
     }
 }

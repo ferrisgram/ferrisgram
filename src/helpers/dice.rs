@@ -5,15 +5,7 @@ use crate::types::Dice;
 
 impl Dice {
     /// This function creates an empty struct for the object Dice.
-    pub fn new() -> Self {
-        Self {
-            emoji: "".to_string(),
-            value: 0,
-        }
-    }
-}
-impl Default for Dice {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(emoji: String, value: i64) -> Self {
+        Self { emoji, value }
     }
 }

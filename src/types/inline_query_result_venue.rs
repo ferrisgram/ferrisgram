@@ -9,6 +9,8 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultvenue>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultVenue {
+    /// Type of the result, must be venue
+    pub r#type: String,
     /// Unique identifier for this result, 1-64 Bytes
     pub id: String,
     /// Latitude of the venue location in degrees

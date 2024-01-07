@@ -1,12 +1,12 @@
 use crate::methods::SendMessageBuilder;
-use crate::types::{InlineKeyboardButton, Message};
+use crate::types::{InlineKeyboardButton, Message, ReplyParameters};
 use crate::Bot;
 
 impl Message {
     /// This is a helper method to easily build the SendMessageBuilder with current message's chat id and message id.
     pub fn reply<'a>(&self, bot: &'a Bot, text: &'a str) -> SendMessageBuilder<'a> {
         SendMessageBuilder::new(bot, self.chat.id, text.to_string())
-            .reply_to_message_id(self.message_id)
+            .reply_parameters(ReplyParameters::new(self.message_id))
     }
     /// This is a helper method to get hyperlink of a message.
     /// It will return an empty string in case of private and group chat type.

@@ -11,8 +11,3 @@ impl SentWebAppMessage {
         }
     }
 }
-impl Default for SentWebAppMessage {
-    fn default() -> Self {
-        Self::new()
-    }
-}

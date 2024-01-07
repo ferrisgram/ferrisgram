@@ -6,11 +6,17 @@ use crate::types::InputMessageContent;
 
 impl InlineQueryResultArticle {
     /// This function creates an empty struct for the object InlineQueryResultArticle.
-    pub fn new() -> Self {
+    pub fn new(
+        r#type: String,
+        id: String,
+        title: String,
+        input_message_content: InputMessageContent,
+    ) -> Self {
         Self {
-            id: "".to_string(),
-            title: "".to_string(),
-            input_message_content: InputMessageContent::new(),
+            r#type,
+            id,
+            title,
+            input_message_content,
             reply_markup: None,
             url: None,
             hide_url: None,
@@ -19,10 +25,5 @@ impl InlineQueryResultArticle {
             thumbnail_width: None,
             thumbnail_height: None,
         }
-    }
-}
-impl Default for InlineQueryResultArticle {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -8,6 +8,8 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultarticle>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultArticle {
+    /// Type of the result, must be article
+    pub r#type: String,
     /// Unique identifier for this result, 1-64 Bytes
     pub id: String,
     /// Title of the result

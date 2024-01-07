@@ -47,25 +47,13 @@ pub fn get_good_field_name(name: &String) -> String {
     name.clone()
 }
 
-pub fn get_type(raw_type: &String, is_required: bool) -> String {
-    let mut num: i16 = 0;
+pub fn get_type(raw_type: &String, is_required: bool, should_box: bool) -> String {
     let mut good_type = raw_type.clone();
-    for mem in raw_type.split_whitespace() {
-        if mem == "Array" {
-            num += 1;
-        }
+    if good_type.contains("Array of") {
+        good_type = format!("Vec<{}>", good_type.replace("Array of", ""))
+    } else if should_box {
+        good_type = format!("Box<{}>", good_type)
     }
-    if num == 0 {
-        if is_required {
-            return good_type;
-        } else {
-            return with_optional(good_type);
-        }
-    }
-    for _ in 0..num {
-        good_type = format!("Vec<{}>", good_type.replace("Array of ", ""));
-    }
-
     if is_required {
         return good_type;
     } else {

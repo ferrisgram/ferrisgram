@@ -5,19 +5,21 @@ use crate::types::ShippingAddress;
 
 impl ShippingAddress {
     /// This function creates an empty struct for the object ShippingAddress.
-    pub fn new() -> Self {
+    pub fn new(
+        country_code: String,
+        state: String,
+        city: String,
+        street_line1: String,
+        street_line2: String,
+        post_code: String,
+    ) -> Self {
         Self {
-            country_code: "".to_string(),
-            state: "".to_string(),
-            city: "".to_string(),
-            street_line1: "".to_string(),
-            street_line2: "".to_string(),
-            post_code: "".to_string(),
+            country_code,
+            state,
+            city,
+            street_line1,
+            street_line2,
+            post_code,
         }
-    }
-}
-impl Default for ShippingAddress {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,19 +5,14 @@ use crate::types::VideoNote;
 
 impl VideoNote {
     /// This function creates an empty struct for the object VideoNote.
-    pub fn new() -> Self {
+    pub fn new(file_id: String, file_unique_id: String, length: i64, duration: i64) -> Self {
         Self {
-            file_id: "".to_string(),
-            file_unique_id: "".to_string(),
-            length: 0,
-            duration: 0,
+            file_id,
+            file_unique_id,
+            length,
+            duration,
             thumbnail: None,
             file_size: None,
         }
-    }
-}
-impl Default for VideoNote {
-    fn default() -> Self {
-        Self::new()
     }
 }

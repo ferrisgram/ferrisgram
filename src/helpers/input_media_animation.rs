@@ -5,9 +5,10 @@ use crate::types::InputMediaAnimation;
 
 impl InputMediaAnimation {
     /// This function creates an empty struct for the object InputMediaAnimation.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, media: String) -> Self {
         Self {
-            media: "".to_string(),
+            r#type,
+            media,
             thumbnail: None,
             caption: None,
             parse_mode: None,
@@ -17,10 +18,5 @@ impl InputMediaAnimation {
             duration: None,
             has_spoiler: None,
         }
-    }
-}
-impl Default for InputMediaAnimation {
-    fn default() -> Self {
-        Self::new()
     }
 }

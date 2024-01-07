@@ -5,9 +5,9 @@ use crate::types::InlineKeyboardButton;
 
 impl InlineKeyboardButton {
     /// This function creates an empty struct for the object InlineKeyboardButton.
-    pub fn new() -> Self {
+    pub fn new(text: String) -> Self {
         Self {
-            text: "".to_string(),
+            text,
             url: None,
             callback_data: None,
             web_app: None,
@@ -18,10 +18,5 @@ impl InlineKeyboardButton {
             callback_game: None,
             pay: None,
         }
-    }
-}
-impl Default for InlineKeyboardButton {
-    fn default() -> Self {
-        Self::new()
     }
 }

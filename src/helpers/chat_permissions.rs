@@ -24,8 +24,3 @@ impl ChatPermissions {
         }
     }
 }
-impl Default for ChatPermissions {
-    fn default() -> Self {
-        Self::new()
-    }
-}

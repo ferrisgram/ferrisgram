@@ -9,6 +9,8 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultcachedvoice>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultCachedVoice {
+    /// Type of the result, must be voice
+    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// A valid file identifier for the voice message

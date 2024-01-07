@@ -5,9 +5,10 @@ use crate::types::InputMediaAudio;
 
 impl InputMediaAudio {
     /// This function creates an empty struct for the object InputMediaAudio.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, media: String) -> Self {
         Self {
-            media: "".to_string(),
+            r#type,
+            media,
             thumbnail: None,
             caption: None,
             parse_mode: None,
@@ -16,10 +17,5 @@ impl InputMediaAudio {
             performer: None,
             title: None,
         }
-    }
-}
-impl Default for InputMediaAudio {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,15 +5,10 @@ use crate::types::BotCommand;
 
 impl BotCommand {
     /// This function creates an empty struct for the object BotCommand.
-    pub fn new() -> Self {
+    pub fn new(command: String, description: String) -> Self {
         Self {
-            command: "".to_string(),
-            description: "".to_string(),
+            command,
+            description,
         }
-    }
-}
-impl Default for BotCommand {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -2,16 +2,25 @@
 // DO NOT EDIT!!!
 
 use crate::types::InputInvoiceMessageContent;
+use crate::types::LabeledPrice;
 
 impl InputInvoiceMessageContent {
     /// This function creates an empty struct for the object InputInvoiceMessageContent.
-    pub fn new() -> Self {
+    pub fn new(
+        title: String,
+        description: String,
+        payload: String,
+        provider_token: String,
+        currency: String,
+        prices: Vec<LabeledPrice>,
+    ) -> Self {
         Self {
-            description: "".to_string(),
-            payload: "".to_string(),
-            provider_token: "".to_string(),
-            currency: "".to_string(),
-            prices: Vec::new(),
+            title,
+            description,
+            payload,
+            provider_token,
+            currency,
+            prices,
             max_tip_amount: None,
             suggested_tip_amounts: None,
             provider_data: None,
@@ -27,10 +36,5 @@ impl InputInvoiceMessageContent {
             send_email_to_provider: None,
             is_flexible: None,
         }
-    }
-}
-impl Default for InputInvoiceMessageContent {
-    fn default() -> Self {
-        Self::new()
     }
 }

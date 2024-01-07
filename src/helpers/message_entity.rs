@@ -5,20 +5,15 @@ use crate::types::MessageEntity;
 
 impl MessageEntity {
     /// This function creates an empty struct for the object MessageEntity.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, offset: i64, length: i64) -> Self {
         Self {
-            r#type: "".to_string(),
-            offset: 0,
-            length: 0,
+            r#type,
+            offset,
+            length,
             url: None,
             user: None,
             language: None,
             custom_emoji_id: None,
         }
-    }
-}
-impl Default for MessageEntity {
-    fn default() -> Self {
-        Self::new()
     }
 }

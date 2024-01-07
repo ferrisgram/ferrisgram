@@ -5,11 +5,12 @@ use crate::types::InlineQueryResultCachedVideo;
 
 impl InlineQueryResultCachedVideo {
     /// This function creates an empty struct for the object InlineQueryResultCachedVideo.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, video_file_id: String, title: String) -> Self {
         Self {
-            id: "".to_string(),
-            video_file_id: "".to_string(),
-            title: "".to_string(),
+            r#type,
+            id,
+            video_file_id,
+            title,
             description: None,
             caption: None,
             parse_mode: None,
@@ -17,10 +18,5 @@ impl InlineQueryResultCachedVideo {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultCachedVideo {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,20 +5,16 @@ use crate::types::InputVenueMessageContent;
 
 impl InputVenueMessageContent {
     /// This function creates an empty struct for the object InputVenueMessageContent.
-    pub fn new() -> Self {
+    pub fn new(latitude: f64, longitude: f64, title: String, address: String) -> Self {
         Self {
-            longitude: 0.0,
-            title: "".to_string(),
-            address: "".to_string(),
+            latitude,
+            longitude,
+            title,
+            address,
             foursquare_id: None,
             foursquare_type: None,
             google_place_id: None,
             google_place_type: None,
         }
-    }
-}
-impl Default for InputVenueMessageContent {
-    fn default() -> Self {
-        Self::new()
     }
 }

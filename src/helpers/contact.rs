@@ -5,18 +5,13 @@ use crate::types::Contact;
 
 impl Contact {
     /// This function creates an empty struct for the object Contact.
-    pub fn new() -> Self {
+    pub fn new(phone_number: String, first_name: String) -> Self {
         Self {
-            phone_number: "".to_string(),
-            first_name: "".to_string(),
+            phone_number,
+            first_name,
             last_name: None,
             user_id: None,
             vcard: None,
         }
-    }
-}
-impl Default for Contact {
-    fn default() -> Self {
-        Self::new()
     }
 }

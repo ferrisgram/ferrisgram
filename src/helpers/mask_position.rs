@@ -5,17 +5,12 @@ use crate::types::MaskPosition;
 
 impl MaskPosition {
     /// This function creates an empty struct for the object MaskPosition.
-    pub fn new() -> Self {
+    pub fn new(point: String, x_shift: f64, y_shift: f64, scale: f64) -> Self {
         Self {
-            point: "".to_string(),
-            x_shift: 0.0,
-            y_shift: 0.0,
-            scale: 0.0,
+            point,
+            x_shift,
+            y_shift,
+            scale,
         }
-    }
-}
-impl Default for MaskPosition {
-    fn default() -> Self {
-        Self::new()
     }
 }

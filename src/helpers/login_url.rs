@@ -5,17 +5,12 @@ use crate::types::LoginUrl;
 
 impl LoginUrl {
     /// This function creates an empty struct for the object LoginUrl.
-    pub fn new() -> Self {
+    pub fn new(url: String) -> Self {
         Self {
-            url: "".to_string(),
+            url,
             forward_text: None,
             bot_username: None,
             request_write_access: None,
         }
-    }
-}
-impl Default for LoginUrl {
-    fn default() -> Self {
-        Self::new()
     }
 }

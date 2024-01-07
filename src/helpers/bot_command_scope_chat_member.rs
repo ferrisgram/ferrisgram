@@ -5,15 +5,11 @@ use crate::types::BotCommandScopeChatMember;
 
 impl BotCommandScopeChatMember {
     /// This function creates an empty struct for the object BotCommandScopeChatMember.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, chat_id: i64, user_id: i64) -> Self {
         Self {
-            chat_id: 0,
-            user_id: 0,
+            r#type,
+            chat_id,
+            user_id,
         }
-    }
-}
-impl Default for BotCommandScopeChatMember {
-    fn default() -> Self {
-        Self::new()
     }
 }

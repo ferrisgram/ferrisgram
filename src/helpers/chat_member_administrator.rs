@@ -6,18 +6,31 @@ use crate::types::User;
 
 impl ChatMemberAdministrator {
     /// This function creates an empty struct for the object ChatMemberAdministrator.
-    pub fn new() -> Self {
+    pub fn new(
+        status: String,
+        user: User,
+        can_be_edited: bool,
+        is_anonymous: bool,
+        can_manage_chat: bool,
+        can_delete_messages: bool,
+        can_manage_video_chats: bool,
+        can_restrict_members: bool,
+        can_promote_members: bool,
+        can_change_info: bool,
+        can_invite_users: bool,
+    ) -> Self {
         Self {
-            user: User::new(),
-            can_be_edited: false,
-            is_anonymous: false,
-            can_manage_chat: false,
-            can_delete_messages: false,
-            can_manage_video_chats: false,
-            can_restrict_members: false,
-            can_promote_members: false,
-            can_change_info: false,
-            can_invite_users: false,
+            status,
+            user,
+            can_be_edited,
+            is_anonymous,
+            can_manage_chat,
+            can_delete_messages,
+            can_manage_video_chats,
+            can_restrict_members,
+            can_promote_members,
+            can_change_info,
+            can_invite_users,
             can_post_messages: None,
             can_edit_messages: None,
             can_pin_messages: None,
@@ -27,10 +40,5 @@ impl ChatMemberAdministrator {
             can_manage_topics: None,
             custom_title: None,
         }
-    }
-}
-impl Default for ChatMemberAdministrator {
-    fn default() -> Self {
-        Self::new()
     }
 }

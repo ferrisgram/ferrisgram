@@ -5,16 +5,11 @@ use crate::types::ForumTopicCreated;
 
 impl ForumTopicCreated {
     /// This function creates an empty struct for the object ForumTopicCreated.
-    pub fn new() -> Self {
+    pub fn new(name: String, icon_color: i64) -> Self {
         Self {
-            name: "".to_string(),
-            icon_color: 0,
+            name,
+            icon_color,
             icon_custom_emoji_id: None,
         }
-    }
-}
-impl Default for ForumTopicCreated {
-    fn default() -> Self {
-        Self::new()
     }
 }

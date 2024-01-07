@@ -6,18 +6,13 @@ use crate::types::User;
 
 impl ChosenInlineResult {
     /// This function creates an empty struct for the object ChosenInlineResult.
-    pub fn new() -> Self {
+    pub fn new(result_id: String, from: User, query: String) -> Self {
         Self {
-            result_id: "".to_string(),
-            from: User::new(),
+            result_id,
+            from,
             location: None,
             inline_message_id: None,
-            query: "".to_string(),
+            query,
         }
-    }
-}
-impl Default for ChosenInlineResult {
-    fn default() -> Self {
-        Self::new()
     }
 }

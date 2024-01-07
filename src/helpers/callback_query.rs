@@ -6,20 +6,15 @@ use crate::types::User;
 
 impl CallbackQuery {
     /// This function creates an empty struct for the object CallbackQuery.
-    pub fn new() -> Self {
+    pub fn new(id: String, from: User, chat_instance: String) -> Self {
         Self {
-            id: "".to_string(),
-            from: User::new(),
+            id,
+            from,
             message: None,
             inline_message_id: None,
-            chat_instance: "".to_string(),
+            chat_instance,
             data: None,
             game_short_name: None,
         }
-    }
-}
-impl Default for CallbackQuery {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,12 +5,7 @@ use crate::types::VideoChatEnded;
 
 impl VideoChatEnded {
     /// This function creates an empty struct for the object VideoChatEnded.
-    pub fn new() -> Self {
-        Self { duration: 0 }
-    }
-}
-impl Default for VideoChatEnded {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(duration: i64) -> Self {
+        Self { duration }
     }
 }

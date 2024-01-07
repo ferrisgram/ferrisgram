@@ -37,7 +37,7 @@ impl Bot {
                 .build()
                 .unwrap(),
             api_url: api.to_string(),
-            user: User::new(),
+            user: User::new(0, true, String::new()),
         };
         match bot.get_me().send().await {
             Ok(bot_user) => {

@@ -5,15 +5,7 @@ use crate::types::LabeledPrice;
 
 impl LabeledPrice {
     /// This function creates an empty struct for the object LabeledPrice.
-    pub fn new() -> Self {
-        Self {
-            label: "".to_string(),
-            amount: 0,
-        }
-    }
-}
-impl Default for LabeledPrice {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(label: String, amount: i64) -> Self {
+        Self { label, amount }
     }
 }

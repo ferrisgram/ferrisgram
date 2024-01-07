@@ -12,8 +12,3 @@ impl ForumTopicEdited {
         }
     }
 }
-impl Default for ForumTopicEdited {
-    fn default() -> Self {
-        Self::new()
-    }
-}

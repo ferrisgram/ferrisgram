@@ -9,8 +9,3 @@ impl KeyboardButtonPollType {
         Self { r#type: None }
     }
 }
-impl Default for KeyboardButtonPollType {
-    fn default() -> Self {
-        Self::new()
-    }
-}

@@ -5,14 +5,9 @@ use crate::types::MessageAutoDeleteTimerChanged;
 
 impl MessageAutoDeleteTimerChanged {
     /// This function creates an empty struct for the object MessageAutoDeleteTimerChanged.
-    pub fn new() -> Self {
+    pub fn new(message_auto_delete_time: i64) -> Self {
         Self {
-            message_auto_delete_time: 0,
+            message_auto_delete_time,
         }
-    }
-}
-impl Default for MessageAutoDeleteTimerChanged {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,16 +5,12 @@ use crate::types::PassportElementErrorFiles;
 
 impl PassportElementErrorFiles {
     /// This function creates an empty struct for the object PassportElementErrorFiles.
-    pub fn new() -> Self {
+    pub fn new(source: String, r#type: String, file_hashes: Vec<String>, message: String) -> Self {
         Self {
-            r#type: "".to_string(),
-            file_hashes: Vec::new(),
-            message: "".to_string(),
+            source,
+            r#type,
+            file_hashes,
+            message,
         }
-    }
-}
-impl Default for PassportElementErrorFiles {
-    fn default() -> Self {
-        Self::new()
     }
 }

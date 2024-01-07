@@ -5,12 +5,7 @@ use crate::types::VideoChatScheduled;
 
 impl VideoChatScheduled {
     /// This function creates an empty struct for the object VideoChatScheduled.
-    pub fn new() -> Self {
-        Self { start_date: 0 }
-    }
-}
-impl Default for VideoChatScheduled {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(start_date: i64) -> Self {
+        Self { start_date }
     }
 }

@@ -9,8 +9,3 @@ impl GeneralForumTopicUnhidden {
         Self {}
     }
 }
-impl Default for GeneralForumTopicUnhidden {
-    fn default() -> Self {
-        Self::new()
-    }
-}

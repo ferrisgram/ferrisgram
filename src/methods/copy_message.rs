@@ -6,11 +6,11 @@ use serde::Serialize;
 
 use crate::error::Result;
 use crate::types::MessageId;
-use crate::types::{InlineKeyboardMarkup, MessageEntity};
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
 
 impl Bot {
-    /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+    /// Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
     /// <https://core.telegram.org/bots/api#copymessage>
     pub fn copy_message(
         &self,
@@ -50,12 +50,9 @@ pub struct CopyMessageBuilder<'a> {
     /// Protects the contents of the sent message from forwarding and saving
     #[serde(skip_serializing_if = "Option::is_none")]
     pub protect_content: Option<bool>,
-    /// If the message is a reply, ID of the original message
+    /// Description of the message to reply to
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub reply_to_message_id: Option<i64>,
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub allow_sending_without_reply: Option<bool>,
+    pub reply_parameters: Option<ReplyParameters>,
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
@@ -74,8 +71,7 @@ impl<'a> CopyMessageBuilder<'a> {
             caption_entities: None,
             disable_notification: None,
             protect_content: None,
-            reply_to_message_id: None,
-            allow_sending_without_reply: None,
+            reply_parameters: None,
             reply_markup: None,
         }
     }
@@ -125,13 +121,8 @@ impl<'a> CopyMessageBuilder<'a> {
         self
     }
 
-    pub fn reply_to_message_id(mut self, reply_to_message_id: i64) -> Self {
-        self.reply_to_message_id = Some(reply_to_message_id);
-        self
-    }
-
-    pub fn allow_sending_without_reply(mut self, allow_sending_without_reply: bool) -> Self {
-        self.allow_sending_without_reply = Some(allow_sending_without_reply);
+    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
+        self.reply_parameters = Some(reply_parameters);
         self
     }
 

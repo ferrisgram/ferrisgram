@@ -5,16 +5,11 @@ use crate::types::ForceReply;
 
 impl ForceReply {
     /// This function creates an empty struct for the object ForceReply.
-    pub fn new() -> Self {
+    pub fn new(force_reply: bool) -> Self {
         Self {
-            force_reply: false,
+            force_reply,
             input_field_placeholder: None,
             selective: None,
         }
-    }
-}
-impl Default for ForceReply {
-    fn default() -> Self {
-        Self::new()
     }
 }

@@ -5,16 +5,12 @@ use crate::types::PassportElementErrorUnspecified;
 
 impl PassportElementErrorUnspecified {
     /// This function creates an empty struct for the object PassportElementErrorUnspecified.
-    pub fn new() -> Self {
+    pub fn new(source: String, r#type: String, element_hash: String, message: String) -> Self {
         Self {
-            r#type: "".to_string(),
-            element_hash: "".to_string(),
-            message: "".to_string(),
+            source,
+            r#type,
+            element_hash,
+            message,
         }
-    }
-}
-impl Default for PassportElementErrorUnspecified {
-    fn default() -> Self {
-        Self::new()
     }
 }

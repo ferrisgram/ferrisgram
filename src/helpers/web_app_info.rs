@@ -5,14 +5,7 @@ use crate::types::WebAppInfo;
 
 impl WebAppInfo {
     /// This function creates an empty struct for the object WebAppInfo.
-    pub fn new() -> Self {
-        Self {
-            url: "".to_string(),
-        }
-    }
-}
-impl Default for WebAppInfo {
-    fn default() -> Self {
-        Self::new()
+    pub fn new(url: String) -> Self {
+        Self { url }
     }
 }

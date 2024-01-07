@@ -5,14 +5,15 @@ use crate::types::InlineQueryResultGif;
 
 impl InlineQueryResultGif {
     /// This function creates an empty struct for the object InlineQueryResultGif.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, gif_url: String, thumbnail_url: String) -> Self {
         Self {
-            id: "".to_string(),
-            gif_url: "".to_string(),
+            r#type,
+            id,
+            gif_url,
             gif_width: None,
             gif_height: None,
             gif_duration: None,
-            thumbnail_url: "".to_string(),
+            thumbnail_url,
             thumbnail_mime_type: None,
             title: None,
             caption: None,
@@ -21,10 +22,5 @@ impl InlineQueryResultGif {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultGif {
-    fn default() -> Self {
-        Self::new()
     }
 }

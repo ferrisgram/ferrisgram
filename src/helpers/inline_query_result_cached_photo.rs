@@ -5,10 +5,11 @@ use crate::types::InlineQueryResultCachedPhoto;
 
 impl InlineQueryResultCachedPhoto {
     /// This function creates an empty struct for the object InlineQueryResultCachedPhoto.
-    pub fn new() -> Self {
+    pub fn new(r#type: String, id: String, photo_file_id: String) -> Self {
         Self {
-            id: "".to_string(),
-            photo_file_id: "".to_string(),
+            r#type,
+            id,
+            photo_file_id,
             title: None,
             description: None,
             caption: None,
@@ -17,10 +18,5 @@ impl InlineQueryResultCachedPhoto {
             reply_markup: None,
             input_message_content: None,
         }
-    }
-}
-impl Default for InlineQueryResultCachedPhoto {
-    fn default() -> Self {
-        Self::new()
     }
 }

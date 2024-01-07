@@ -2,7 +2,8 @@
 // DO NOT EDIT!!!
 
 use crate::types::{
-    CallbackQuery, ChatJoinRequest, ChatMemberUpdated, ChosenInlineResult, InlineQuery, Message,
+    CallbackQuery, ChatBoostRemoved, ChatBoostUpdated, ChatJoinRequest, ChatMemberUpdated,
+    ChosenInlineResult, InlineQuery, Message, MessageReactionCountUpdated, MessageReactionUpdated,
     Poll, PollAnswer, PreCheckoutQuery, ShippingQuery,
 };
 use serde::{Deserialize, Serialize};
@@ -16,16 +17,22 @@ pub struct Update {
     pub update_id: i64,
     /// Optional. New incoming message of any kind - text, photo, sticker, etc.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub message: Option<Box<Message>>,
+    pub message: Option<Message>,
     /// Optional. New version of a message that is known to the bot and was edited
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub edited_message: Option<Box<Message>>,
+    pub edited_message: Option<Message>,
     /// Optional. New incoming channel post of any kind - text, photo, sticker, etc.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub channel_post: Option<Box<Message>>,
+    pub channel_post: Option<Message>,
     /// Optional. New version of a channel post that is known to the bot and was edited
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub edited_channel_post: Option<Box<Message>>,
+    pub edited_channel_post: Option<Message>,
+    /// Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_reaction: Option<MessageReactionUpdated>,
+    /// Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates. The updates are grouped and can be sent with delay up to a few minutes.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_reaction_count: Option<MessageReactionCountUpdated>,
     /// Optional. New incoming inline query
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inline_query: Option<InlineQuery>,
@@ -56,4 +63,10 @@ pub struct Update {
     /// Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub chat_join_request: Option<ChatJoinRequest>,
+    /// Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub chat_boost: Option<ChatBoostUpdated>,
+    /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub removed_chat_boost: Option<ChatBoostRemoved>,
 }
