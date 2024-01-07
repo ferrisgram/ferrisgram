@@ -66,19 +66,22 @@ impl<'a> Dispatcher<'a> {
             for handler in self.handlers.iter() {
                 if &handler.handler_group == group {
                     for handler in handler.handlers.iter() {
-                        if !handler.check_update(self.bot, update).await {
+                        if !handler.check_update(self.bot, update) {
                             continue;
                         }
-                        let res = handler.handle_update(self.bot, &ctx).await;
+                        let res: Result<Result<GroupIteration, _>, tokio::task::JoinError> = handler.handle_update(self.bot, &ctx).await;
                         match res {
-                            Ok(mode) => match mode {
-                                EndGroups => return,
-                                ContinueGroups => break,
-                                ResumeGroups => continue,
+                            Ok(fres) => match fres {
+                                Ok(mode) => match mode {
+                                    EndGroups => return,
+                                    ContinueGroups => break,
+                                    ResumeGroups => continue,
+                                },
+                                Err(error) => {
+                                    (self.error_handler)(self.bot, &ctx, error);
+                                }
                             },
-                            Err(error) => {
-                                (self.error_handler)(self.bot, &ctx, error);
-                            }
+                            Err(_) => {},
                         }
                     }
                 }
