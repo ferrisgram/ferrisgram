@@ -7,14 +7,14 @@ use crate::types::Update;
 use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct MessageHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
-    pub callback: fn(&Bot, &Context) -> F,
+    pub callback: fn(Bot, Context) -> F,
     pub filter: Box<dyn MessageFilter>,
     pub allow_edited: bool,
     pub allow_channel: bool,
 }
 
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> MessageHandler<F> {
-    pub fn new(callback: fn(&Bot, &Context) -> F, filter: Box<dyn MessageFilter>) -> Box<Self> {
+    pub fn new(callback: fn(Bot, Context) -> F, filter: Box<dyn MessageFilter>) -> Box<Self> {
         Box::new(Self {
             callback,
             filter,
@@ -66,6 +66,6 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Me
         false
     }
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot, context).await
+        (self.callback)(bot.clone(), context.clone()).await
     }
 }

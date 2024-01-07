@@ -7,12 +7,12 @@ use crate::types::Update;
 use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct InlineQueryHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
-    pub callback: fn(&Bot, &Context) -> F,
+    pub callback: fn(Bot, Context) -> F,
     pub filter: Box<dyn InlineQueryFilter>,
 }
 
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> InlineQueryHandler<F> {
-    pub fn new(callback: fn(&Bot, &Context) -> F, filter: Box<dyn InlineQueryFilter>) -> Box<Self> {
+    pub fn new(callback: fn(Bot, Context) -> F, filter: Box<dyn InlineQueryFilter>) -> Box<Self> {
         Box::new(Self { callback, filter })
     }
 }
@@ -38,6 +38,6 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
             .check_filter(update.inline_query.as_ref().unwrap())
     }
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot, context).await
+        (self.callback)(bot.clone(), context.clone()).await
     }
 }

@@ -6,7 +6,7 @@ use serde::Serialize;
 
 use crate::error::Result;
 use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, InputFile, MessageEntity, ReplyParameters};
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
 
 impl Bot {

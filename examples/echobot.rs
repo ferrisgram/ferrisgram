@@ -3,12 +3,13 @@ use ferrisgram::ext::filters::message;
 use ferrisgram::ext::handlers::{CommandHandler, MessageHandler};
 use ferrisgram::ext::{Context, Dispatcher, Updater};
 use ferrisgram::Bot;
+use ferrisgram::types::LinkPreviewOptions;
 
 #[allow(unused)]
 #[tokio::main]
 async fn main() {
     // This function creates a new bot instance and the error is handled accordingly
-    let bot = match Bot::new("Bot Token Here", None).await {
+    let bot = match Bot::new("6265535503:AAGdc90KJd5AgJqbApAh5xp5bQHIQyKE_fc", None).await {
         Ok(bot) => bot,
         Err(error) => panic!("failed to create bot: {}", &error),
     };
@@ -40,9 +41,11 @@ async fn main() {
 
 // This is our callable function for the command handler that we declared earlier
 // It will be triggered when someone send /start to the bot.
-async fn start(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
+async fn start(bot: Bot, ctx: Context) -> Result<GroupIteration> {
     // Same logic as chat applies on unwrapping effective message here.
     let msg = ctx.effective_message.unwrap();
+    let mut link_preview_options = LinkPreviewOptions::new();
+    link_preview_options.is_disabled = Some(true);
     // Ferrisgram offers some custom helpers which make your work easy
     // Here we have used one of those helpers known as msg.reply
     msg.reply(
@@ -52,8 +55,7 @@ I will repeat your messages.",
     )
     // this method will ensure that our text will be sent with markdown formatting.
     .parse_mode("markdown".to_string())
-    // this method will disable the web page preview for out message
-    .disable_web_page_preview(true)
+    .link_preview_options(link_preview_options)
     // You must use this send() method in order to send the request to the API
     .send()
     .await?;
@@ -66,7 +68,7 @@ I will repeat your messages.",
 
 // This is our callable function for our message handler which will be used to
 // repeat the text.
-async fn echo(bot: &Bot, ctx: &Context<'_>) -> Result<GroupIteration> {
+async fn echo(bot: Bot, ctx: Context) -> Result<GroupIteration> {
     // Command Handler recieves message updates which have chat as a compulsory field.
     // Hence we can unwrap effective chat without checking if it is none.
     let chat = ctx.effective_chat.unwrap();

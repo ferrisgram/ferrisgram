@@ -8,13 +8,13 @@ use crate::{error::GroupIteration, error::Result, Bot};
 pub struct CommandHandler<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
     pub prefix: Vec<char>,
     pub command: &'a str,
-    pub callback: for<'r, 's, 't0> fn(&'r Bot, &'s Context<'t0>) -> F,
+    pub callback: fn(Bot, Context) -> F,
     pub allow_edited: bool,
     pub allow_channel: bool,
 }
 
-impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send> CommandHandler<'a, F> {
-    pub fn new(command: &'a str, callback: fn(&Bot, &Context) -> F) -> Box<Self> {
+impl<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> CommandHandler<'a, F> {
+    pub fn new(command: &'a str, callback: fn(Bot, Context) -> F) -> Box<Self> {
         Box::new(Self {
             prefix: Vec::from(['/']),
             command,
@@ -52,7 +52,7 @@ impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send> Com
     }
 }
 
-#[allow(suspicious_double_ref_op)]
+#[allow(clippy::clone_double_ref)]
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for CommandHandler<'_, F> {
     fn clone(&self) -> Self {
         Self {
@@ -101,6 +101,6 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
         false
     }
     async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot, context).await
+        (self.callback)(bot.clone(), context.clone()).await
     }
 }
