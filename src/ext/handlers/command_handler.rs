@@ -5,7 +5,7 @@ use crate::ext::{Context, Handler};
 use crate::types::{Message, Update};
 use crate::{error::GroupIteration, error::Result, Bot};
 
-pub struct CommandHandler<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
+pub struct CommandHandler<'a, F: Future + Send + 'static> {
     pub prefix: Vec<char>,
     pub command: &'a str,
     pub callback: for<'r, 's, 't0> fn(&'r Bot, &'s Context<'t0>) -> F,
@@ -13,7 +13,7 @@ pub struct CommandHandler<'a, F: Future<Output = Result<GroupIteration>> + Send 
     pub allow_channel: bool,
 }
 
-impl<'a, F: for<'r, 's, 't0> Future<Output = Result<GroupIteration>> + Send> CommandHandler<'a, F> {
+impl<'a, F: for<'r, 's, 't0> Future + Send> CommandHandler<'a, F> {
     pub fn new(command: &'a str, callback: fn(&Bot, &Context) -> F) -> Box<Self> {
         Box::new(Self {
             prefix: Vec::from(['/']),

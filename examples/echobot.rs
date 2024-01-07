@@ -22,15 +22,15 @@ async fn main() {
 
     // add_handler_to_group is used to map the provided handler to a group manually.
     // note that handler groups are processed in ascending order.
-    dispatcher.add_handler_to_group(
-        MessageHandler::new(
-            echo,
-            // This will restrict our echo function to the messages which
-            // contain either text or a caption.
-            message::Text::filter().or(message::Caption::filter()),
-        ),
-        1,
-    );
+    // dispatcher.add_handler_to_group(
+    //     MessageHandler::new(
+    //         echo,
+    //         // This will restrict our echo function to the messages which
+    //         // contain either text or a caption.
+    //         message::Text::filter().or(message::Caption::filter()),
+    //     ),
+    //     1,
+    // );
 
     let mut updater = Updater::new(&bot, dispatcher);
 
