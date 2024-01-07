@@ -9,7 +9,7 @@ use ferrisgram::types::LinkPreviewOptions;
 #[tokio::main]
 async fn main() {
     // This function creates a new bot instance and the error is handled accordingly
-    let bot = match Bot::new("6265535503:AAGdc90KJd5AgJqbApAh5xp5bQHIQyKE_fc", None).await {
+    let bot = match Bot::new("Bot token here", None).await {
         Ok(bot) => bot,
         Err(error) => panic!("failed to create bot: {}", &error),
     };
