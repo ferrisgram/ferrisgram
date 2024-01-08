@@ -48,7 +48,9 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
                 MaybeInaccessibleMessage::Message(m) => &*m.chat,
                 MaybeInaccessibleMessage::InaccessibleMessage(m) => &m.chat,
             };
-            return chat.r#type == "channel";
+            if chat.r#type == "channel" {
+                return false;
+            }
         }
         self.filter.check_filter(callback_query)
     }
