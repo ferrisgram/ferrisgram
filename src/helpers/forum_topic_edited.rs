@@ -3,6 +3,12 @@
 
 use crate::types::ForumTopicEdited;
 
+impl Default for ForumTopicEdited {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ForumTopicEdited {
     /// This function creates an empty struct for the object ForumTopicEdited.
     pub fn new() -> Self {

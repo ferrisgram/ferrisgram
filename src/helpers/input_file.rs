@@ -3,6 +3,12 @@
 
 use crate::types::InputFile;
 
+impl Default for InputFile {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl InputFile {
     /// This function creates an empty struct for the object InputFile.
     pub fn new() -> Self {

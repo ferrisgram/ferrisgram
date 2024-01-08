@@ -3,6 +3,12 @@
 
 use crate::types::InputTextMessageContent;
 
+impl Default for InputTextMessageContent {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl InputTextMessageContent {
     /// This function creates an empty struct for the object InputTextMessageContent.
     pub fn new() -> Self {

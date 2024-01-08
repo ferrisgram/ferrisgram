@@ -3,6 +3,12 @@
 
 use crate::types::VideoChatStarted;
 
+impl Default for VideoChatStarted {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl VideoChatStarted {
     /// This function creates an empty struct for the object VideoChatStarted.
     pub fn new() -> Self {

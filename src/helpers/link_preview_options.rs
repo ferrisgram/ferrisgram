@@ -3,6 +3,12 @@
 
 use crate::types::LinkPreviewOptions;
 
+impl Default for LinkPreviewOptions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl LinkPreviewOptions {
     /// This function creates an empty struct for the object LinkPreviewOptions.
     pub fn new() -> Self {

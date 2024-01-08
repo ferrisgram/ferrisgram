@@ -3,6 +3,12 @@
 
 use crate::types::SentWebAppMessage;
 
+impl Default for SentWebAppMessage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SentWebAppMessage {
     /// This function creates an empty struct for the object SentWebAppMessage.
     pub fn new() -> Self {

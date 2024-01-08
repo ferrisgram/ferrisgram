@@ -3,6 +3,12 @@
 
 use crate::types::GeneralForumTopicUnhidden;
 
+impl Default for GeneralForumTopicUnhidden {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl GeneralForumTopicUnhidden {
     /// This function creates an empty struct for the object GeneralForumTopicUnhidden.
     pub fn new() -> Self {

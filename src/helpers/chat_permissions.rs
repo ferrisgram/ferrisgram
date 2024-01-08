@@ -3,6 +3,12 @@
 
 use crate::types::ChatPermissions;
 
+impl Default for ChatPermissions {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ChatPermissions {
     /// This function creates an empty struct for the object ChatPermissions.
     pub fn new() -> Self {

@@ -3,6 +3,12 @@
 
 use crate::types::SwitchInlineQueryChosenChat;
 
+impl Default for SwitchInlineQueryChosenChat {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SwitchInlineQueryChosenChat {
     /// This function creates an empty struct for the object SwitchInlineQueryChosenChat.
     pub fn new() -> Self {
