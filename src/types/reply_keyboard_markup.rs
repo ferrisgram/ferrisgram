@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ReplyKeyboardMarkup {
     /// Array of button rows, each represented by an Array of KeyboardButton objects
-    pub keyboard: Vec<KeyboardButton>,
+    pub keyboard: Vec<Vec<KeyboardButton>>,
     /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_persistent: Option<bool>,

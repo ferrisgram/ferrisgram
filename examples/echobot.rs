@@ -2,8 +2,8 @@ use ferrisgram::error::{GroupIteration, Result};
 use ferrisgram::ext::filters::message;
 use ferrisgram::ext::handlers::{CommandHandler, MessageHandler};
 use ferrisgram::ext::{Context, Dispatcher, Updater};
-use ferrisgram::Bot;
 use ferrisgram::types::LinkPreviewOptions;
+use ferrisgram::Bot;
 
 #[allow(unused)]
 #[tokio::main]

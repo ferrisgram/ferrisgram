@@ -6,7 +6,7 @@ use crate::types::UserProfilePhotos;
 
 impl UserProfilePhotos {
     /// This function creates an empty struct for the object UserProfilePhotos.
-    pub fn new(total_count: i64, photos: Vec<PhotoSize>) -> Self {
+    pub fn new(total_count: i64, photos: Vec<Vec<PhotoSize>>) -> Self {
         Self {
             total_count,
             photos,

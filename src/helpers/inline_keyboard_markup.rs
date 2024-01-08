@@ -6,7 +6,7 @@ use crate::types::InlineKeyboardMarkup;
 
 impl InlineKeyboardMarkup {
     /// This function creates an empty struct for the object InlineKeyboardMarkup.
-    pub fn new(inline_keyboard: Vec<InlineKeyboardButton>) -> Self {
+    pub fn new(inline_keyboard: Vec<Vec<InlineKeyboardButton>>) -> Self {
         Self { inline_keyboard }
     }
 }

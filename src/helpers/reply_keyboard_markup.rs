@@ -6,7 +6,7 @@ use crate::types::ReplyKeyboardMarkup;
 
 impl ReplyKeyboardMarkup {
     /// This function creates an empty struct for the object ReplyKeyboardMarkup.
-    pub fn new(keyboard: Vec<KeyboardButton>) -> Self {
+    pub fn new(keyboard: Vec<Vec<KeyboardButton>>) -> Self {
         Self {
             keyboard,
             is_persistent: None,

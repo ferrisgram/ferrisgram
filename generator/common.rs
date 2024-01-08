@@ -49,10 +49,27 @@ pub fn get_good_field_name(name: &String) -> String {
     name.clone()
 }
 
+fn handle_array(raw_type: &String) -> String {
+    let mut num: i16 = 0;
+    let mut good_type = raw_type.clone();
+    for mem in raw_type.split_whitespace() {
+        if mem == "Array" {
+            num += 1;
+        }
+    }
+    if num == 0 {
+        return good_type;
+    }
+    for _ in 0..num {
+        good_type = format!("Vec<{}>", good_type.replace("Array of ", ""));
+    }
+    good_type
+}
+
 pub fn get_type(raw_type: &String, is_required: bool, should_box: bool) -> String {
     let mut good_type = raw_type.clone();
     if good_type.contains("Array of") {
-        good_type = format!("Vec<{}>", good_type.replace("Array of", ""))
+        good_type = handle_array(raw_type)
     } else if should_box {
         good_type = format!("Box<{}>", good_type)
     }
