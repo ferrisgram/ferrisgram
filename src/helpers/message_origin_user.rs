@@ -6,11 +6,7 @@ use crate::types::User;
 
 impl MessageOriginUser {
     /// This function creates an empty struct for the object MessageOriginUser.
-    pub fn new(r#type: String, date: i64, sender_user: User) -> Self {
-        Self {
-            r#type,
-            date,
-            sender_user,
-        }
+    pub fn new(date: i64, sender_user: User) -> Self {
+        Self { date, sender_user }
     }
 }

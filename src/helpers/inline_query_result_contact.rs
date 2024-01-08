@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultContact;
 
 impl InlineQueryResultContact {
     /// This function creates an empty struct for the object InlineQueryResultContact.
-    pub fn new(r#type: String, id: String, phone_number: String, first_name: String) -> Self {
+    pub fn new(id: String, phone_number: String, first_name: String) -> Self {
         Self {
-            r#type,
             id,
             phone_number,
             first_name,

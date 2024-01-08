@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatboostsourcegiftcode>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatBoostSourceGiftCode {
-    /// Source of the boost, always "gift_code"
-    pub source: String,
     /// User for which the gift code was created
     pub user: User,
 }

@@ -5,9 +5,8 @@ use crate::types::PassportElementErrorTranslationFiles;
 
 impl PassportElementErrorTranslationFiles {
     /// This function creates an empty struct for the object PassportElementErrorTranslationFiles.
-    pub fn new(source: String, r#type: String, file_hashes: Vec<String>, message: String) -> Self {
+    pub fn new(r#type: String, file_hashes: Vec<String>, message: String) -> Self {
         Self {
-            source,
             r#type,
             file_hashes,
             message,

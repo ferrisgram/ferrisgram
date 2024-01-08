@@ -7,8 +7,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#botcommandscopechatadministrators>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct BotCommandScopeChatAdministrators {
-    /// Scope type, must be chat_administrators
-    pub r#type: String,
     /// Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     pub chat_id: i64,
 }

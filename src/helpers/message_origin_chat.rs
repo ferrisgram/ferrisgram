@@ -6,9 +6,8 @@ use crate::types::MessageOriginChat;
 
 impl MessageOriginChat {
     /// This function creates an empty struct for the object MessageOriginChat.
-    pub fn new(r#type: String, date: i64, sender_chat: Chat) -> Self {
+    pub fn new(date: i64, sender_chat: Chat) -> Self {
         Self {
-            r#type,
             date,
             sender_chat,
             author_signature: None,

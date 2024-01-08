@@ -7,8 +7,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inputcontactmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputContactMessageContent {
-    /// Contact's phone number
-    pub phone_number: String,
     /// Contact's first name
     pub first_name: String,
     /// Optional. Contact's last name

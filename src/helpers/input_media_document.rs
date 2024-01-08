@@ -5,9 +5,8 @@ use crate::types::InputMediaDocument;
 
 impl InputMediaDocument {
     /// This function creates an empty struct for the object InputMediaDocument.
-    pub fn new(r#type: String, media: String) -> Self {
+    pub fn new(media: String) -> Self {
         Self {
-            r#type,
             media,
             thumbnail: None,
             caption: None,

@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedDocument;
 
 impl InlineQueryResultCachedDocument {
     /// This function creates an empty struct for the object InlineQueryResultCachedDocument.
-    pub fn new(r#type: String, id: String, title: String, document_file_id: String) -> Self {
+    pub fn new(id: String, title: String, document_file_id: String) -> Self {
         Self {
-            r#type,
             id,
             title,
             document_file_id,

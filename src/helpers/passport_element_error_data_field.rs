@@ -5,15 +5,8 @@ use crate::types::PassportElementErrorDataField;
 
 impl PassportElementErrorDataField {
     /// This function creates an empty struct for the object PassportElementErrorDataField.
-    pub fn new(
-        source: String,
-        r#type: String,
-        field_name: String,
-        data_hash: String,
-        message: String,
-    ) -> Self {
+    pub fn new(r#type: String, field_name: String, data_hash: String, message: String) -> Self {
         Self {
-            source,
             r#type,
             field_name,
             data_hash,

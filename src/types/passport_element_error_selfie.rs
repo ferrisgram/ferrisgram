@@ -7,8 +7,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#passportelementerrorselfie>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PassportElementErrorSelfie {
-    /// Error source, must be selfie
-    pub source: String,
     /// The section of the user's Telegram Passport which has the issue, one of "passport", "driver_license", "identity_card", "internal_passport"
     pub r#type: String,
     /// Base64-encoded hash of the file with the selfie

@@ -6,7 +6,6 @@ use serde::Serialize;
 
 use crate::error::Result;
 use crate::types::File;
-// use crate::types::InputFile;
 use crate::Bot;
 
 impl Bot {

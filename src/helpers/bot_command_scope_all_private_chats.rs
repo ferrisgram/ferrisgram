@@ -5,7 +5,7 @@ use crate::types::BotCommandScopeAllPrivateChats;
 
 impl BotCommandScopeAllPrivateChats {
     /// This function creates an empty struct for the object BotCommandScopeAllPrivateChats.
-    pub fn new(r#type: String) -> Self {
-        Self { r#type }
+    pub fn new() -> Self {
+        Self {}
     }
 }

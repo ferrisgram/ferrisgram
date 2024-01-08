@@ -6,7 +6,7 @@ use crate::types::User;
 
 impl ChatBoostSourceGiftCode {
     /// This function creates an empty struct for the object ChatBoostSourceGiftCode.
-    pub fn new(source: String, user: User) -> Self {
-        Self { source, user }
+    pub fn new(user: User) -> Self {
+        Self { user }
     }
 }

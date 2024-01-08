@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#messageoriginuser>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MessageOriginUser {
-    /// Type of the message origin, always "user"
-    pub r#type: String,
     /// Date the message was sent originally in Unix time
     pub date: i64,
     /// User that sent the message originally

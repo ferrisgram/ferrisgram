@@ -65,6 +65,10 @@ impl Context {
             let msg = update.clone().my_chat_member.unwrap();
             ctx.effective_user = Some(msg.from);
             ctx.effective_chat = Some(msg.chat)
+        } else if update.chat_member.is_some() {
+            let msg = update.clone().chat_member.unwrap();
+            ctx.effective_user = Some(msg.from);
+            ctx.effective_chat = Some(msg.chat)
         } else if update.chat_join_request.is_some() {
             let msg = update.clone().chat_join_request.unwrap();
             ctx.effective_user = Some(msg.from);

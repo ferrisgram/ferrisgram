@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedSticker;
 
 impl InlineQueryResultCachedSticker {
     /// This function creates an empty struct for the object InlineQueryResultCachedSticker.
-    pub fn new(r#type: String, id: String, sticker_file_id: String) -> Self {
+    pub fn new(id: String, sticker_file_id: String) -> Self {
         Self {
-            r#type,
             id,
             sticker_file_id,
             reply_markup: None,

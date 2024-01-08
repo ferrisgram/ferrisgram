@@ -1,6 +1,9 @@
 use crate::methods::SendMessageBuilder;
-use crate::types::{InlineKeyboardButton, Message, ReplyParameters};
+use crate::types::{
+    InaccessibleMessage, InlineKeyboardButton, MaybeInaccessibleMessage, Message, ReplyParameters,
+};
 use crate::Bot;
+use serde::{Deserialize, Deserializer};
 
 impl Message {
     /// This is a helper method to easily build the SendMessageBuilder with current message's chat id and message id.
@@ -69,5 +72,23 @@ pub trait StringPatch {
 impl StringPatch for String {
     fn get_args(&self) -> Vec<&str> {
         self.split_whitespace().collect()
+    }
+}
+
+impl<'de> Deserialize<'de> for MaybeInaccessibleMessage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let value = serde_json::Value::deserialize(deserializer)?;
+        let a = serde_json::ser::to_string(&value).unwrap();
+        if value["date"].as_i64() == Some(0) {
+            return Ok(MaybeInaccessibleMessage::InaccessibleMessage(
+                serde_json::de::from_str::<InaccessibleMessage>(a.as_str()).unwrap(),
+            ));
+        }
+        return Ok(MaybeInaccessibleMessage::Message(
+            serde_json::de::from_str::<Message>(a.as_str()).unwrap(),
+        ));
     }
 }

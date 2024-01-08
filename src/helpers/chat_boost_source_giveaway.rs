@@ -5,9 +5,8 @@ use crate::types::ChatBoostSourceGiveaway;
 
 impl ChatBoostSourceGiveaway {
     /// This function creates an empty struct for the object ChatBoostSourceGiveaway.
-    pub fn new(source: String, giveaway_message_id: i64) -> Self {
+    pub fn new(giveaway_message_id: i64) -> Self {
         Self {
-            source,
             giveaway_message_id,
             user: None,
             is_unclaimed: None,

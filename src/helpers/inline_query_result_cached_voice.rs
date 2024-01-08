@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedVoice;
 
 impl InlineQueryResultCachedVoice {
     /// This function creates an empty struct for the object InlineQueryResultCachedVoice.
-    pub fn new(r#type: String, id: String, voice_file_id: String, title: String) -> Self {
+    pub fn new(id: String, voice_file_id: String, title: String) -> Self {
         Self {
-            r#type,
             id,
             voice_file_id,
             title,

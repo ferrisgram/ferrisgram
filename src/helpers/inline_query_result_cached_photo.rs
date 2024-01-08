@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedPhoto;
 
 impl InlineQueryResultCachedPhoto {
     /// This function creates an empty struct for the object InlineQueryResultCachedPhoto.
-    pub fn new(r#type: String, id: String, photo_file_id: String) -> Self {
+    pub fn new(id: String, photo_file_id: String) -> Self {
         Self {
-            r#type,
             id,
             photo_file_id,
             title: None,

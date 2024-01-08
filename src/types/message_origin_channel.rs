@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#messageoriginchannel>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MessageOriginChannel {
-    /// Type of the message origin, always "channel"
-    pub r#type: String,
     /// Date the message was sent originally in Unix time
     pub date: i64,
     /// Channel chat to which the message was originally sent

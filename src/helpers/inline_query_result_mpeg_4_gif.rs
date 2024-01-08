@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultMpeg4Gif;
 
 impl InlineQueryResultMpeg4Gif {
     /// This function creates an empty struct for the object InlineQueryResultMpeg4Gif.
-    pub fn new(r#type: String, id: String, mpeg4_url: String, thumbnail_url: String) -> Self {
+    pub fn new(id: String, mpeg4_url: String, thumbnail_url: String) -> Self {
         Self {
-            r#type,
             id,
             mpeg4_url,
             mpeg4_width: None,

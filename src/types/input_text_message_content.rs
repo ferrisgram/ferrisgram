@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inputtextmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputTextMessageContent {
-    /// Text of the message to be sent, 1-4096 characters
-    pub message_text: String,
     /// Optional. Mode for parsing entities in the message text. See formatting options for more details.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub parse_mode: Option<String>,

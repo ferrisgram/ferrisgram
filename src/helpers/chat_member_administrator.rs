@@ -7,7 +7,6 @@ use crate::types::User;
 impl ChatMemberAdministrator {
     /// This function creates an empty struct for the object ChatMemberAdministrator.
     pub fn new(
-        status: String,
         user: User,
         can_be_edited: bool,
         is_anonymous: bool,
@@ -20,7 +19,6 @@ impl ChatMemberAdministrator {
         can_invite_users: bool,
     ) -> Self {
         Self {
-            status,
             user,
             can_be_edited,
             is_anonymous,

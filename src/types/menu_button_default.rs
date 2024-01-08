@@ -6,7 +6,4 @@ use serde::{Deserialize, Serialize};
 /// Describes that no specific value for the menu button was set.
 /// <https://core.telegram.org/bots/api#menubuttondefault>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct MenuButtonDefault {
-    /// Type of the button, must be default
-    pub r#type: String,
-}
+pub struct MenuButtonDefault {}

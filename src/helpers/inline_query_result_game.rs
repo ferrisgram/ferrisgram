@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultGame;
 
 impl InlineQueryResultGame {
     /// This function creates an empty struct for the object InlineQueryResultGame.
-    pub fn new(r#type: String, id: String, game_short_name: String) -> Self {
+    pub fn new(id: String, game_short_name: String) -> Self {
         Self {
-            r#type,
             id,
             game_short_name,
             reply_markup: None,

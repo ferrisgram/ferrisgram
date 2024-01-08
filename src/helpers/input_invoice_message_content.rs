@@ -7,7 +7,6 @@ use crate::types::LabeledPrice;
 impl InputInvoiceMessageContent {
     /// This function creates an empty struct for the object InputInvoiceMessageContent.
     pub fn new(
-        title: String,
         description: String,
         payload: String,
         provider_token: String,
@@ -15,7 +14,6 @@ impl InputInvoiceMessageContent {
         prices: Vec<LabeledPrice>,
     ) -> Self {
         Self {
-            title,
             description,
             payload,
             provider_token,

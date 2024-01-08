@@ -5,16 +5,8 @@ use crate::types::InlineQueryResultVenue;
 
 impl InlineQueryResultVenue {
     /// This function creates an empty struct for the object InlineQueryResultVenue.
-    pub fn new(
-        r#type: String,
-        id: String,
-        latitude: f64,
-        longitude: f64,
-        title: String,
-        address: String,
-    ) -> Self {
+    pub fn new(id: String, latitude: f64, longitude: f64, title: String, address: String) -> Self {
         Self {
-            r#type,
             id,
             latitude,
             longitude,

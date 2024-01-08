@@ -20,6 +20,8 @@ pub const tg_type_float: &str = "Float";
 pub const tg_type_integer: &str = "Integer";
 pub const tg_type_file: &str = "InputFile";
 
+pub const RequiresCustomDemarshaller: &str = "MaybeInaccessibleMessage";
+
 const SOURCE_PATH: &str = "../src/";
 
 pub fn is_dtype_builtin(r#type: &str) -> bool {

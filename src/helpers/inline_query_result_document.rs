@@ -5,15 +5,8 @@ use crate::types::InlineQueryResultDocument;
 
 impl InlineQueryResultDocument {
     /// This function creates an empty struct for the object InlineQueryResultDocument.
-    pub fn new(
-        r#type: String,
-        id: String,
-        title: String,
-        document_url: String,
-        mime_type: String,
-    ) -> Self {
+    pub fn new(id: String, title: String, document_url: String, mime_type: String) -> Self {
         Self {
-            r#type,
             id,
             title,
             caption: None,

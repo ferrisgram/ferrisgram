@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultcachedsticker>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultCachedSticker {
-    /// Type of the result, must be sticker
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// A valid file identifier of the sticker

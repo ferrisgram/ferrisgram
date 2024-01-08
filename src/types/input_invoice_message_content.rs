@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inputinvoicemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputInvoiceMessageContent {
-    /// Product name, 1-32 characters
-    pub title: String,
     /// Product description, 1-255 characters
     pub description: String,
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.

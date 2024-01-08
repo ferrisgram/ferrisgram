@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatmemberadministrator>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatMemberAdministrator {
-    /// The member's status in the chat, always "administrator"
-    pub status: String,
     /// Information about the user
     pub user: User,
     /// True, if the bot is allowed to edit administrator privileges of that user

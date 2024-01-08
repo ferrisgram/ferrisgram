@@ -6,11 +6,7 @@ use crate::types::WebAppInfo;
 
 impl MenuButtonWebApp {
     /// This function creates an empty struct for the object MenuButtonWebApp.
-    pub fn new(r#type: String, text: String, web_app: WebAppInfo) -> Self {
-        Self {
-            r#type,
-            text,
-            web_app,
-        }
+    pub fn new(text: String, web_app: WebAppInfo) -> Self {
+        Self { text, web_app }
     }
 }

@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultcacheddocument>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultCachedDocument {
-    /// Type of the result, must be document
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// Title for the result

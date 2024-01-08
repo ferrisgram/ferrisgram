@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedGif;
 
 impl InlineQueryResultCachedGif {
     /// This function creates an empty struct for the object InlineQueryResultCachedGif.
-    pub fn new(r#type: String, id: String, gif_file_id: String) -> Self {
+    pub fn new(id: String, gif_file_id: String) -> Self {
         Self {
-            r#type,
             id,
             gif_file_id,
             title: None,

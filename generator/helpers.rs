@@ -1,13 +1,14 @@
 use std::ops::Add;
-use crate::common::{IMP_URL, create_file, get_good_field_name, WARNING_COMMENT, get_data_type, get_type, is_dtype_builtin};
+use crate::common::{IMP_URL, create_file, get_good_field_name, WARNING_COMMENT, get_data_type, get_type, is_dtype_builtin, RequiresCustomDemarshaller};
 use crate::types::should_box_field;
 use crate::spec_types;
 use convert_case::{Case, Casing};
 
 pub async fn generate_helpers(spec: &spec_types::ApiDescription) {
+    let has_custom_demarshaller: Vec<&str> = RequiresCustomDemarshaller.split(" ").collect();
     let mut data = String::new();
     for (_, obj) in spec.types.iter() {
-        let good_file_name = generate_helper(obj, spec).await;
+        let good_file_name = generate_helper(obj, spec, &has_custom_demarshaller).await;
         if good_file_name == "" {
             continue;
         }
@@ -16,13 +17,13 @@ pub async fn generate_helpers(spec: &spec_types::ApiDescription) {
     create_file(String::from("helpers/mod.rs"), data);
 } 
 
-async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::ApiDescription) -> String {
+async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::ApiDescription, has_custom_demarshaller: &Vec<&str>) -> String {
     if obj.subtypes.is_some() {
         return String::new();
     }
     let good_file_name = &obj.name.to_case(Case::Snake);
     let imports = format!("use {IMP_URL}::types::{};", obj.name);
-    let (mut imports, new_fn) = create_new_fn(spec, obj, imports).await;
+    let (mut imports, new_fn) = create_new_fn(spec, obj, imports, has_custom_demarshaller).await;
     // let (mut imports, new_enum_fn) = create_new_enum_fn(obj, imports).await;
     let new_enum_fn = String::new();
     let mut helper_fn = String::new();
@@ -83,7 +84,7 @@ async fn create_new_enum_fn(obj: &spec_types::TypeDescription, mut imports: Stri
 ", name=obj.name, least_subtype=obj.subtypes.as_ref().unwrap()[0]))
 }
 
-async fn create_new_fn(spec: &spec_types::ApiDescription, obj: &spec_types::TypeDescription, mut imports: String) -> (String, String) {
+async fn create_new_fn(spec: &spec_types::ApiDescription, obj: &spec_types::TypeDescription, mut imports: String, has_custom_demarshaller: &Vec<&str>) -> (String, String) {
     // Do not check for fields to be none since there are some types that are being used as placeholders.
     // For example: CallbackGame etc.
     if obj.subtypes.is_some() {
@@ -95,13 +96,19 @@ async fn create_new_fn(spec: &spec_types::ApiDescription, obj: &spec_types::Type
         let mut imported = Vec::new();
         let fields = obj.fields.as_ref().unwrap();
         for field in fields.iter() {
+            if obj.subtype_of.is_some() && !has_custom_demarshaller.contains(&obj.subtype_of.clone().unwrap()[0].as_str()) {
+                if field.name == fields.first().unwrap().name {
+                    continue;
+                }
+            }
             if field.required {
                 let field_name = get_good_field_name(&field.name);
                 let mut field_type = field.types[0].clone();
                 let dtype = get_type(&get_data_type(&field_type), field.required, should_box_field(spec, obj.name.clone(), field_type.to_owned()));
                 if !is_dtype_builtin(&field_type) {
                     field_type = field_type.replace("Array of", "");
-                    if !imported.contains(&field_type) {
+                    println!("TODO: Implement InputFile and remove these ugly hardcodes to ignore it helpers.rs/L110");
+                    if !imported.contains(&field_type) && field_type != "InputFile" {
                         imported.push(field_type.clone());
                         imports = imports.add(format!("\nuse {IMP_URL}::types::{};", field_type).as_str());
                     }

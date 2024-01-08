@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedVideo;
 
 impl InlineQueryResultCachedVideo {
     /// This function creates an empty struct for the object InlineQueryResultCachedVideo.
-    pub fn new(r#type: String, id: String, video_file_id: String, title: String) -> Self {
+    pub fn new(id: String, video_file_id: String, title: String) -> Self {
         Self {
-            r#type,
             id,
             video_file_id,
             title,

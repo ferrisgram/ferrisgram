@@ -13,6 +13,10 @@ pub fn create_import_crate(obj: &spec_types::MethodDescription) -> String {
             for field in fields {
                 if !common::is_dtype_builtin(&field.types[0]) {
                     let impname = field.types[0].replace("Array of ", "");
+                    if impname == "InputFile" {
+                        println!("TODO: Implement InputFile and remove these ugly hardcodes to ignore it methods.rs/L17");
+                        continue;
+                    }
                     if obj.name == impname {
                         continue;
                     }

@@ -5,9 +5,8 @@ use crate::types::InlineQueryResultCachedAudio;
 
 impl InlineQueryResultCachedAudio {
     /// This function creates an empty struct for the object InlineQueryResultCachedAudio.
-    pub fn new(r#type: String, id: String, audio_file_id: String) -> Self {
+    pub fn new(id: String, audio_file_id: String) -> Self {
         Self {
-            r#type,
             id,
             audio_file_id,
             caption: None,

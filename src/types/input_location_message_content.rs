@@ -7,8 +7,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inputlocationmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InputLocationMessageContent {
-    /// Latitude of the location in degrees
-    pub latitude: f64,
     /// Longitude of the location in degrees
     pub longitude: f64,
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500

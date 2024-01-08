@@ -5,9 +5,8 @@ use crate::types::InputMediaAnimation;
 
 impl InputMediaAnimation {
     /// This function creates an empty struct for the object InputMediaAnimation.
-    pub fn new(r#type: String, media: String) -> Self {
+    pub fn new(media: String) -> Self {
         Self {
-            r#type,
             media,
             thumbnail: None,
             caption: None,

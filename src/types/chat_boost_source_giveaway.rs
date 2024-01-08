@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#chatboostsourcegiveaway>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ChatBoostSourceGiveaway {
-    /// Source of the boost, always "giveaway"
-    pub source: String,
     /// Identifier of a message in the chat with the giveaway; the message could have been deleted already. May be 0 if the message isn't sent yet.
     pub giveaway_message_id: i64,
     /// Optional. User that won the prize in the giveaway if any

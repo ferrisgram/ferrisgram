@@ -5,9 +5,8 @@ use crate::types::InputTextMessageContent;
 
 impl InputTextMessageContent {
     /// This function creates an empty struct for the object InputTextMessageContent.
-    pub fn new(message_text: String) -> Self {
+    pub fn new() -> Self {
         Self {
-            message_text,
             parse_mode: None,
             entities: None,
             link_preview_options: None,

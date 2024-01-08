@@ -7,7 +7,6 @@ use crate::types::User;
 impl ChatMemberRestricted {
     /// This function creates an empty struct for the object ChatMemberRestricted.
     pub fn new(
-        status: String,
         user: User,
         is_member: bool,
         can_send_messages: bool,
@@ -27,7 +26,6 @@ impl ChatMemberRestricted {
         until_date: i64,
     ) -> Self {
         Self {
-            status,
             user,
             is_member,
             can_send_messages,

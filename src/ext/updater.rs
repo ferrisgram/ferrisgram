@@ -3,8 +3,8 @@ use crate::{error, Bot};
 
 pub struct Updater<'a> {
     pub bot: &'a Bot,
-    pub allowed_updates: Option<Vec<String>>,
     pub dispatcher: &'a mut Dispatcher<'a>,
+    pub allowed_updates: Option<Vec<&'a str>>,
     running: bool,
 }
 
@@ -23,11 +23,21 @@ impl<'a> Updater<'a> {
             offset = -2;
         }
         self.running = true;
+        let mut allowed_updates: Option<Vec<String>> = None;
+        if self.allowed_updates.is_some() {
+            allowed_updates = Some(
+                self.allowed_updates
+                    .as_ref()
+                    .unwrap()
+                    .iter()
+                    .map(|s| s.to_string())
+                    .collect(),
+            );
+        }
         while self.running {
             let mut updates = self.bot.get_updates().offset(offset + 1).timeout(10);
-            if self.allowed_updates.is_some() {
-                updates =
-                    updates.allowed_updates(self.allowed_updates.as_ref().unwrap().to_owned());
+            if allowed_updates.is_some() {
+                updates = updates.allowed_updates(allowed_updates.clone().unwrap());
             }
             for update in updates.send().await?.iter() {
                 offset = update.update_id;

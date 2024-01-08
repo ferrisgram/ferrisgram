@@ -8,8 +8,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultcachedmpeg4gif>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultCachedMpeg4Gif {
-    /// Type of the result, must be mpeg4_gif
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 bytes
     pub id: String,
     /// A valid file identifier for the MPEG4 file

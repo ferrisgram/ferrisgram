@@ -9,8 +9,6 @@ use serde::{Deserialize, Serialize};
 /// <https://core.telegram.org/bots/api#inlinequeryresultcontact>
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct InlineQueryResultContact {
-    /// Type of the result, must be contact
-    pub r#type: String,
     /// Unique identifier for this result, 1-64 Bytes
     pub id: String,
     /// Contact's phone number
