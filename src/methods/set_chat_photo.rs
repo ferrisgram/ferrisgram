@@ -5,33 +5,33 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#setchatphoto>
-    pub fn set_chat_photo(&self, chat_id: i64, photo: String) -> SetChatPhotoBuilder {
+    pub fn set_chat_photo<F: InputFile>(&self, chat_id: i64, photo: F) -> SetChatPhotoBuilder<F> {
         SetChatPhotoBuilder::new(self, chat_id, photo)
     }
 }
 
 #[derive(Serialize)]
-pub struct SetChatPhotoBuilder<'a> {
+pub struct SetChatPhotoBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// New chat photo, uploaded using multipart/form-data
-    pub photo: String,
 }
 
-impl<'a> SetChatPhotoBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, photo: String) -> Self {
-        Self {
-            bot,
-            chat_id,
-            photo,
-        }
+impl<'a, F: InputFile> SetChatPhotoBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, chat_id: i64, photo: F) -> Self {
+        let mut data = HashMap::new();
+        data.insert("photo", photo);
+        Self { bot, data, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
@@ -39,13 +39,15 @@ impl<'a> SetChatPhotoBuilder<'a> {
         self
     }
 
-    pub fn photo(mut self, photo: String) -> Self {
-        self.photo = photo;
+    pub fn photo(mut self, photo: F) -> Self {
+        self.data.insert("photo", photo);
         self
     }
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setChatPhoto", Some(&form)).await
+        self.bot
+            .post("setChatPhoto", Some(&form), Some(self.data))
+            .await
     }
 }

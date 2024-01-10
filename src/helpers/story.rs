@@ -3,12 +3,6 @@
 
 use crate::types::Story;
 
-impl Default for Story {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl Story {
     /// This function creates an empty struct for the object Story.
     pub fn new() -> Self {

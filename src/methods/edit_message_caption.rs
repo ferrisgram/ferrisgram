@@ -95,8 +95,6 @@ impl<'a> EditMessageCaptionBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageCaption", Some(&form))
-            .await
+        self.bot.get("editMessageCaption", Some(&form)).await
     }
 }

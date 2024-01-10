@@ -3,12 +3,6 @@
 
 use crate::types::WriteAccessAllowed;
 
-impl Default for WriteAccessAllowed {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl WriteAccessAllowed {
     /// This function creates an empty struct for the object WriteAccessAllowed.
     pub fn new() -> Self {

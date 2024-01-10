@@ -69,8 +69,6 @@ impl<'a> AnswerShippingQueryBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("answerShippingQuery", Some(&form))
-            .await
+        self.bot.get("answerShippingQuery", Some(&form)).await
     }
 }

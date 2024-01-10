@@ -36,8 +36,6 @@ impl<'a> GetStickerSetBuilder<'a> {
 
     pub async fn send(self) -> Result<StickerSet> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<StickerSet>("getStickerSet", Some(&form))
-            .await
+        self.bot.get("getStickerSet", Some(&form)).await
     }
 }

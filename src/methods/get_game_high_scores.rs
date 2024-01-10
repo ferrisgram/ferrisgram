@@ -66,8 +66,6 @@ impl<'a> GetGameHighScoresBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<GameHighScore>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<GameHighScore>>("getGameHighScores", Some(&form))
-            .await
+        self.bot.get("getGameHighScores", Some(&form)).await
     }
 }

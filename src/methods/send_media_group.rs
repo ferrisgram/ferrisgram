@@ -88,8 +88,6 @@ impl<'a> SendMediaGroupBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<Message>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<Message>>("sendMediaGroup", Some(&form))
-            .await
+        self.bot.get("sendMediaGroup", Some(&form)).await
     }
 }

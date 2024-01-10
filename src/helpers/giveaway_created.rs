@@ -3,12 +3,6 @@
 
 use crate::types::GiveawayCreated;
 
-impl Default for GiveawayCreated {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl GiveawayCreated {
     /// This function creates an empty struct for the object GiveawayCreated.
     pub fn new() -> Self {

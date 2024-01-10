@@ -167,6 +167,6 @@ impl<'a> SendVenueBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendVenue", Some(&form)).await
+        self.bot.get("sendVenue", Some(&form)).await
     }
 }

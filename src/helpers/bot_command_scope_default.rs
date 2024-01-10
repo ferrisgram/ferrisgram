@@ -3,12 +3,6 @@
 
 use crate::types::BotCommandScopeDefault;
 
-impl Default for BotCommandScopeDefault {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl BotCommandScopeDefault {
     /// This function creates an empty struct for the object BotCommandScopeDefault.
     pub fn new() -> Self {

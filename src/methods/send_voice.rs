@@ -5,29 +5,31 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::types::Message;
 use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
     /// <https://core.telegram.org/bots/api#sendvoice>
-    pub fn send_voice(&self, chat_id: i64, voice: String) -> SendVoiceBuilder {
+    pub fn send_voice<F: InputFile>(&self, chat_id: i64, voice: F) -> SendVoiceBuilder<F> {
         SendVoiceBuilder::new(self, chat_id, voice)
     }
 }
 
 #[derive(Serialize)]
-pub struct SendVoiceBuilder<'a> {
+pub struct SendVoiceBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_thread_id: Option<i64>,
-    /// Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub voice: String,
     /// Voice message caption, 0-1024 characters after entities parsing
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
@@ -54,13 +56,15 @@ pub struct SendVoiceBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendVoiceBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, voice: String) -> Self {
+impl<'a, F: InputFile> SendVoiceBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, chat_id: i64, voice: F) -> Self {
+        let mut data = HashMap::new();
+        data.insert("voice", voice);
         Self {
             bot,
+            data,
             chat_id,
             message_thread_id: None,
-            voice,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -82,8 +86,8 @@ impl<'a> SendVoiceBuilder<'a> {
         self
     }
 
-    pub fn voice(mut self, voice: String) -> Self {
-        self.voice = voice;
+    pub fn voice(mut self, voice: F) -> Self {
+        self.data.insert("voice", voice);
         self
     }
 
@@ -129,6 +133,8 @@ impl<'a> SendVoiceBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendVoice", Some(&form)).await
+        self.bot
+            .post("sendVoice", Some(&form), Some(self.data))
+            .await
     }
 }

@@ -47,8 +47,6 @@ impl<'a> GetChatMemberBuilder<'a> {
 
     pub async fn send(self) -> Result<ChatMember> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ChatMember>("getChatMember", Some(&form))
-            .await
+        self.bot.get("getChatMember", Some(&form)).await
     }
 }

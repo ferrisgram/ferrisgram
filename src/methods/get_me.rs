@@ -29,6 +29,6 @@ impl<'a> GetMeBuilder<'a> {
 
     pub async fn send(self) -> Result<User> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<User>("getMe", Some(&form)).await
+        self.bot.get("getMe", Some(&form)).await
     }
 }

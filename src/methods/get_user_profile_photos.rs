@@ -57,8 +57,6 @@ impl<'a> GetUserProfilePhotosBuilder<'a> {
 
     pub async fn send(self) -> Result<UserProfilePhotos> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<UserProfilePhotos>("getUserProfilePhotos", Some(&form))
-            .await
+        self.bot.get("getUserProfilePhotos", Some(&form)).await
     }
 }

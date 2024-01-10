@@ -92,6 +92,6 @@ impl<'a> SetGameScoreBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("setGameScore", Some(&form)).await
+        self.bot.get("setGameScore", Some(&form)).await
     }
 }

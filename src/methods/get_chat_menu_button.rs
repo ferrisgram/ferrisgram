@@ -37,8 +37,6 @@ impl<'a> GetChatMenuButtonBuilder<'a> {
 
     pub async fn send(self) -> Result<MenuButton> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<MenuButton>("getChatMenuButton", Some(&form))
-            .await
+        self.bot.get("getChatMenuButton", Some(&form)).await
     }
 }

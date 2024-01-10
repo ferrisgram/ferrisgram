@@ -36,8 +36,6 @@ impl<'a> GetChatAdministratorsBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<ChatMember>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<ChatMember>>("getChatAdministrators", Some(&form))
-            .await
+        self.bot.get("getChatAdministrators", Some(&form)).await
     }
 }

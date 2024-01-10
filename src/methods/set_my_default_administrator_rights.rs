@@ -50,7 +50,7 @@ impl<'a> SetMyDefaultAdministratorRightsBuilder<'a> {
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot
-            .get::<bool>("setMyDefaultAdministratorRights", Some(&form))
+            .get("setMyDefaultAdministratorRights", Some(&form))
             .await
     }
 }

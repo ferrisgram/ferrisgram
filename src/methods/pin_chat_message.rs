@@ -55,6 +55,6 @@ impl<'a> PinChatMessageBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("pinChatMessage", Some(&form)).await
+        self.bot.get("pinChatMessage", Some(&form)).await
     }
 }

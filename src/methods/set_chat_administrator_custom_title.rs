@@ -60,7 +60,7 @@ impl<'a> SetChatAdministratorCustomTitleBuilder<'a> {
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot
-            .get::<bool>("setChatAdministratorCustomTitle", Some(&form))
+            .get("setChatAdministratorCustomTitle", Some(&form))
             .await
     }
 }

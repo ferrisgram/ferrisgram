@@ -40,8 +40,6 @@ impl<'a> GetMyDescriptionBuilder<'a> {
 
     pub async fn send(self) -> Result<BotDescription> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<BotDescription>("getMyDescription", Some(&form))
-            .await
+        self.bot.get("getMyDescription", Some(&form)).await
     }
 }

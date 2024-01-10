@@ -57,6 +57,6 @@ impl<'a> SetMyCommandsBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setMyCommands", Some(&form)).await
+        self.bot.get("setMyCommands", Some(&form)).await
     }
 }

@@ -3,12 +3,6 @@
 
 use crate::types::MenuButtonDefault;
 
-impl Default for MenuButtonDefault {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl MenuButtonDefault {
     /// This function creates an empty struct for the object MenuButtonDefault.
     pub fn new() -> Self {

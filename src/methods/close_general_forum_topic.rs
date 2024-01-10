@@ -35,8 +35,6 @@ impl<'a> CloseGeneralForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("closeGeneralForumTopic", Some(&form))
-            .await
+        self.bot.get("closeGeneralForumTopic", Some(&form)).await
     }
 }

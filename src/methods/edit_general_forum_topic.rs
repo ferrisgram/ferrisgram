@@ -46,8 +46,6 @@ impl<'a> EditGeneralForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("editGeneralForumTopic", Some(&form))
-            .await
+        self.bot.get("editGeneralForumTopic", Some(&form)).await
     }
 }

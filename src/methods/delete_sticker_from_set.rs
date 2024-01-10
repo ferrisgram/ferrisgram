@@ -35,8 +35,6 @@ impl<'a> DeleteStickerFromSetBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("deleteStickerFromSet", Some(&form))
-            .await
+        self.bot.get("deleteStickerFromSet", Some(&form)).await
     }
 }

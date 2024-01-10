@@ -65,8 +65,6 @@ impl<'a> CreateForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<ForumTopic> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ForumTopic>("createForumTopic", Some(&form))
-            .await
+        self.bot.get("createForumTopic", Some(&form)).await
     }
 }

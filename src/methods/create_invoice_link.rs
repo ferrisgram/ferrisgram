@@ -229,8 +229,6 @@ impl<'a> CreateInvoiceLinkBuilder<'a> {
 
     pub async fn send(self) -> Result<String> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<String>("createInvoiceLink", Some(&form))
-            .await
+        self.bot.get("createInvoiceLink", Some(&form)).await
     }
 }

@@ -68,8 +68,6 @@ impl<'a> EditMessageReplyMarkupBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageReplyMarkup", Some(&form))
-            .await
+        self.bot.get("editMessageReplyMarkup", Some(&form)).await
     }
 }

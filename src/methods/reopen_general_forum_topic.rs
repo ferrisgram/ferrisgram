@@ -35,8 +35,6 @@ impl<'a> ReopenGeneralForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("reopenGeneralForumTopic", Some(&form))
-            .await
+        self.bot.get("reopenGeneralForumTopic", Some(&form)).await
     }
 }

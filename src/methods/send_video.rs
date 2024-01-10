@@ -5,29 +5,31 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::types::Message;
 use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
     /// <https://core.telegram.org/bots/api#sendvideo>
-    pub fn send_video(&self, chat_id: i64, video: String) -> SendVideoBuilder {
+    pub fn send_video<F: InputFile>(&self, chat_id: i64, video: F) -> SendVideoBuilder<F> {
         SendVideoBuilder::new(self, chat_id, video)
     }
 }
 
 #[derive(Serialize)]
-pub struct SendVideoBuilder<'a> {
+pub struct SendVideoBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_thread_id: Option<i64>,
-    /// Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub video: String,
     /// Duration of sent video in seconds
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<i64>,
@@ -37,9 +39,6 @@ pub struct SendVideoBuilder<'a> {
     /// Video height
     #[serde(skip_serializing_if = "Option::is_none")]
     pub height: Option<i64>,
-    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumbnail: Option<String>,
     /// Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
@@ -69,17 +68,18 @@ pub struct SendVideoBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendVideoBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, video: String) -> Self {
+impl<'a, F: InputFile> SendVideoBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, chat_id: i64, video: F) -> Self {
+        let mut data = HashMap::new();
+        data.insert("video", video);
         Self {
             bot,
+            data,
             chat_id,
             message_thread_id: None,
-            video,
             duration: None,
             width: None,
             height: None,
-            thumbnail: None,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -102,8 +102,8 @@ impl<'a> SendVideoBuilder<'a> {
         self
     }
 
-    pub fn video(mut self, video: String) -> Self {
-        self.video = video;
+    pub fn video(mut self, video: F) -> Self {
+        self.data.insert("video", video);
         self
     }
 
@@ -122,8 +122,8 @@ impl<'a> SendVideoBuilder<'a> {
         self
     }
 
-    pub fn thumbnail(mut self, thumbnail: String) -> Self {
-        self.thumbnail = Some(thumbnail);
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
         self
     }
 
@@ -174,6 +174,8 @@ impl<'a> SendVideoBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendVideo", Some(&form)).await
+        self.bot
+            .post("sendVideo", Some(&form), Some(self.data))
+            .await
     }
 }

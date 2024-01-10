@@ -42,8 +42,6 @@ impl<'a> SetStickerSetTitleBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("setStickerSetTitle", Some(&form))
-            .await
+        self.bot.get("setStickerSetTitle", Some(&form)).await
     }
 }

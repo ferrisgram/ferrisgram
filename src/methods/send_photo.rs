@@ -5,29 +5,31 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::types::Message;
 use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send photos. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendphoto>
-    pub fn send_photo(&self, chat_id: i64, photo: String) -> SendPhotoBuilder {
+    pub fn send_photo<F: InputFile>(&self, chat_id: i64, photo: F) -> SendPhotoBuilder<F> {
         SendPhotoBuilder::new(self, chat_id, photo)
     }
 }
 
 #[derive(Serialize)]
-pub struct SendPhotoBuilder<'a> {
+pub struct SendPhotoBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_thread_id: Option<i64>,
-    /// Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub photo: String,
     /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
     #[serde(skip_serializing_if = "Option::is_none")]
     pub caption: Option<String>,
@@ -54,13 +56,15 @@ pub struct SendPhotoBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendPhotoBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, photo: String) -> Self {
+impl<'a, F: InputFile> SendPhotoBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, chat_id: i64, photo: F) -> Self {
+        let mut data = HashMap::new();
+        data.insert("photo", photo);
         Self {
             bot,
+            data,
             chat_id,
             message_thread_id: None,
-            photo,
             caption: None,
             parse_mode: None,
             caption_entities: None,
@@ -82,8 +86,8 @@ impl<'a> SendPhotoBuilder<'a> {
         self
     }
 
-    pub fn photo(mut self, photo: String) -> Self {
-        self.photo = photo;
+    pub fn photo(mut self, photo: F) -> Self {
+        self.data.insert("photo", photo);
         self
     }
 
@@ -129,6 +133,8 @@ impl<'a> SendPhotoBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendPhoto", Some(&form)).await
+        self.bot
+            .post("sendPhoto", Some(&form), Some(self.data))
+            .await
     }
 }

@@ -35,8 +35,6 @@ impl<'a> HideGeneralForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("hideGeneralForumTopic", Some(&form))
-            .await
+        self.bot.get("hideGeneralForumTopic", Some(&form)).await
     }
 }

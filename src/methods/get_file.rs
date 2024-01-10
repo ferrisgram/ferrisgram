@@ -37,6 +37,6 @@ impl<'a> GetFileBuilder<'a> {
 
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<File>("getFile", Some(&form)).await
+        self.bot.get("getFile", Some(&form)).await
     }
 }

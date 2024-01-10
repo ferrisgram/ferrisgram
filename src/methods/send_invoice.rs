@@ -295,6 +295,6 @@ impl<'a> SendInvoiceBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendInvoice", Some(&form)).await
+        self.bot.get("sendInvoice", Some(&form)).await
     }
 }

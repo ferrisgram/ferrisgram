@@ -46,6 +46,6 @@ impl<'a> DeleteMessagesBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("deleteMessages", Some(&form)).await
+        self.bot.get("deleteMessages", Some(&form)).await
     }
 }

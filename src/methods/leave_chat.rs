@@ -35,6 +35,6 @@ impl<'a> LeaveChatBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("leaveChat", Some(&form)).await
+        self.bot.get("leaveChat", Some(&form)).await
     }
 }

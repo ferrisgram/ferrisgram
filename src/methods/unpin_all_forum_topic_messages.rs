@@ -51,7 +51,7 @@ impl<'a> UnpinAllForumTopicMessagesBuilder<'a> {
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot
-            .get::<bool>("unpinAllForumTopicMessages", Some(&form))
+            .get("unpinAllForumTopicMessages", Some(&form))
             .await
     }
 }

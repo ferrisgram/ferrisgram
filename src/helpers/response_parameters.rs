@@ -3,12 +3,6 @@
 
 use crate::types::ResponseParameters;
 
-impl Default for ResponseParameters {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl ResponseParameters {
     /// This function creates an empty struct for the object ResponseParameters.
     pub fn new() -> Self {

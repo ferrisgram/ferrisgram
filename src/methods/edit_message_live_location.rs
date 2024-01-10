@@ -115,8 +115,6 @@ impl<'a> EditMessageLiveLocationBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageLiveLocation", Some(&form))
-            .await
+        self.bot.get("editMessageLiveLocation", Some(&form)).await
     }
 }

@@ -59,8 +59,6 @@ impl<'a> AnswerPreCheckoutQueryBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("answerPreCheckoutQuery", Some(&form))
-            .await
+        self.bot.get("answerPreCheckoutQuery", Some(&form)).await
     }
 }

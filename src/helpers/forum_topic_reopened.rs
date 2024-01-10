@@ -3,12 +3,6 @@
 
 use crate::types::ForumTopicReopened;
 
-impl Default for ForumTopicReopened {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl ForumTopicReopened {
     /// This function creates an empty struct for the object ForumTopicReopened.
     pub fn new() -> Self {

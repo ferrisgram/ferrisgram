@@ -5,26 +5,27 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
     /// If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token. If specified, the request will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
     /// <https://core.telegram.org/bots/api#setwebhook>
-    pub fn set_webhook(&self, url: String) -> SetWebhookBuilder {
+    pub fn set_webhook<F: InputFile>(&self, url: String) -> SetWebhookBuilder<F> {
         SetWebhookBuilder::new(self, url)
     }
 }
 
 #[derive(Serialize)]
-pub struct SetWebhookBuilder<'a> {
+pub struct SetWebhookBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// HTTPS URL to send updates to. Use an empty string to remove webhook integration
     pub url: String,
-    /// Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub certificate: Option<String>,
     /// The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ip_address: Option<String>,
@@ -42,12 +43,13 @@ pub struct SetWebhookBuilder<'a> {
     pub secret_token: Option<String>,
 }
 
-impl<'a> SetWebhookBuilder<'a> {
+impl<'a, F: InputFile> SetWebhookBuilder<'a, F> {
     pub fn new(bot: &'a Bot, url: String) -> Self {
+        let data = HashMap::new();
         Self {
             bot,
+            data,
             url,
-            certificate: None,
             ip_address: None,
             max_connections: None,
             allowed_updates: None,
@@ -61,8 +63,8 @@ impl<'a> SetWebhookBuilder<'a> {
         self
     }
 
-    pub fn certificate(mut self, certificate: String) -> Self {
-        self.certificate = Some(certificate);
+    pub fn certificate(mut self, certificate: F) -> Self {
+        self.data.insert("certificate", certificate);
         self
     }
 
@@ -93,6 +95,8 @@ impl<'a> SetWebhookBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setWebhook", Some(&form)).await
+        self.bot
+            .post("setWebhook", Some(&form), Some(self.data))
+            .await
     }
 }

@@ -51,7 +51,7 @@ impl<'a> SetCustomEmojiStickerSetThumbnailBuilder<'a> {
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot
-            .get::<bool>("setCustomEmojiStickerSetThumbnail", Some(&form))
+            .get("setCustomEmojiStickerSetThumbnail", Some(&form))
             .await
     }
 }

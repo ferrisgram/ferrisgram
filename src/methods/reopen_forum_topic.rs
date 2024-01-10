@@ -50,6 +50,6 @@ impl<'a> ReopenForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("reopenForumTopic", Some(&form)).await
+        self.bot.get("reopenForumTopic", Some(&form)).await
     }
 }

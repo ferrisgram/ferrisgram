@@ -94,6 +94,6 @@ impl<'a> SendDiceBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendDice", Some(&form)).await
+        self.bot.get("sendDice", Some(&form)).await
     }
 }

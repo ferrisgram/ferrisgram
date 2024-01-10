@@ -39,6 +39,6 @@ impl<'a> DeleteWebhookBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("deleteWebhook", Some(&form)).await
+        self.bot.get("deleteWebhook", Some(&form)).await
     }
 }

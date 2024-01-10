@@ -57,6 +57,6 @@ impl<'a> StopPollBuilder<'a> {
 
     pub async fn send(self) -> Result<Poll> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Poll>("stopPoll", Some(&form)).await
+        self.bot.get("stopPoll", Some(&form)).await
     }
 }

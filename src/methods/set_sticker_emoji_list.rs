@@ -50,8 +50,6 @@ impl<'a> SetStickerEmojiListBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("setStickerEmojiList", Some(&form))
-            .await
+        self.bot.get("setStickerEmojiList", Some(&form)).await
     }
 }

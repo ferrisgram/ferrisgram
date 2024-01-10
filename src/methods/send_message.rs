@@ -120,6 +120,6 @@ impl<'a> SendMessageBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendMessage", Some(&form)).await
+        self.bot.get("sendMessage", Some(&form)).await
     }
 }

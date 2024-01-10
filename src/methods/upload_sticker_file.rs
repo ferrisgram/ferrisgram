@@ -5,40 +5,44 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::types::File;
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
-    pub fn upload_sticker_file(
+    pub fn upload_sticker_file<F: InputFile>(
         &self,
         user_id: i64,
-        sticker: String,
+        sticker: F,
         sticker_format: String,
-    ) -> UploadStickerFileBuilder {
+    ) -> UploadStickerFileBuilder<F> {
         UploadStickerFileBuilder::new(self, user_id, sticker, sticker_format)
     }
 }
 
 #[derive(Serialize)]
-pub struct UploadStickerFileBuilder<'a> {
+pub struct UploadStickerFileBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// User identifier of sticker file owner
     pub user_id: i64,
-    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical requirements. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    pub sticker: String,
     /// Format of the sticker, must be one of "static", "animated", "video"
     pub sticker_format: String,
 }
 
-impl<'a> UploadStickerFileBuilder<'a> {
-    pub fn new(bot: &'a Bot, user_id: i64, sticker: String, sticker_format: String) -> Self {
+impl<'a, F: InputFile> UploadStickerFileBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, user_id: i64, sticker: F, sticker_format: String) -> Self {
+        let mut data = HashMap::new();
+        data.insert("sticker", sticker);
         Self {
             bot,
+            data,
             user_id,
-            sticker,
             sticker_format,
         }
     }
@@ -48,8 +52,8 @@ impl<'a> UploadStickerFileBuilder<'a> {
         self
     }
 
-    pub fn sticker(mut self, sticker: String) -> Self {
-        self.sticker = sticker;
+    pub fn sticker(mut self, sticker: F) -> Self {
+        self.data.insert("sticker", sticker);
         self
     }
 
@@ -60,6 +64,8 @@ impl<'a> UploadStickerFileBuilder<'a> {
 
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<File>("uploadStickerFile", Some(&form)).await
+        self.bot
+            .post("uploadStickerFile", Some(&form), Some(self.data))
+            .await
     }
 }

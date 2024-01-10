@@ -15,7 +15,7 @@ pub fn create_import_crate(obj: &spec_types::TypeDescription) -> String {
                 if !common::is_dtype_builtin(&field.types[0]) {
                     let impname = field.types[0].replace("Array of ", "");
                     if impname == "InputFile" {
-                        println!("TODO: Implement InputFile and remove these ugly hardcodes to ignore it types.rs/L18");
+                        println!("TODO: <{}> Implement InputFile and remove these ugly hardcodes to ignore it types.rs/L18", obj.name);
                         continue;
                     }
                     if obj.name == impname {

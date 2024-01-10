@@ -29,8 +29,6 @@ impl<'a> GetWebhookInfoBuilder<'a> {
 
     pub async fn send(self) -> Result<WebhookInfo> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<WebhookInfo>("getWebhookInfo", Some(&form))
-            .await
+        self.bot.get("getWebhookInfo", Some(&form)).await
     }
 }

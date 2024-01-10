@@ -51,8 +51,6 @@ impl<'a> RevokeChatInviteLinkBuilder<'a> {
 
     pub async fn send(self) -> Result<ChatInviteLink> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ChatInviteLink>("revokeChatInviteLink", Some(&form))
-            .await
+        self.bot.get("revokeChatInviteLink", Some(&form)).await
     }
 }

@@ -6,7 +6,8 @@ use super::{common, spec_types};
 use common::{create_file, IMP_URL};
 use convert_case::{Casing, Case};
 
-pub fn create_import_crate(obj: &spec_types::MethodDescription) -> String {
+pub fn create_import_crate(obj: &spec_types::MethodDescription) -> (String, bool) {
+    let mut has_input_file = false;
     let (mut impdata, import_array) = match &obj.fields {
         Some(fields) => {
             let mut import_array: Vec<String> = Vec::new();
@@ -14,7 +15,7 @@ pub fn create_import_crate(obj: &spec_types::MethodDescription) -> String {
                 if !common::is_dtype_builtin(&field.types[0]) {
                     let impname = field.types[0].replace("Array of ", "");
                     if impname == "InputFile" {
-                        println!("TODO: Implement InputFile and remove these ugly hardcodes to ignore it methods.rs/L17");
+                        has_input_file = true;
                         continue;
                     }
                     if obj.name == impname {
@@ -27,10 +28,14 @@ pub fn create_import_crate(obj: &spec_types::MethodDescription) -> String {
                     import_array.push(impname);
                 }
             }
+            let mut imptxt = String::new();
+            if has_input_file {
+                imptxt = format!("use std::collections::HashMap;\nuse {IMP_URL}::input_file::InputFile;\n");
+            }
             if import_array.len() == 0 {
-                (String::new(), import_array)
-            } else {    
-                let mut imptxt = format!("use {IMP_URL}::types::");
+                (imptxt, import_array)
+            } else {
+                imptxt = imptxt.add(format!("use {IMP_URL}::types::").as_str());
                 if import_array.len() == 1 {
                     (imptxt.add(import_array[0].as_str()).add(";\n"), import_array)
                 } else {
@@ -61,7 +66,7 @@ pub fn create_import_crate(obj: &spec_types::MethodDescription) -> String {
             impdata = impdata.add(format!("use {IMP_URL}::types::{};\n", &obj.returns[0].replace("Array of ", "")).as_str());
         }
     }
-    impdata
+    (impdata, has_input_file)
 }
 
 pub async fn generate_methods(spec: &spec_types::ApiDescription) {
@@ -81,12 +86,13 @@ async fn generate_method(method: &spec_types::MethodDescription) -> (String, Str
     data = data.add("use serde::Serialize;\n\n");
     data = data.add(format!("use {IMP_URL}::Bot;\n").as_str());
     data = data.add(format!("use {IMP_URL}::error::Result;\n").as_str());
-    data = data.add(create_import_crate(method).as_str());
+    let (imptxt, has_input_file)  = create_import_crate(method);
+    data = data.add(imptxt.as_str());
     // data = data.add(format!("\n/// <{}>", method.href).as_str());
     let builder_name = format!("{}Builder", &method.name.to_case(Case::UpperCamel)); 
     data = data.add(generate_bot_imp(&method, &builder_name).as_str());
-    data = data.add(generate_builder(&method, &builder_name).as_str());
-    data = data.add(generate_imp(&method, &builder_name).as_str());
+    data = data.add(generate_builder(&method, &builder_name, has_input_file).as_str());
+    data = data.add(generate_imp(&method, &builder_name, has_input_file).as_str());
     create_file(String::from(format!("methods/{}.rs", &name)), data);
     (name.clone(), builder_name)
 }
@@ -100,13 +106,20 @@ fn generate_bot_imp(method: &spec_types::MethodDescription, builder_name: &Strin
     let mut args = String::new();
     let mut vals = String::new();
     let method_name = method.name.to_case(Case::Snake);
+    let mut generics = String::new();
+    let mut generic_ret = String::new();
     if method.fields.is_some() {
         for field in method.fields.as_ref().unwrap() {
+            let mut field_type = field.types[0].clone();
+            if field_type == "InputFile" {
+                generics = String::from("<F: InputFile>");
+                field_type = String::from("F");
+                generic_ret = String::from("<F>");
+            }
             if !field.required {
                 continue;
             }
             let field_name = get_good_field_name(&field.name);
-            let field_type = field.types[0].clone();
             
             let dtype = common::get_type(&common::get_data_type(&field_type), field.required, false);
             args = args.add(format!(", {field_name}: {dtype}").as_str());
@@ -120,7 +133,7 @@ fn generate_bot_imp(method: &spec_types::MethodDescription, builder_name: &Strin
     desc = desc.add(format!("\n    /// <{}>", &method.href).as_str());
     let data = format!("
 impl Bot {{{desc}
-    pub fn {method_name}(&self{args}) -> {builder_name} {{
+    pub fn {method_name}{generics}(&self{args}) -> {builder_name}{generic_ret} {{
         {builder_name}::new(self{vals})
     }}
 }}
@@ -129,18 +142,33 @@ impl Bot {{{desc}
     data
 }
 
-fn generate_builder(method: &spec_types::MethodDescription, builder_name: &String) -> String {
-    let mut data = String::new(); 
+fn generate_builder(method: &spec_types::MethodDescription, builder_name: &String, has_input_file: bool) -> String {
+    let mut data = String::new();
+    let generic = match has_input_file {
+        true => "<'a, F: InputFile>",
+        false => "<'a>",
+    };
     data = data.add(format!("#[derive(Serialize)]
-pub struct {}<'a> {{
+pub struct {builder_name}{generic} {{
     #[serde(skip)]
-    bot: &'a Bot,", builder_name).as_str());
+    bot: &'a Bot,").as_str());
+    if has_input_file {
+        data = data.add("
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,");
+    }
     data = data.add(generate_fields(method).as_str());
     data = data.add("\n}\n\n");
     data
 }
 
-fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -> String {
+fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String, has_input_file: bool) -> String {
+    let (generic_def, generic_use, data_attr, req_method) = match has_input_file {
+        true => ("<'a, F: InputFile>", "<'a, F>", ", Some(self.data)", "post"),
+        false => ("<'a>", "<'a>", "", "get"),
+    };
+    let mut insertion_defs = String::new();
+    let mut is_map_mut = false;
     let (new_fn_attr, new_fn_cntnt, builder_fns) = match &method.fields {
         Some(fields) => {
             let mut builder_fns = String::new();
@@ -150,21 +178,38 @@ fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -
                 let field_name = get_good_field_name(&field.name);
                 let field_type = field.types[0].clone();
                 let dtype = common::get_type(&common::get_data_type(&field_type), field.required, false);
-                let field_value: String; 
+                let field_value;
+                let mut rtype = common::get_type(&common::get_data_type(&field_type), true, false);
                 if field.required {
-                    field_value = field_name.clone();
-                    new_fn_attr = new_fn_attr.add(format!(", {}: {}", field_name, dtype).as_str());
-                    new_fn_cntnt = new_fn_cntnt.add(format!("\n            {},", field_name).as_str());
+                    if field_type == "InputFile" {
+                        is_map_mut = true;
+                        field_value = field_name.clone();
+                        new_fn_attr = new_fn_attr.add(format!(", {}: F", field_name).as_str());
+                        insertion_defs = insertion_defs.add(format!("data.insert(\"{field_value}\", {field_value});\n").as_str());
+                        rtype = String::from("F");
+                    } else {
+                        field_value = field_name.clone();
+                        new_fn_attr = new_fn_attr.add(format!(", {}: {}", field_name, dtype).as_str());
+                        new_fn_cntnt = new_fn_cntnt.add(format!("\n            {},", field_name).as_str());
+                    }
                 } else {
-                    field_value = format!("Some({})", field_name);
-                    new_fn_cntnt = new_fn_cntnt.add(format!("\n            {}: None,", field_name).as_str());
+                    if field_type != "InputFile" {
+                        field_value = format!("Some({})", field_name);
+                        new_fn_cntnt = new_fn_cntnt.add(format!("\n            {}: None,", field_name).as_str());
+                    } else {
+                        field_value = field_name.clone();
+                        rtype = String::from("F");
+                    }
                 }
+                let builder_fn_data = match field_type == "InputFile" {
+                    true => format!("self.data.insert(\"{field_name}\", {field_value});"),
+                    false => format!("self.{field_name} = {field_value};"),
+                }; 
                 builder_fns = builder_fns.add(format!("
     pub fn {field_name}(mut self, {field_name}: {rtype}) -> Self {{
-        self.{field_name} = {field_value};
-        self
+        {builder_fn_data}self
     }}
-                ", rtype=common::get_type(&common::get_data_type(&field_type), true, false)).as_str());
+                ").as_str());
             }
         (new_fn_attr, new_fn_cntnt, builder_fns)
         },
@@ -172,22 +217,33 @@ fn generate_imp(method: &spec_types::MethodDescription, builder_name: &String) -
             (String::new(), String::new(), String::new())
         }
     };
+    let (predef_attr, extra_defs) = match has_input_file {
+        true => {
+            let hashmap_decl: String;
+            if is_map_mut {
+                hashmap_decl = String::from("let mut data = HashMap::new();\n");
+            } else {
+                hashmap_decl = String::from("let data = HashMap::new();\n")
+            }
+            ("bot, data,", hashmap_decl.add(&insertion_defs))
+        },
+        false => ("bot,", String::new())
+    };
     let builder_fns = builder_fns.add(format!("
     pub async fn send(self) -> Result<{to_return}> {{
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<{to_return}>(\"{raw_method_name}\", Some(&form)).await
+        self.bot.{req_method}(\"{raw_method_name}\", Some(&form){data_attr}).await
     }}
 ", to_return=common::get_type(&common::get_data_type(&method.returns[0]), true, false), raw_method_name=method.name).as_str());
-
     let impl_new_fn_string = format!("
-impl <'a> {}<'a> {{
-    pub fn new(bot: &'a Bot{}) -> Self {{
-        Self{{
-            bot,{}
+impl{generic_def} {builder_name}{generic_use} {{
+    pub fn new(bot: &'a Bot{new_fn_attr}) -> Self {{
+        {extra_defs}Self{{
+            {predef_attr}{new_fn_cntnt}
         }}
     }}
-{}
-}}", builder_name, new_fn_attr, new_fn_cntnt, builder_fns);
+{builder_fns}
+}}");
     impl_new_fn_string
 }
 
@@ -197,6 +253,9 @@ fn generate_fields(obj: &spec_types::MethodDescription) -> String {
             let mut generated_fields_string = String::new();
             for field in fields.iter() {
                 let mut field_type = field.types[0].clone();
+                if field_type == "InputFile" {
+                    continue;
+                }
                 if obj.name == field_type || (obj.name == "Chat" && field_type == "Message") || obj.name == "Message" && field_type == "Chat" {
                     field_type = format!("Box<{}>", field_type)
                 }

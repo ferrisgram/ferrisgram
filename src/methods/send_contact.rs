@@ -124,6 +124,6 @@ impl<'a> SendContactBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendContact", Some(&form)).await
+        self.bot.get("sendContact", Some(&form)).await
     }
 }

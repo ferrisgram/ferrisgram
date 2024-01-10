@@ -47,8 +47,6 @@ impl<'a> SetStickerKeywordsBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("setStickerKeywords", Some(&form))
-            .await
+        self.bot.get("setStickerKeywords", Some(&form)).await
     }
 }

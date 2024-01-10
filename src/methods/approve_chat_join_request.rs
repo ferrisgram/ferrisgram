@@ -50,8 +50,6 @@ impl<'a> ApproveChatJoinRequestBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("approveChatJoinRequest", Some(&form))
-            .await
+        self.bot.get("approveChatJoinRequest", Some(&form)).await
     }
 }

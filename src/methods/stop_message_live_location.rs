@@ -68,8 +68,6 @@ impl<'a> StopMessageLiveLocationBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("stopMessageLiveLocation", Some(&form))
-            .await
+        self.bot.get("stopMessageLiveLocation", Some(&form)).await
     }
 }

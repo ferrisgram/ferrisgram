@@ -50,6 +50,6 @@ impl<'a> BanChatSenderChatBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("banChatSenderChat", Some(&form)).await
+        self.bot.get("banChatSenderChat", Some(&form)).await
     }
 }

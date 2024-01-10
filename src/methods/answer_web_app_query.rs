@@ -52,8 +52,6 @@ impl<'a> AnswerWebAppQueryBuilder<'a> {
 
     pub async fn send(self) -> Result<SentWebAppMessage> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<SentWebAppMessage>("answerWebAppQuery", Some(&form))
-            .await
+        self.bot.get("answerWebAppQuery", Some(&form)).await
     }
 }

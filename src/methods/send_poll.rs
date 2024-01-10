@@ -196,6 +196,6 @@ impl<'a> SendPollBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendPoll", Some(&form)).await
+        self.bot.get("sendPoll", Some(&form)).await
     }
 }

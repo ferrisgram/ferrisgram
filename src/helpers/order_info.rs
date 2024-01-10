@@ -3,12 +3,6 @@
 
 use crate::types::OrderInfo;
 
-impl Default for OrderInfo {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl OrderInfo {
     /// This function creates an empty struct for the object OrderInfo.
     pub fn new() -> Self {

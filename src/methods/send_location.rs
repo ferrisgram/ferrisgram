@@ -142,6 +142,6 @@ impl<'a> SendLocationBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendLocation", Some(&form)).await
+        self.bot.get("sendLocation", Some(&form)).await
     }
 }

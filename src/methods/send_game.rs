@@ -93,6 +93,6 @@ impl<'a> SendGameBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendGame", Some(&form)).await
+        self.bot.get("sendGame", Some(&form)).await
     }
 }

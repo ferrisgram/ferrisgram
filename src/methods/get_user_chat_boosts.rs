@@ -47,8 +47,6 @@ impl<'a> GetUserChatBoostsBuilder<'a> {
 
     pub async fn send(self) -> Result<UserChatBoosts> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<UserChatBoosts>("getUserChatBoosts", Some(&form))
-            .await
+        self.bot.get("getUserChatBoosts", Some(&form)).await
     }
 }

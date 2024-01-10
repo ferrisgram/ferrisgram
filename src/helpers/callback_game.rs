@@ -3,12 +3,6 @@
 
 use crate::types::CallbackGame;
 
-impl Default for CallbackGame {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl CallbackGame {
     /// This function creates an empty struct for the object CallbackGame.
     pub fn new() -> Self {

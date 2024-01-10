@@ -50,8 +50,6 @@ impl<'a> GetMyCommandsBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<BotCommand>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<BotCommand>>("getMyCommands", Some(&form))
-            .await
+        self.bot.get("getMyCommands", Some(&form)).await
     }
 }

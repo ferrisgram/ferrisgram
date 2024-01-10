@@ -35,8 +35,6 @@ impl<'a> ExportChatInviteLinkBuilder<'a> {
 
     pub async fn send(self) -> Result<String> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<String>("exportChatInviteLink", Some(&form))
-            .await
+        self.bot.get("exportChatInviteLink", Some(&form)).await
     }
 }

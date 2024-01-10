@@ -5,40 +5,42 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickersetthumbnail>
-    pub fn set_sticker_set_thumbnail(
+    pub fn set_sticker_set_thumbnail<F: InputFile>(
         &self,
         name: String,
         user_id: i64,
-    ) -> SetStickerSetThumbnailBuilder {
+    ) -> SetStickerSetThumbnailBuilder<F> {
         SetStickerSetThumbnailBuilder::new(self, name, user_id)
     }
 }
 
 #[derive(Serialize)]
-pub struct SetStickerSetThumbnailBuilder<'a> {
+pub struct SetStickerSetThumbnailBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Sticker set name
     pub name: String,
     /// User identifier of the sticker set owner
     pub user_id: i64,
-    /// A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumbnail: Option<String>,
 }
 
-impl<'a> SetStickerSetThumbnailBuilder<'a> {
+impl<'a, F: InputFile> SetStickerSetThumbnailBuilder<'a, F> {
     pub fn new(bot: &'a Bot, name: String, user_id: i64) -> Self {
+        let data = HashMap::new();
         Self {
             bot,
+            data,
             name,
             user_id,
-            thumbnail: None,
         }
     }
 
@@ -52,15 +54,15 @@ impl<'a> SetStickerSetThumbnailBuilder<'a> {
         self
     }
 
-    pub fn thumbnail(mut self, thumbnail: String) -> Self {
-        self.thumbnail = Some(thumbnail);
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
         self
     }
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot
-            .get::<bool>("setStickerSetThumbnail", Some(&form))
+            .post("setStickerSetThumbnail", Some(&form), Some(self.data))
             .await
     }
 }

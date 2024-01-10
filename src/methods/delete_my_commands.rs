@@ -49,6 +49,6 @@ impl<'a> DeleteMyCommandsBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("deleteMyCommands", Some(&form)).await
+        self.bot.get("deleteMyCommands", Some(&form)).await
     }
 }

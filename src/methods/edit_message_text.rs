@@ -103,8 +103,6 @@ impl<'a> EditMessageTextBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageText", Some(&form))
-            .await
+        self.bot.get("editMessageText", Some(&form)).await
     }
 }

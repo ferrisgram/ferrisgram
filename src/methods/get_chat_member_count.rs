@@ -35,6 +35,6 @@ impl<'a> GetChatMemberCountBuilder<'a> {
 
     pub async fn send(self) -> Result<i64> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<i64>("getChatMemberCount", Some(&form)).await
+        self.bot.get("getChatMemberCount", Some(&form)).await
     }
 }

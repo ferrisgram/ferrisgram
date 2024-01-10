@@ -40,6 +40,6 @@ impl<'a> GetMyNameBuilder<'a> {
 
     pub async fn send(self) -> Result<BotName> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<BotName>("getMyName", Some(&form)).await
+        self.bot.get("getMyName", Some(&form)).await
     }
 }

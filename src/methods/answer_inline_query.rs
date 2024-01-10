@@ -88,6 +88,6 @@ impl<'a> AnswerInlineQueryBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("answerInlineQuery", Some(&form)).await
+        self.bot.get("answerInlineQuery", Some(&form)).await
     }
 }

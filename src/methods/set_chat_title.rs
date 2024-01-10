@@ -46,6 +46,6 @@ impl<'a> SetChatTitleBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setChatTitle", Some(&form)).await
+        self.bot.get("setChatTitle", Some(&form)).await
     }
 }

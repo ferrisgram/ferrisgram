@@ -3,12 +3,6 @@
 
 use crate::types::KeyboardButtonPollType;
 
-impl Default for KeyboardButtonPollType {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl KeyboardButtonPollType {
     /// This function creates an empty struct for the object KeyboardButtonPollType.
     pub fn new() -> Self {

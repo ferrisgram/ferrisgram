@@ -67,6 +67,6 @@ impl<'a> GetUpdatesBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<Update>> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Vec<Update>>("getUpdates", Some(&form)).await
+        self.bot.get("getUpdates", Some(&form)).await
     }
 }

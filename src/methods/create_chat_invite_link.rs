@@ -75,8 +75,6 @@ impl<'a> CreateChatInviteLinkBuilder<'a> {
 
     pub async fn send(self) -> Result<ChatInviteLink> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<ChatInviteLink>("createChatInviteLink", Some(&form))
-            .await
+        self.bot.get("createChatInviteLink", Some(&form)).await
     }
 }

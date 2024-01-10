@@ -50,6 +50,6 @@ impl<'a> SetChatStickerSetBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("setChatStickerSet", Some(&form)).await
+        self.bot.get("setChatStickerSet", Some(&form)).await
     }
 }

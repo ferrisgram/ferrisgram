@@ -35,8 +35,6 @@ impl<'a> UnhideGeneralForumTopicBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("unhideGeneralForumTopic", Some(&form))
-            .await
+        self.bot.get("unhideGeneralForumTopic", Some(&form)).await
     }
 }

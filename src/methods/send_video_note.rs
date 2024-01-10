@@ -5,38 +5,41 @@
 use serde::Serialize;
 
 use crate::error::Result;
+use crate::input_file::InputFile;
 use crate::types::Message;
 use crate::types::{InlineKeyboardMarkup, ReplyParameters};
 use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendvideonote>
-    pub fn send_video_note(&self, chat_id: i64, video_note: String) -> SendVideoNoteBuilder {
+    pub fn send_video_note<F: InputFile>(
+        &self,
+        chat_id: i64,
+        video_note: F,
+    ) -> SendVideoNoteBuilder<F> {
         SendVideoNoteBuilder::new(self, chat_id, video_note)
     }
 }
 
 #[derive(Serialize)]
-pub struct SendVideoNoteBuilder<'a> {
+pub struct SendVideoNoteBuilder<'a, F: InputFile> {
     #[serde(skip)]
     bot: &'a Bot,
+    #[serde(skip)]
+    data: HashMap<&'a str, F>,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub message_thread_id: Option<i64>,
-    /// Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL is currently unsupported
-    pub video_note: String,
     /// Duration of sent video in seconds
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<i64>,
     /// Video width and height, i.e. diameter of the video message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub length: Option<i64>,
-    /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub thumbnail: Option<String>,
     /// Sends the message silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub disable_notification: Option<bool>,
@@ -51,16 +54,17 @@ pub struct SendVideoNoteBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-impl<'a> SendVideoNoteBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, video_note: String) -> Self {
+impl<'a, F: InputFile> SendVideoNoteBuilder<'a, F> {
+    pub fn new(bot: &'a Bot, chat_id: i64, video_note: F) -> Self {
+        let mut data = HashMap::new();
+        data.insert("video_note", video_note);
         Self {
             bot,
+            data,
             chat_id,
             message_thread_id: None,
-            video_note,
             duration: None,
             length: None,
-            thumbnail: None,
             disable_notification: None,
             protect_content: None,
             reply_parameters: None,
@@ -78,8 +82,8 @@ impl<'a> SendVideoNoteBuilder<'a> {
         self
     }
 
-    pub fn video_note(mut self, video_note: String) -> Self {
-        self.video_note = video_note;
+    pub fn video_note(mut self, video_note: F) -> Self {
+        self.data.insert("video_note", video_note);
         self
     }
 
@@ -93,8 +97,8 @@ impl<'a> SendVideoNoteBuilder<'a> {
         self
     }
 
-    pub fn thumbnail(mut self, thumbnail: String) -> Self {
-        self.thumbnail = Some(thumbnail);
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
         self
     }
 
@@ -120,6 +124,8 @@ impl<'a> SendVideoNoteBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("sendVideoNote", Some(&form)).await
+        self.bot
+            .post("sendVideoNote", Some(&form), Some(self.data))
+            .await
     }
 }

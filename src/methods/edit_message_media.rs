@@ -76,8 +76,6 @@ impl<'a> EditMessageMediaBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Message>("editMessageMedia", Some(&form))
-            .await
+        self.bot.get("editMessageMedia", Some(&form)).await
     }
 }

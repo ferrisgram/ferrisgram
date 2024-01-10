@@ -65,8 +65,6 @@ impl<'a> SetMessageReactionBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<bool>("setMessageReaction", Some(&form))
-            .await
+        self.bot.get("setMessageReaction", Some(&form)).await
     }
 }

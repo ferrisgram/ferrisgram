@@ -42,8 +42,6 @@ impl<'a> GetCustomEmojiStickersBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<Sticker>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<Sticker>>("getCustomEmojiStickers", Some(&form))
-            .await
+        self.bot.get("getCustomEmojiStickers", Some(&form)).await
     }
 }

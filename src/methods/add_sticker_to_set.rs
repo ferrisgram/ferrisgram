@@ -60,6 +60,6 @@ impl<'a> AddStickerToSetBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("addStickerToSet", Some(&form)).await
+        self.bot.get("addStickerToSet", Some(&form)).await
     }
 }

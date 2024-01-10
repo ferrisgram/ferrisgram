@@ -29,8 +29,6 @@ impl<'a> GetForumTopicIconStickersBuilder<'a> {
 
     pub async fn send(self) -> Result<Vec<Sticker>> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get::<Vec<Sticker>>("getForumTopicIconStickers", Some(&form))
-            .await
+        self.bot.get("getForumTopicIconStickers", Some(&form)).await
     }
 }

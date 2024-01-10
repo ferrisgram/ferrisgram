@@ -87,6 +87,6 @@ impl<'a> ForwardMessageBuilder<'a> {
 
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<Message>("forwardMessage", Some(&form)).await
+        self.bot.get("forwardMessage", Some(&form)).await
     }
 }

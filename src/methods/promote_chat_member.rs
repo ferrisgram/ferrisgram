@@ -181,6 +181,6 @@ impl<'a> PromoteChatMemberBuilder<'a> {
 
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot.get::<bool>("promoteChatMember", Some(&form)).await
+        self.bot.get("promoteChatMember", Some(&form)).await
     }
 }

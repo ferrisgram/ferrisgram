@@ -3,12 +3,6 @@
 
 use crate::types::BotCommandScopeAllGroupChats;
 
-impl Default for BotCommandScopeAllGroupChats {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl BotCommandScopeAllGroupChats {
     /// This function creates an empty struct for the object BotCommandScopeAllGroupChats.
     pub fn new() -> Self {
