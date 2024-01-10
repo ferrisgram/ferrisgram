@@ -1,3 +1,4 @@
+use std::env;
 use ferrisgram::error::{GroupIteration, Result};
 use ferrisgram::ext::filters::message;
 use ferrisgram::ext::handlers::{CommandHandler, MessageHandler};
@@ -8,10 +9,14 @@ use ferrisgram::Bot;
 #[allow(unused)]
 #[tokio::main]
 async fn main() {
+    let bot_token = match env::var("FERRIS_BOT_TOKEN") {
+        Ok(s) => s,
+        Err(err) => panic!("failed to start bot: {}", err)
+    };
     // This function creates a new bot instance and the error is handled accordingly
-    let bot = match Bot::new("Bot token here", None).await {
+    let bot = match Bot::new(&bot_token, None).await {
         Ok(bot) => bot,
-        Err(error) => panic!("failed to create bot: {}", &error),
+        Err(error) => panic!("failed to create bot: {}", error),
     };
 
     // dispatcher is a part of internal functionality of updater
