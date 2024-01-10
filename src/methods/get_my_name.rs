@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::BotName;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to get the current bot name for the given user language. Returns BotName on success.
@@ -25,21 +25,22 @@ pub struct GetMyNameBuilder<'a> {
     pub language_code: Option<String>,
 }
 
+
 impl<'a> GetMyNameBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             language_code: None,
         }
     }
 
     pub fn language_code(mut self, language_code: String) -> Self {
-        self.language_code = Some(language_code);
-        self
+        self.language_code = Some(language_code);self
     }
-
+                
     pub async fn send(self) -> Result<BotName> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getMyName", Some(&form)).await
     }
+
 }

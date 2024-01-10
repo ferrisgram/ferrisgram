@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 /// <https://core.telegram.org/bots/api#chatboostsourcepremium>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object contains information about one answer option in a poll.
 /// <https://core.telegram.org/bots/api#polloption>
 #[derive(Serialize, Deserialize, Debug, Clone)]

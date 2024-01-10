@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to set the title of a created sticker set. Returns True on success.
@@ -25,23 +25,27 @@ pub struct SetStickerSetTitleBuilder<'a> {
     pub title: String,
 }
 
+
 impl<'a> SetStickerSetTitleBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String, title: String) -> Self {
-        Self { bot, name, title }
+        Self{
+            bot,
+            name,
+            title,
+        }
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;
-        self
+        self.name = name;self
     }
-
+                
     pub fn title(mut self, title: String) -> Self {
-        self.title = title;
-        self
+        self.title = title;self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setStickerSetTitle", Some(&form)).await
     }
+
 }

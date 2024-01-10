@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
 /// <https://core.telegram.org/bots/api#passportelementerrorfrontside>
 #[derive(Serialize, Deserialize, Debug, Clone)]

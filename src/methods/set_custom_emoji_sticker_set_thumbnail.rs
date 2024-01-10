@@ -4,16 +4,13 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
     /// <https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail>
-    pub fn set_custom_emoji_sticker_set_thumbnail(
-        &self,
-        name: String,
-    ) -> SetCustomEmojiStickerSetThumbnailBuilder {
+    pub fn set_custom_emoji_sticker_set_thumbnail(&self, name: String) -> SetCustomEmojiStickerSetThumbnailBuilder {
         SetCustomEmojiStickerSetThumbnailBuilder::new(self, name)
     }
 }
@@ -29,9 +26,10 @@ pub struct SetCustomEmojiStickerSetThumbnailBuilder<'a> {
     pub custom_emoji_id: Option<String>,
 }
 
+
 impl<'a> SetCustomEmojiStickerSetThumbnailBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String) -> Self {
-        Self {
+        Self{
             bot,
             name,
             custom_emoji_id: None,
@@ -39,19 +37,16 @@ impl<'a> SetCustomEmojiStickerSetThumbnailBuilder<'a> {
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;
-        self
+        self.name = name;self
     }
-
+                
     pub fn custom_emoji_id(mut self, custom_emoji_id: String) -> Self {
-        self.custom_emoji_id = Some(custom_emoji_id);
-        self
+        self.custom_emoji_id = Some(custom_emoji_id);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .get("setCustomEmojiStickerSetThumbnail", Some(&form))
-            .await
+        self.bot.get("setCustomEmojiStickerSetThumbnail", Some(&form)).await
     }
+
 }

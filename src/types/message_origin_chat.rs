@@ -4,6 +4,7 @@
 use crate::types::Chat;
 use serde::{Deserialize, Serialize};
 
+
 /// The message was originally sent on behalf of a chat to a group chat.
 /// <https://core.telegram.org/bots/api#messageoriginchat>
 #[derive(Serialize, Deserialize, Debug, Clone)]

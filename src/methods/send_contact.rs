@@ -4,20 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, ReplyParameters};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{ReplyParameters, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send phone contacts. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendcontact>
-    pub fn send_contact(
-        &self,
-        chat_id: i64,
-        phone_number: String,
-        first_name: String,
-    ) -> SendContactBuilder {
+    pub fn send_contact(&self, chat_id: i64, phone_number: String, first_name: String) -> SendContactBuilder {
         SendContactBuilder::new(self, chat_id, phone_number, first_name)
     }
 }
@@ -55,9 +50,10 @@ pub struct SendContactBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
+
 impl<'a> SendContactBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, phone_number: String, first_name: String) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_thread_id: None,
@@ -73,57 +69,48 @@ impl<'a> SendContactBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);
-        self
+        self.message_thread_id = Some(message_thread_id);self
     }
-
+                
     pub fn phone_number(mut self, phone_number: String) -> Self {
-        self.phone_number = phone_number;
-        self
+        self.phone_number = phone_number;self
     }
-
+                
     pub fn first_name(mut self, first_name: String) -> Self {
-        self.first_name = first_name;
-        self
+        self.first_name = first_name;self
     }
-
+                
     pub fn last_name(mut self, last_name: String) -> Self {
-        self.last_name = Some(last_name);
-        self
+        self.last_name = Some(last_name);self
     }
-
+                
     pub fn vcard(mut self, vcard: String) -> Self {
-        self.vcard = Some(vcard);
-        self
+        self.vcard = Some(vcard);self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);
-        self
+        self.disable_notification = Some(disable_notification);self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);
-        self
+        self.protect_content = Some(protect_content);self
     }
-
+                
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);
-        self
+        self.reply_parameters = Some(reply_parameters);self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);
-        self
+        self.reply_markup = Some(reply_markup);self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("sendContact", Some(&form)).await
     }
+
 }

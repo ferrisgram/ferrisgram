@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of a contact message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputcontactmessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]

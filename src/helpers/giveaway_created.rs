@@ -6,6 +6,7 @@ use crate::types::GiveawayCreated;
 impl GiveawayCreated {
     /// This function creates an empty struct for the object GiveawayCreated.
     pub fn new() -> Self {
-        Self {}
+        Self {
+        }
     }
 }

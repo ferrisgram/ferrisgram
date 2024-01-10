@@ -4,21 +4,16 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
+use std::collections::HashMap;
 use crate::input_file::InputFile;
 use crate::types::File;
-use crate::Bot;
-use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
     /// <https://core.telegram.org/bots/api#uploadstickerfile>
-    pub fn upload_sticker_file<F: InputFile>(
-        &self,
-        user_id: i64,
-        sticker: F,
-        sticker_format: String,
-    ) -> UploadStickerFileBuilder<F> {
+    pub fn upload_sticker_file<F: InputFile>(&self, user_id: i64, sticker: F, sticker_format: String) -> UploadStickerFileBuilder<F> {
         UploadStickerFileBuilder::new(self, user_id, sticker, sticker_format)
     }
 }
@@ -35,37 +30,33 @@ pub struct UploadStickerFileBuilder<'a, F: InputFile> {
     pub sticker_format: String,
 }
 
+
 impl<'a, F: InputFile> UploadStickerFileBuilder<'a, F> {
     pub fn new(bot: &'a Bot, user_id: i64, sticker: F, sticker_format: String) -> Self {
         let mut data = HashMap::new();
-        data.insert("sticker", sticker);
-        Self {
-            bot,
-            data,
+data.insert("sticker", sticker);
+Self{
+            bot, data,
             user_id,
             sticker_format,
         }
     }
 
     pub fn user_id(mut self, user_id: i64) -> Self {
-        self.user_id = user_id;
-        self
+        self.user_id = user_id;self
     }
-
+                
     pub fn sticker(mut self, sticker: F) -> Self {
-        self.data.insert("sticker", sticker);
-        self
+        self.data.insert("sticker", sticker);self
     }
-
+                
     pub fn sticker_format(mut self, sticker_format: String) -> Self {
-        self.sticker_format = sticker_format;
-        self
+        self.sticker_format = sticker_format;self
     }
-
+                
     pub async fn send(self) -> Result<File> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .post("uploadStickerFile", Some(&form), Some(self.data))
-            .await
+        self.bot.post("uploadStickerFile", Some(&form), Some(self.data)).await
     }
+
 }

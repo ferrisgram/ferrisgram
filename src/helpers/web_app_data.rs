@@ -6,6 +6,9 @@ use crate::types::WebAppData;
 impl WebAppData {
     /// This function creates an empty struct for the object WebAppData.
     pub fn new(data: String, button_text: String) -> Self {
-        Self { data, button_text }
+        Self {
+            data,
+            button_text,
+        }
     }
 }

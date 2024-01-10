@@ -6,6 +6,8 @@ use crate::types::BotName;
 impl BotName {
     /// This function creates an empty struct for the object BotName.
     pub fn new(name: String) -> Self {
-        Self { name }
+        Self {
+            name,
+        }
     }
 }

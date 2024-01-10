@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' administrator right in a supergroup or 'can_edit_messages' administrator right in a channel. Returns True on success.
@@ -26,9 +26,10 @@ pub struct UnpinChatMessageBuilder<'a> {
     pub message_id: Option<i64>,
 }
 
+
 impl<'a> UnpinChatMessageBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_id: None,
@@ -36,17 +37,16 @@ impl<'a> UnpinChatMessageBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
-        self.message_id = Some(message_id);
-        self
+        self.message_id = Some(message_id);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("unpinChatMessage", Some(&form)).await
     }
+
 }

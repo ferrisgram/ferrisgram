@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
@@ -35,9 +35,10 @@ pub struct AnswerCallbackQueryBuilder<'a> {
     pub cache_time: Option<i64>,
 }
 
+
 impl<'a> AnswerCallbackQueryBuilder<'a> {
     pub fn new(bot: &'a Bot, callback_query_id: String) -> Self {
-        Self {
+        Self{
             bot,
             callback_query_id,
             text: None,
@@ -48,32 +49,28 @@ impl<'a> AnswerCallbackQueryBuilder<'a> {
     }
 
     pub fn callback_query_id(mut self, callback_query_id: String) -> Self {
-        self.callback_query_id = callback_query_id;
-        self
+        self.callback_query_id = callback_query_id;self
     }
-
+                
     pub fn text(mut self, text: String) -> Self {
-        self.text = Some(text);
-        self
+        self.text = Some(text);self
     }
-
+                
     pub fn show_alert(mut self, show_alert: bool) -> Self {
-        self.show_alert = Some(show_alert);
-        self
+        self.show_alert = Some(show_alert);self
     }
-
+                
     pub fn url(mut self, url: String) -> Self {
-        self.url = Some(url);
-        self
+        self.url = Some(url);self
     }
-
+                
     pub fn cache_time(mut self, cache_time: i64) -> Self {
-        self.cache_time = Some(cache_time);
-        self
+        self.cache_time = Some(cache_time);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("answerCallbackQuery", Some(&form)).await
     }
+
 }

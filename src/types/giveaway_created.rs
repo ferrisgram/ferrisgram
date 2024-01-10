@@ -3,7 +3,9 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a service message about the creation of a scheduled giveaway. Currently holds no information.
 /// <https://core.telegram.org/bots/api#giveawaycreated>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct GiveawayCreated {}
+pub struct GiveawayCreated {
+}

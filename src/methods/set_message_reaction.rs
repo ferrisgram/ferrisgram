@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::ReactionType;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Returns True on success.
@@ -32,9 +32,10 @@ pub struct SetMessageReactionBuilder<'a> {
     pub is_big: Option<bool>,
 }
 
+
 impl<'a> SetMessageReactionBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_id,
@@ -44,27 +45,24 @@ impl<'a> SetMessageReactionBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_id(mut self, message_id: i64) -> Self {
-        self.message_id = message_id;
-        self
+        self.message_id = message_id;self
     }
-
+                
     pub fn reaction(mut self, reaction: Vec<ReactionType>) -> Self {
-        self.reaction = Some(reaction);
-        self
+        self.reaction = Some(reaction);self
     }
-
+                
     pub fn is_big(mut self, is_big: bool) -> Self {
-        self.is_big = Some(is_big);
-        self
+        self.is_big = Some(is_big);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setMessageReaction", Some(&form)).await
     }
+
 }

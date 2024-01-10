@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Describes an inline message sent by a Web App on behalf of a user.
 /// <https://core.telegram.org/bots/api#sentwebappmessage>
 #[derive(Serialize, Deserialize, Debug, Clone)]

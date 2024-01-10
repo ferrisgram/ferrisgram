@@ -4,6 +4,7 @@
 use crate::types::MessageEntity;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents a video to be sent.
 /// <https://core.telegram.org/bots/api#inputmediavideo>
 #[derive(Serialize, Deserialize, Debug, Clone)]

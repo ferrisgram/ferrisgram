@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::UserChatBoosts;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
@@ -26,9 +26,10 @@ pub struct GetUserChatBoostsBuilder<'a> {
     pub user_id: i64,
 }
 
+
 impl<'a> GetUserChatBoostsBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             user_id,
@@ -36,17 +37,16 @@ impl<'a> GetUserChatBoostsBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn user_id(mut self, user_id: i64) -> Self {
-        self.user_id = user_id;
-        self
+        self.user_id = user_id;self
     }
-
+                
     pub async fn send(self) -> Result<UserChatBoosts> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getUserChatBoosts", Some(&form)).await
     }
+
 }

@@ -20,7 +20,8 @@ pub const tg_type_float: &str = "Float";
 pub const tg_type_integer: &str = "Integer";
 pub const tg_type_file: &str = "InputFile";
 
-pub const RequiresCustomDemarshaller: &str = "MaybeInaccessibleMessage InputMessageContent";
+pub const RequiresCustomDemarshaller: &str = "MaybeInaccessibleMessage";
+pub const Untagged: &str = "InputMessageContent"; 
 
 const SOURCE_PATH: &str = "../src/";
 

@@ -4,6 +4,7 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents an audio file to be treated as music by the Telegram clients.
 /// <https://core.telegram.org/bots/api#audio>
 #[derive(Serialize, Deserialize, Debug, Clone)]

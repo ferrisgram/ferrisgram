@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a service message about an edited forum topic.
 /// <https://core.telegram.org/bots/api#forumtopicedited>
 #[derive(Serialize, Deserialize, Debug, Clone)]

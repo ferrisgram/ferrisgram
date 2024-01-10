@@ -4,6 +4,7 @@
 use crate::types::WebAppInfo;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
 /// <https://core.telegram.org/bots/api#inlinequeryresultsbutton>
 #[derive(Serialize, Deserialize, Debug, Clone)]

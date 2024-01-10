@@ -4,6 +4,7 @@
 use crate::types::MessageEntity;
 use serde::{Deserialize, Serialize};
 
+
 /// This object contains information about the quoted part of a message that is replied to by the given message.
 /// <https://core.telegram.org/bots/api#textquote>
 #[derive(Serialize, Deserialize, Debug, Clone)]

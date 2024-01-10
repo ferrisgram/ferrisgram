@@ -4,6 +4,7 @@
 use crate::types::LabeledPrice;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents the content of an invoice message to be sent as the result of an inline query.
 /// <https://core.telegram.org/bots/api#inputinvoicemessagecontent>
 #[derive(Serialize, Deserialize, Debug, Clone)]

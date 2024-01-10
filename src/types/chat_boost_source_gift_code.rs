@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// The boost was obtained by the creation of Telegram Premium gift codes to boost a chat. Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// <https://core.telegram.org/bots/api#chatboostsourcegiftcode>
 #[derive(Serialize, Deserialize, Debug, Clone)]

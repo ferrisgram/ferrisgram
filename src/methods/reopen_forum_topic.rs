@@ -4,17 +4,13 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
     /// <https://core.telegram.org/bots/api#reopenforumtopic>
-    pub fn reopen_forum_topic(
-        &self,
-        chat_id: i64,
-        message_thread_id: i64,
-    ) -> ReopenForumTopicBuilder {
+    pub fn reopen_forum_topic(&self, chat_id: i64, message_thread_id: i64) -> ReopenForumTopicBuilder {
         ReopenForumTopicBuilder::new(self, chat_id, message_thread_id)
     }
 }
@@ -29,9 +25,10 @@ pub struct ReopenForumTopicBuilder<'a> {
     pub message_thread_id: i64,
 }
 
+
 impl<'a> ReopenForumTopicBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_thread_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_thread_id,
@@ -39,17 +36,16 @@ impl<'a> ReopenForumTopicBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = message_thread_id;
-        self
+        self.message_thread_id = message_thread_id;self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("reopenForumTopic", Some(&form)).await
     }
+
 }

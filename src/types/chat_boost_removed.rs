@@ -4,6 +4,7 @@
 use crate::types::{Chat, ChatBoostSource};
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a boost removed from a chat.
 /// <https://core.telegram.org/bots/api#chatboostremoved>
 #[derive(Serialize, Deserialize, Debug, Clone)]

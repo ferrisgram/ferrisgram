@@ -4,6 +4,7 @@
 use crate::types::WebAppInfo;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents a menu button, which launches a Web App.
 /// <https://core.telegram.org/bots/api#menubuttonwebapp>
 #[derive(Serialize, Deserialize, Debug, Clone)]

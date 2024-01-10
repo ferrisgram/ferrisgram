@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to change the bot's name. Returns True on success.
@@ -27,9 +27,10 @@ pub struct SetMyNameBuilder<'a> {
     pub language_code: Option<String>,
 }
 
+
 impl<'a> SetMyNameBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             name: None,
             language_code: None,
@@ -37,17 +38,16 @@ impl<'a> SetMyNameBuilder<'a> {
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = Some(name);
-        self
+        self.name = Some(name);self
     }
-
+                
     pub fn language_code(mut self, language_code: String) -> Self {
-        self.language_code = Some(language_code);
-        self
+        self.language_code = Some(language_code);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setMyName", Some(&form)).await
     }
+
 }

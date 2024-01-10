@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents an animated emoji that displays a random value.
 /// <https://core.telegram.org/bots/api#dice>
 #[derive(Serialize, Deserialize, Debug, Clone)]

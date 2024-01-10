@@ -4,6 +4,7 @@
 use crate::types::Message;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a service message about the completion of a giveaway without public winners.
 /// <https://core.telegram.org/bots/api#giveawaycompleted>
 #[derive(Serialize, Deserialize, Debug, Clone)]

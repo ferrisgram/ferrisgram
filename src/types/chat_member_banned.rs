@@ -4,6 +4,7 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
+
 /// Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.
 /// <https://core.telegram.org/bots/api#chatmemberbanned>
 #[derive(Serialize, Deserialize, Debug, Clone)]

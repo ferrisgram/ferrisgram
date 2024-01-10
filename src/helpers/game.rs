@@ -2,7 +2,7 @@
 // DO NOT EDIT!!!
 
 use crate::types::Game;
-use crate::types::PhotoSize;
+use crate::types:: PhotoSize;
 
 impl Game {
     /// This function creates an empty struct for the object Game.

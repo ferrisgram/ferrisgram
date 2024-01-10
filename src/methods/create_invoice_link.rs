@@ -4,31 +4,15 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::LabeledPrice;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to create a link for an invoice. Returns the created invoice link as String on success.
     /// <https://core.telegram.org/bots/api#createinvoicelink>
-    pub fn create_invoice_link(
-        &self,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> CreateInvoiceLinkBuilder {
-        CreateInvoiceLinkBuilder::new(
-            self,
-            title,
-            description,
-            payload,
-            provider_token,
-            currency,
-            prices,
-        )
+    pub fn create_invoice_link(&self, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> CreateInvoiceLinkBuilder {
+        CreateInvoiceLinkBuilder::new(self, title, description, payload, provider_token, currency, prices)
     }
 }
 
@@ -92,17 +76,10 @@ pub struct CreateInvoiceLinkBuilder<'a> {
     pub is_flexible: Option<bool>,
 }
 
+
 impl<'a> CreateInvoiceLinkBuilder<'a> {
-    pub fn new(
-        bot: &'a Bot,
-        title: String,
-        description: String,
-        payload: String,
-        provider_token: String,
-        currency: String,
-        prices: Vec<LabeledPrice>,
-    ) -> Self {
-        Self {
+    pub fn new(bot: &'a Bot, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> Self {
+        Self{
             bot,
             title,
             description,
@@ -128,107 +105,88 @@ impl<'a> CreateInvoiceLinkBuilder<'a> {
     }
 
     pub fn title(mut self, title: String) -> Self {
-        self.title = title;
-        self
+        self.title = title;self
     }
-
+                
     pub fn description(mut self, description: String) -> Self {
-        self.description = description;
-        self
+        self.description = description;self
     }
-
+                
     pub fn payload(mut self, payload: String) -> Self {
-        self.payload = payload;
-        self
+        self.payload = payload;self
     }
-
+                
     pub fn provider_token(mut self, provider_token: String) -> Self {
-        self.provider_token = provider_token;
-        self
+        self.provider_token = provider_token;self
     }
-
+                
     pub fn currency(mut self, currency: String) -> Self {
-        self.currency = currency;
-        self
+        self.currency = currency;self
     }
-
+                
     pub fn prices(mut self, prices: Vec<LabeledPrice>) -> Self {
-        self.prices = prices;
-        self
+        self.prices = prices;self
     }
-
+                
     pub fn max_tip_amount(mut self, max_tip_amount: i64) -> Self {
-        self.max_tip_amount = Some(max_tip_amount);
-        self
+        self.max_tip_amount = Some(max_tip_amount);self
     }
-
+                
     pub fn suggested_tip_amounts(mut self, suggested_tip_amounts: Vec<i64>) -> Self {
-        self.suggested_tip_amounts = Some(suggested_tip_amounts);
-        self
+        self.suggested_tip_amounts = Some(suggested_tip_amounts);self
     }
-
+                
     pub fn provider_data(mut self, provider_data: String) -> Self {
-        self.provider_data = Some(provider_data);
-        self
+        self.provider_data = Some(provider_data);self
     }
-
+                
     pub fn photo_url(mut self, photo_url: String) -> Self {
-        self.photo_url = Some(photo_url);
-        self
+        self.photo_url = Some(photo_url);self
     }
-
+                
     pub fn photo_size(mut self, photo_size: i64) -> Self {
-        self.photo_size = Some(photo_size);
-        self
+        self.photo_size = Some(photo_size);self
     }
-
+                
     pub fn photo_width(mut self, photo_width: i64) -> Self {
-        self.photo_width = Some(photo_width);
-        self
+        self.photo_width = Some(photo_width);self
     }
-
+                
     pub fn photo_height(mut self, photo_height: i64) -> Self {
-        self.photo_height = Some(photo_height);
-        self
+        self.photo_height = Some(photo_height);self
     }
-
+                
     pub fn need_name(mut self, need_name: bool) -> Self {
-        self.need_name = Some(need_name);
-        self
+        self.need_name = Some(need_name);self
     }
-
+                
     pub fn need_phone_number(mut self, need_phone_number: bool) -> Self {
-        self.need_phone_number = Some(need_phone_number);
-        self
+        self.need_phone_number = Some(need_phone_number);self
     }
-
+                
     pub fn need_email(mut self, need_email: bool) -> Self {
-        self.need_email = Some(need_email);
-        self
+        self.need_email = Some(need_email);self
     }
-
+                
     pub fn need_shipping_address(mut self, need_shipping_address: bool) -> Self {
-        self.need_shipping_address = Some(need_shipping_address);
-        self
+        self.need_shipping_address = Some(need_shipping_address);self
     }
-
+                
     pub fn send_phone_number_to_provider(mut self, send_phone_number_to_provider: bool) -> Self {
-        self.send_phone_number_to_provider = Some(send_phone_number_to_provider);
-        self
+        self.send_phone_number_to_provider = Some(send_phone_number_to_provider);self
     }
-
+                
     pub fn send_email_to_provider(mut self, send_email_to_provider: bool) -> Self {
-        self.send_email_to_provider = Some(send_email_to_provider);
-        self
+        self.send_email_to_provider = Some(send_email_to_provider);self
     }
-
+                
     pub fn is_flexible(mut self, is_flexible: bool) -> Self {
-        self.is_flexible = Some(is_flexible);
-        self
+        self.is_flexible = Some(is_flexible);self
     }
-
+                
     pub async fn send(self) -> Result<String> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("createInvoiceLink", Some(&form)).await
     }
+
 }

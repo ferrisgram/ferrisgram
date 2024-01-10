@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a portion of the price for goods or services.
 /// <https://core.telegram.org/bots/api#labeledprice>
 #[derive(Serialize, Deserialize, Debug, Clone)]

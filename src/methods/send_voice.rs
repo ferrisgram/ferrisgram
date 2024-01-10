@@ -4,12 +4,12 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::input_file::InputFile;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
+use crate::error::Result;
 use std::collections::HashMap;
+use crate::input_file::InputFile;
+use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -56,13 +56,13 @@ pub struct SendVoiceBuilder<'a, F: InputFile> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
+
 impl<'a, F: InputFile> SendVoiceBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, voice: F) -> Self {
         let mut data = HashMap::new();
-        data.insert("voice", voice);
-        Self {
-            bot,
-            data,
+data.insert("voice", voice);
+Self{
+            bot, data,
             chat_id,
             message_thread_id: None,
             caption: None,
@@ -77,64 +77,52 @@ impl<'a, F: InputFile> SendVoiceBuilder<'a, F> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);
-        self
+        self.message_thread_id = Some(message_thread_id);self
     }
-
+                
     pub fn voice(mut self, voice: F) -> Self {
-        self.data.insert("voice", voice);
-        self
+        self.data.insert("voice", voice);self
     }
-
+                
     pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);
-        self
+        self.caption = Some(caption);self
     }
-
+                
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);
-        self
+        self.parse_mode = Some(parse_mode);self
     }
-
+                
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);
-        self
+        self.caption_entities = Some(caption_entities);self
     }
-
+                
     pub fn duration(mut self, duration: i64) -> Self {
-        self.duration = Some(duration);
-        self
+        self.duration = Some(duration);self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);
-        self
+        self.disable_notification = Some(disable_notification);self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);
-        self
+        self.protect_content = Some(protect_content);self
     }
-
+                
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);
-        self
+        self.reply_parameters = Some(reply_parameters);self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);
-        self
+        self.reply_markup = Some(reply_markup);self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .post("sendVoice", Some(&form), Some(self.data))
-            .await
+        self.bot.post("sendVoice", Some(&form), Some(self.data)).await
     }
+
 }

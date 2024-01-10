@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::MaskPosition;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was created by the bot. Returns True on success.
@@ -27,9 +27,10 @@ pub struct SetStickerMaskPositionBuilder<'a> {
     pub mask_position: Option<MaskPosition>,
 }
 
+
 impl<'a> SetStickerMaskPositionBuilder<'a> {
     pub fn new(bot: &'a Bot, sticker: String) -> Self {
-        Self {
+        Self{
             bot,
             sticker,
             mask_position: None,
@@ -37,17 +38,16 @@ impl<'a> SetStickerMaskPositionBuilder<'a> {
     }
 
     pub fn sticker(mut self, sticker: String) -> Self {
-        self.sticker = sticker;
-        self
+        self.sticker = sticker;self
     }
-
+                
     pub fn mask_position(mut self, mask_position: MaskPosition) -> Self {
-        self.mask_position = Some(mask_position);
-        self
+        self.mask_position = Some(mask_position);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setStickerMaskPosition", Some(&form)).await
     }
+
 }

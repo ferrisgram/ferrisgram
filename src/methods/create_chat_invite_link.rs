@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatInviteLink;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
@@ -36,9 +36,10 @@ pub struct CreateChatInviteLinkBuilder<'a> {
     pub creates_join_request: Option<bool>,
 }
 
+
 impl<'a> CreateChatInviteLinkBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             name: None,
@@ -49,32 +50,28 @@ impl<'a> CreateChatInviteLinkBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn name(mut self, name: String) -> Self {
-        self.name = Some(name);
-        self
+        self.name = Some(name);self
     }
-
+                
     pub fn expire_date(mut self, expire_date: i64) -> Self {
-        self.expire_date = Some(expire_date);
-        self
+        self.expire_date = Some(expire_date);self
     }
-
+                
     pub fn member_limit(mut self, member_limit: i64) -> Self {
-        self.member_limit = Some(member_limit);
-        self
+        self.member_limit = Some(member_limit);self
     }
-
+                
     pub fn creates_join_request(mut self, creates_join_request: bool) -> Self {
-        self.creates_join_request = Some(creates_join_request);
-        self
+        self.creates_join_request = Some(creates_join_request);self
     }
-
+                
     pub async fn send(self) -> Result<ChatInviteLink> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("createChatInviteLink", Some(&form)).await
     }
+
 }

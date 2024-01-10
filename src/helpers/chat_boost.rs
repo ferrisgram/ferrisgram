@@ -6,12 +6,7 @@ use crate::types::ChatBoostSource;
 
 impl ChatBoost {
     /// This function creates an empty struct for the object ChatBoost.
-    pub fn new(
-        boost_id: String,
-        add_date: i64,
-        expiration_date: i64,
-        source: ChatBoostSource,
-    ) -> Self {
+    pub fn new(boost_id: String, add_date: i64, expiration_date: i64, source: ChatBoostSource) -> Self {
         Self {
             boost_id,
             add_date,

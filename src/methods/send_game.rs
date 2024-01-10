@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, ReplyParameters};
 use crate::Bot;
+use crate::error::Result;
+use crate::types::{ReplyParameters, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send a game. On success, the sent Message is returned.
@@ -42,9 +42,10 @@ pub struct SendGameBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
+
 impl<'a> SendGameBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, game_short_name: String) -> Self {
-        Self {
+        Self{
             bot,
             chat_id,
             message_thread_id: None,
@@ -57,42 +58,36 @@ impl<'a> SendGameBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);
-        self
+        self.message_thread_id = Some(message_thread_id);self
     }
-
+                
     pub fn game_short_name(mut self, game_short_name: String) -> Self {
-        self.game_short_name = game_short_name;
-        self
+        self.game_short_name = game_short_name;self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);
-        self
+        self.disable_notification = Some(disable_notification);self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);
-        self
+        self.protect_content = Some(protect_content);self
     }
-
+                
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);
-        self
+        self.reply_parameters = Some(reply_parameters);self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);
-        self
+        self.reply_markup = Some(reply_markup);self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("sendGame", Some(&form)).await
     }
+
 }

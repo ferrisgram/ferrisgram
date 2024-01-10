@@ -4,6 +4,7 @@
 use crate::types::Chat;
 use serde::{Deserialize, Serialize};
 
+
 /// This object describes a message that was deleted or is otherwise inaccessible to the bot.
 /// <https://core.telegram.org/bots/api#inaccessiblemessage>
 #[derive(Serialize, Deserialize, Debug, Clone)]

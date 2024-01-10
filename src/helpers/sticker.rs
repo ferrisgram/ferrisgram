@@ -5,15 +5,7 @@ use crate::types::Sticker;
 
 impl Sticker {
     /// This function creates an empty struct for the object Sticker.
-    pub fn new(
-        file_id: String,
-        file_unique_id: String,
-        r#type: String,
-        width: i64,
-        height: i64,
-        is_animated: bool,
-        is_video: bool,
-    ) -> Self {
+    pub fn new(file_id: String, file_unique_id: String, r#type: String, width: i64, height: i64, is_animated: bool, is_video: bool) -> Self {
         Self {
             file_id,
             file_unique_id,

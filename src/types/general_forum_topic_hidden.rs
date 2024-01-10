@@ -3,7 +3,9 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a service message about General forum topic hidden in the chat. Currently holds no information.
 /// <https://core.telegram.org/bots/api#generalforumtopichidden>
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct GeneralForumTopicHidden {}
+pub struct GeneralForumTopicHidden {
+}

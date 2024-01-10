@@ -3,6 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 
+
 /// Describes the options used for link preview generation.
 /// <https://core.telegram.org/bots/api#linkpreviewoptions>
 #[derive(Serialize, Deserialize, Debug, Clone)]

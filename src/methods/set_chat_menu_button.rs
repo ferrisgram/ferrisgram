@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
+use crate::Bot;
 use crate::error::Result;
 use crate::types::MenuButton;
-use crate::Bot;
 
 impl Bot {
     /// Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
@@ -28,9 +28,10 @@ pub struct SetChatMenuButtonBuilder<'a> {
     pub menu_button: Option<MenuButton>,
 }
 
+
 impl<'a> SetChatMenuButtonBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self {
+        Self{
             bot,
             chat_id: None,
             menu_button: None,
@@ -38,17 +39,16 @@ impl<'a> SetChatMenuButtonBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = Some(chat_id);
-        self
+        self.chat_id = Some(chat_id);self
     }
-
+                
     pub fn menu_button(mut self, menu_button: MenuButton) -> Self {
-        self.menu_button = Some(menu_button);
-        self
+        self.menu_button = Some(menu_button);self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setChatMenuButton", Some(&form)).await
     }
+
 }

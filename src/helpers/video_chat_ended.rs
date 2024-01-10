@@ -6,6 +6,8 @@ use crate::types::VideoChatEnded;
 impl VideoChatEnded {
     /// This function creates an empty struct for the object VideoChatEnded.
     pub fn new(duration: i64) -> Self {
-        Self { duration }
+        Self {
+            duration,
+        }
     }
 }

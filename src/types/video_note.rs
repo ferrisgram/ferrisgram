@@ -4,6 +4,7 @@
 use crate::types::PhotoSize;
 use serde::{Deserialize, Serialize};
 
+
 /// This object represents a video message (available in Telegram apps as of v.4.0).
 /// <https://core.telegram.org/bots/api#videonote>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -4,21 +4,17 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
-use crate::input_file::InputFile;
-use crate::types::Message;
-use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
 use crate::Bot;
+use crate::error::Result;
 use std::collections::HashMap;
+use crate::input_file::InputFile;
+use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
+use crate::types::Message;
 
 impl Bot {
     /// Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
     /// <https://core.telegram.org/bots/api#sendanimation>
-    pub fn send_animation<F: InputFile>(
-        &self,
-        chat_id: i64,
-        animation: F,
-    ) -> SendAnimationBuilder<F> {
+    pub fn send_animation<F: InputFile>(&self, chat_id: i64, animation: F) -> SendAnimationBuilder<F> {
         SendAnimationBuilder::new(self, chat_id, animation)
     }
 }
@@ -69,13 +65,13 @@ pub struct SendAnimationBuilder<'a, F: InputFile> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
+
 impl<'a, F: InputFile> SendAnimationBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, animation: F) -> Self {
         let mut data = HashMap::new();
-        data.insert("animation", animation);
-        Self {
-            bot,
-            data,
+data.insert("animation", animation);
+Self{
+            bot, data,
             chat_id,
             message_thread_id: None,
             duration: None,
@@ -93,84 +89,68 @@ impl<'a, F: InputFile> SendAnimationBuilder<'a, F> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);
-        self
+        self.message_thread_id = Some(message_thread_id);self
     }
-
+                
     pub fn animation(mut self, animation: F) -> Self {
-        self.data.insert("animation", animation);
-        self
+        self.data.insert("animation", animation);self
     }
-
+                
     pub fn duration(mut self, duration: i64) -> Self {
-        self.duration = Some(duration);
-        self
+        self.duration = Some(duration);self
     }
-
+                
     pub fn width(mut self, width: i64) -> Self {
-        self.width = Some(width);
-        self
+        self.width = Some(width);self
     }
-
+                
     pub fn height(mut self, height: i64) -> Self {
-        self.height = Some(height);
-        self
+        self.height = Some(height);self
     }
-
+                
     pub fn thumbnail(mut self, thumbnail: F) -> Self {
-        self.data.insert("thumbnail", thumbnail);
-        self
+        self.data.insert("thumbnail", thumbnail);self
     }
-
+                
     pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);
-        self
+        self.caption = Some(caption);self
     }
-
+                
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);
-        self
+        self.parse_mode = Some(parse_mode);self
     }
-
+                
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);
-        self
+        self.caption_entities = Some(caption_entities);self
     }
-
+                
     pub fn has_spoiler(mut self, has_spoiler: bool) -> Self {
-        self.has_spoiler = Some(has_spoiler);
-        self
+        self.has_spoiler = Some(has_spoiler);self
     }
-
+                
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);
-        self
+        self.disable_notification = Some(disable_notification);self
     }
-
+                
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);
-        self
+        self.protect_content = Some(protect_content);self
     }
-
+                
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);
-        self
+        self.reply_parameters = Some(reply_parameters);self
     }
-
+                
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);
-        self
+        self.reply_markup = Some(reply_markup);self
     }
-
+                
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
-        self.bot
-            .post("sendAnimation", Some(&form), Some(self.data))
-            .await
+        self.bot.post("sendAnimation", Some(&form), Some(self.data)).await
     }
+
 }

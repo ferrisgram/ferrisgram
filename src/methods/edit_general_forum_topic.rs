@@ -4,17 +4,13 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::error::Result;
 use crate::Bot;
+use crate::error::Result;
 
 impl Bot {
     /// Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
     /// <https://core.telegram.org/bots/api#editgeneralforumtopic>
-    pub fn edit_general_forum_topic(
-        &self,
-        chat_id: i64,
-        name: String,
-    ) -> EditGeneralForumTopicBuilder {
+    pub fn edit_general_forum_topic(&self, chat_id: i64, name: String) -> EditGeneralForumTopicBuilder {
         EditGeneralForumTopicBuilder::new(self, chat_id, name)
     }
 }
@@ -29,23 +25,27 @@ pub struct EditGeneralForumTopicBuilder<'a> {
     pub name: String,
 }
 
+
 impl<'a> EditGeneralForumTopicBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, name: String) -> Self {
-        Self { bot, chat_id, name }
+        Self{
+            bot,
+            chat_id,
+            name,
+        }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;
-        self
+        self.chat_id = chat_id;self
     }
-
+                
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;
-        self
+        self.name = name;self
     }
-
+                
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("editGeneralForumTopic", Some(&form)).await
     }
+
 }
