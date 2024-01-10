@@ -26,23 +26,6 @@ pub struct ApiResponse<T> {
     pub result: Option<T>,
 }
 
-// pub struct NamedFile {
-//     pub file_name: String,
-//     pub file_data: Vec<u8>,
-// }
-
-// impl InputFile for NamedFile {
-//     fn get_part(&self) -> Part {
-//         // let ext = Path::new(&self.file_name).extension().and_then(|ext| ext.to_str()).unwrap_or("");
-//         // let mime = mime_guess::from_ext(ext).first_or_octet_stream();
-//         Part::bytes(self.file_data.clone()).file_name(self.file_name.clone())
-//     }
-// }
-
-// pub trait InputFile {
-//     fn get_part(&self) -> Part;
-// }
-
 impl Bot {
     pub async fn new(token: &str, api_url: Option<&str>) -> Result<Bot> {
         let mut api = DEFAULT_API_URL;
@@ -101,13 +84,11 @@ impl Bot {
             method = method
         ));
         // Use multipart if data is not none else use JSON
-        println!("Adding multipart form");
         if data.is_some() {
             let mut form = Form::new();
             for (name, field) in data.unwrap() {
                 form = form.part(name.to_string(), field.get_part())
             }
-            println!("Adding params");
             if let Value::Object(obj) = params.unwrap().clone() {
                 for (key, val) in obj {
                     if let Value::String(s) = val {
