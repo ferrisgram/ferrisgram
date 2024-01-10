@@ -4,7 +4,6 @@
 use crate::types::MessageEntity;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a general file to be sent.
 /// <https://core.telegram.org/bots/api#inputmediadocument>
 #[derive(Serialize, Deserialize, Debug, Clone)]

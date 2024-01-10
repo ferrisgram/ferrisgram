@@ -5,7 +5,13 @@ use crate::types::Video;
 
 impl Video {
     /// This function creates an empty struct for the object Video.
-    pub fn new(file_id: String, file_unique_id: String, width: i64, height: i64, duration: i64) -> Self {
+    pub fn new(
+        file_id: String,
+        file_unique_id: String,
+        width: i64,
+        height: i64,
+        duration: i64,
+    ) -> Self {
         Self {
             file_id,
             file_unique_id,

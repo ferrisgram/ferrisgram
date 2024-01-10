@@ -4,7 +4,6 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
-
 /// The message was originally sent by a known user.
 /// <https://core.telegram.org/bots/api#messageoriginuser>
 #[derive(Serialize, Deserialize, Debug, Clone)]

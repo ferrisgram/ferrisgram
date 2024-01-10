@@ -4,7 +4,6 @@
 use crate::types::ReactionType;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a reaction added to a message along with the number of times it was added.
 /// <https://core.telegram.org/bots/api#reactioncount>
 #[derive(Serialize, Deserialize, Debug, Clone)]

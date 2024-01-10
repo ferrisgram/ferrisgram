@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// The reaction is based on an emoji.
 /// <https://core.telegram.org/bots/api#reactiontypeemoji>
 #[derive(Serialize, Deserialize, Debug, Clone)]

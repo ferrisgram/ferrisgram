@@ -4,7 +4,6 @@
 use crate::types::{Chat, User};
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents an answer of a user in a non-anonymous poll.
 /// <https://core.telegram.org/bots/api#pollanswer>
 #[derive(Serialize, Deserialize, Debug, Clone)]

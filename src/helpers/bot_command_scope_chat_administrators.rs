@@ -6,8 +6,6 @@ use crate::types::BotCommandScopeChatAdministrators;
 impl BotCommandScopeChatAdministrators {
     /// This function creates an empty struct for the object BotCommandScopeChatAdministrators.
     pub fn new(chat_id: i64) -> Self {
-        Self {
-            chat_id,
-        }
+        Self { chat_id }
     }
 }

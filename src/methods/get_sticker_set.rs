@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::StickerSet;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get a sticker set. On success, a StickerSet object is returned.
@@ -24,22 +24,18 @@ pub struct GetStickerSetBuilder<'a> {
     pub name: String,
 }
 
-
 impl<'a> GetStickerSetBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String) -> Self {
-        Self{
-            bot,
-            name,
-        }
+        Self { bot, name }
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;self
+        self.name = name;
+        self
     }
-                
+
     pub async fn send(self) -> Result<StickerSet> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getStickerSet", Some(&form)).await
     }
-
 }

@@ -4,15 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{ReplyParameters, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, ReplyParameters};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send point on the map. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendlocation>
-    pub fn send_location(&self, chat_id: i64, latitude: f64, longitude: f64) -> SendLocationBuilder {
+    pub fn send_location(
+        &self,
+        chat_id: i64,
+        latitude: f64,
+        longitude: f64,
+    ) -> SendLocationBuilder {
         SendLocationBuilder::new(self, chat_id, latitude, longitude)
     }
 }
@@ -56,10 +61,9 @@ pub struct SendLocationBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a> SendLocationBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, latitude: f64, longitude: f64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_thread_id: None,
@@ -77,56 +81,67 @@ impl<'a> SendLocationBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
+        self.message_thread_id = Some(message_thread_id);
+        self
     }
-                
+
     pub fn latitude(mut self, latitude: f64) -> Self {
-        self.latitude = latitude;self
+        self.latitude = latitude;
+        self
     }
-                
+
     pub fn longitude(mut self, longitude: f64) -> Self {
-        self.longitude = longitude;self
+        self.longitude = longitude;
+        self
     }
-                
+
     pub fn horizontal_accuracy(mut self, horizontal_accuracy: f64) -> Self {
-        self.horizontal_accuracy = Some(horizontal_accuracy);self
+        self.horizontal_accuracy = Some(horizontal_accuracy);
+        self
     }
-                
+
     pub fn live_period(mut self, live_period: i64) -> Self {
-        self.live_period = Some(live_period);self
+        self.live_period = Some(live_period);
+        self
     }
-                
+
     pub fn heading(mut self, heading: i64) -> Self {
-        self.heading = Some(heading);self
+        self.heading = Some(heading);
+        self
     }
-                
+
     pub fn proximity_alert_radius(mut self, proximity_alert_radius: i64) -> Self {
-        self.proximity_alert_radius = Some(proximity_alert_radius);self
+        self.proximity_alert_radius = Some(proximity_alert_radius);
+        self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
+        self.disable_notification = Some(disable_notification);
+        self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
+        self.protect_content = Some(protect_content);
+        self
     }
-                
+
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
+        self.reply_parameters = Some(reply_parameters);
+        self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
+        self.reply_markup = Some(reply_markup);
+        self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("sendLocation", Some(&form)).await
     }
-
 }

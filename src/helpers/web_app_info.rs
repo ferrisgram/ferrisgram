@@ -6,8 +6,6 @@ use crate::types::WebAppInfo;
 impl WebAppInfo {
     /// This function creates an empty struct for the object WebAppInfo.
     pub fn new(url: String) -> Self {
-        Self {
-            url,
-        }
+        Self { url }
     }
 }

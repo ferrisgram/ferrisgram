@@ -4,7 +4,6 @@
 use crate::types::InlineKeyboardMarkup;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a Game.
 /// <https://core.telegram.org/bots/api#inlinequeryresultgame>
 #[derive(Serialize, Deserialize, Debug, Clone)]

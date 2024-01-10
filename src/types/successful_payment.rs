@@ -4,7 +4,6 @@
 use crate::types::OrderInfo;
 use serde::{Deserialize, Serialize};
 
-
 /// This object contains basic information about a successful payment.
 /// <https://core.telegram.org/bots/api#successfulpayment>
 #[derive(Serialize, Deserialize, Debug, Clone)]

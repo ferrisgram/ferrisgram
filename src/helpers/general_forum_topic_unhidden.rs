@@ -6,7 +6,6 @@ use crate::types::GeneralForumTopicUnhidden;
 impl GeneralForumTopicUnhidden {
     /// This function creates an empty struct for the object GeneralForumTopicUnhidden.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }

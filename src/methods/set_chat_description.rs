@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -26,10 +26,9 @@ pub struct SetChatDescriptionBuilder<'a> {
     pub description: Option<String>,
 }
 
-
 impl<'a> SetChatDescriptionBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             description: None,
@@ -37,16 +36,17 @@ impl<'a> SetChatDescriptionBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn description(mut self, description: String) -> Self {
-        self.description = Some(description);self
+        self.description = Some(description);
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setChatDescription", Some(&form)).await
     }
-
 }

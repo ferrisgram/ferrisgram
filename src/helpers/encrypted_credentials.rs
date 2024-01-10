@@ -6,10 +6,6 @@ use crate::types::EncryptedCredentials;
 impl EncryptedCredentials {
     /// This function creates an empty struct for the object EncryptedCredentials.
     pub fn new(data: String, hash: String, secret: String) -> Self {
-        Self {
-            data,
-            hash,
-            secret,
-        }
+        Self { data, hash, secret }
     }
 }

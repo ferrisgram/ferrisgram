@@ -4,7 +4,6 @@
 use crate::types::MaskPosition;
 use serde::{Deserialize, Serialize};
 
-
 /// This object describes a sticker to be added to a sticker set.
 /// <https://core.telegram.org/bots/api#inputsticker>
 #[derive(Serialize, Deserialize, Debug, Clone)]

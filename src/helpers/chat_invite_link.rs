@@ -6,7 +6,13 @@ use crate::types::User;
 
 impl ChatInviteLink {
     /// This function creates an empty struct for the object ChatInviteLink.
-    pub fn new(invite_link: String, creator: User, creates_join_request: bool, is_primary: bool, is_revoked: bool) -> Self {
+    pub fn new(
+        invite_link: String,
+        creator: User,
+        creates_join_request: bool,
+        is_primary: bool,
+        is_revoked: bool,
+    ) -> Self {
         Self {
             invite_link,
             creator,

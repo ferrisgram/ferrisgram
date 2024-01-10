@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete multiple messages simultaneously. If some of the specified messages can't be found, they are skipped. Returns True on success.
@@ -25,10 +25,9 @@ pub struct DeleteMessagesBuilder<'a> {
     pub message_ids: Vec<i64>,
 }
 
-
 impl<'a> DeleteMessagesBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, message_ids: Vec<i64>) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_ids,
@@ -36,16 +35,17 @@ impl<'a> DeleteMessagesBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn message_ids(mut self, message_ids: Vec<i64>) -> Self {
-        self.message_ids = message_ids;self
+        self.message_ids = message_ids;
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("deleteMessages", Some(&form)).await
     }
-
 }

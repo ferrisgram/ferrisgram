@@ -4,12 +4,12 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use std::collections::HashMap;
 use crate::input_file::InputFile;
-use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
+use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -63,13 +63,13 @@ pub struct SendAudioBuilder<'a, F: InputFile> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a, F: InputFile> SendAudioBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, audio: F) -> Self {
         let mut data = HashMap::new();
-data.insert("audio", audio);
-Self{
-            bot, data,
+        data.insert("audio", audio);
+        Self {
+            bot,
+            data,
             chat_id,
             message_thread_id: None,
             caption: None,
@@ -86,64 +86,79 @@ Self{
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
-    }
-                
-    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
-    }
-                
-    pub fn audio(mut self, audio: F) -> Self {
-        self.data.insert("audio", audio);self
-    }
-                
-    pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);self
-    }
-                
-    pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);self
-    }
-                
-    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);self
-    }
-                
-    pub fn duration(mut self, duration: i64) -> Self {
-        self.duration = Some(duration);self
-    }
-                
-    pub fn performer(mut self, performer: String) -> Self {
-        self.performer = Some(performer);self
-    }
-                
-    pub fn title(mut self, title: String) -> Self {
-        self.title = Some(title);self
-    }
-                
-    pub fn thumbnail(mut self, thumbnail: F) -> Self {
-        self.data.insert("thumbnail", thumbnail);self
-    }
-                
-    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
-    }
-                
-    pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
-    }
-                
-    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
-    }
-                
-    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
-    }
-                
-    pub async fn send(self) -> Result<Message> {
-        let form = serde_json::to_value(&self)?;
-        self.bot.post("sendAudio", Some(&form), Some(self.data)).await
+        self.chat_id = chat_id;
+        self
     }
 
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
+        self
+    }
+
+    pub fn audio(mut self, audio: F) -> Self {
+        self.data.insert("audio", audio);
+        self
+    }
+
+    pub fn caption(mut self, caption: String) -> Self {
+        self.caption = Some(caption);
+        self
+    }
+
+    pub fn parse_mode(mut self, parse_mode: String) -> Self {
+        self.parse_mode = Some(parse_mode);
+        self
+    }
+
+    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
+        self.caption_entities = Some(caption_entities);
+        self
+    }
+
+    pub fn duration(mut self, duration: i64) -> Self {
+        self.duration = Some(duration);
+        self
+    }
+
+    pub fn performer(mut self, performer: String) -> Self {
+        self.performer = Some(performer);
+        self
+    }
+
+    pub fn title(mut self, title: String) -> Self {
+        self.title = Some(title);
+        self
+    }
+
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
+        self
+    }
+
+    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
+        self.disable_notification = Some(disable_notification);
+        self
+    }
+
+    pub fn protect_content(mut self, protect_content: bool) -> Self {
+        self.protect_content = Some(protect_content);
+        self
+    }
+
+    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
+        self.reply_parameters = Some(reply_parameters);
+        self
+    }
+
+    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
+        self.reply_markup = Some(reply_markup);
+        self
+    }
+
+    pub async fn send(self) -> Result<Message> {
+        let form = serde_json::to_value(&self)?;
+        self.bot
+            .post("sendAudio", Some(&form), Some(self.data))
+            .await
+    }
 }

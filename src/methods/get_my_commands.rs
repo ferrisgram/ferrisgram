@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::BotCommandScope;
 use crate::types::BotCommand;
+use crate::types::BotCommandScope;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
@@ -29,10 +29,9 @@ pub struct GetMyCommandsBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
 impl<'a> GetMyCommandsBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             scope: None,
             language_code: None,
@@ -40,16 +39,17 @@ impl<'a> GetMyCommandsBuilder<'a> {
     }
 
     pub fn scope(mut self, scope: BotCommandScope) -> Self {
-        self.scope = Some(scope);self
+        self.scope = Some(scope);
+        self
     }
-                
+
     pub fn language_code(mut self, language_code: String) -> Self {
-        self.language_code = Some(language_code);self
+        self.language_code = Some(language_code);
+        self
     }
-                
+
     pub async fn send(self) -> Result<Vec<BotCommand>> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getMyCommands", Some(&form)).await
     }
-
 }

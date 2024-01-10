@@ -4,7 +4,6 @@
 use crate::types::{Chat, ChatBoost};
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a boost added to a chat or changed.
 /// <https://core.telegram.org/bots/api#chatboostupdated>
 #[derive(Serialize, Deserialize, Debug, Clone)]

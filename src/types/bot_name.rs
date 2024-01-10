@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents the bot's name.
 /// <https://core.telegram.org/bots/api#botname>
 #[derive(Serialize, Deserialize, Debug, Clone)]

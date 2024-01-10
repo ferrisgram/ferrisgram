@@ -4,7 +4,6 @@
 use crate::types::KeyboardButton;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
 /// <https://core.telegram.org/bots/api#replykeyboardmarkup>
 #[derive(Serialize, Deserialize, Debug, Clone)]

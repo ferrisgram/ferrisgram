@@ -4,15 +4,20 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
 use crate::types::MessageId;
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
     /// <https://core.telegram.org/bots/api#copymessage>
-    pub fn copy_message(&self, chat_id: i64, from_chat_id: i64, message_id: i64) -> CopyMessageBuilder {
+    pub fn copy_message(
+        &self,
+        chat_id: i64,
+        from_chat_id: i64,
+        message_id: i64,
+    ) -> CopyMessageBuilder {
         CopyMessageBuilder::new(self, chat_id, from_chat_id, message_id)
     }
 }
@@ -53,10 +58,9 @@ pub struct CopyMessageBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a> CopyMessageBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, from_chat_id: i64, message_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             message_thread_id: None,
@@ -73,52 +77,62 @@ impl<'a> CopyMessageBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
+        self.message_thread_id = Some(message_thread_id);
+        self
     }
-                
+
     pub fn from_chat_id(mut self, from_chat_id: i64) -> Self {
-        self.from_chat_id = from_chat_id;self
+        self.from_chat_id = from_chat_id;
+        self
     }
-                
+
     pub fn message_id(mut self, message_id: i64) -> Self {
-        self.message_id = message_id;self
+        self.message_id = message_id;
+        self
     }
-                
+
     pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);self
+        self.caption = Some(caption);
+        self
     }
-                
+
     pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);self
+        self.parse_mode = Some(parse_mode);
+        self
     }
-                
+
     pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);self
+        self.caption_entities = Some(caption_entities);
+        self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
+        self.disable_notification = Some(disable_notification);
+        self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
+        self.protect_content = Some(protect_content);
+        self
     }
-                
+
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
+        self.reply_parameters = Some(reply_parameters);
+        self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
+        self.reply_markup = Some(reply_markup);
+        self
     }
-                
+
     pub async fn send(self) -> Result<MessageId> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("copyMessage", Some(&form)).await
     }
-
 }

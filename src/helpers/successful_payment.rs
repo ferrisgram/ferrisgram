@@ -5,7 +5,13 @@ use crate::types::SuccessfulPayment;
 
 impl SuccessfulPayment {
     /// This function creates an empty struct for the object SuccessfulPayment.
-    pub fn new(currency: String, total_amount: i64, invoice_payload: String, telegram_payment_charge_id: String, provider_payment_charge_id: String) -> Self {
+    pub fn new(
+        currency: String,
+        total_amount: i64,
+        invoice_payload: String,
+        telegram_payment_charge_id: String,
+        provider_payment_charge_id: String,
+    ) -> Self {
         Self {
             currency,
             total_amount,

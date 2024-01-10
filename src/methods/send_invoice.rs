@@ -4,16 +4,34 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use crate::types::{LabeledPrice, ReplyParameters, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, LabeledPrice, ReplyParameters};
+use crate::Bot;
 
 impl Bot {
     /// Use this method to send invoices. On success, the sent Message is returned.
     /// <https://core.telegram.org/bots/api#sendinvoice>
-    pub fn send_invoice(&self, chat_id: i64, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> SendInvoiceBuilder {
-        SendInvoiceBuilder::new(self, chat_id, title, description, payload, provider_token, currency, prices)
+    pub fn send_invoice(
+        &self,
+        chat_id: i64,
+        title: String,
+        description: String,
+        payload: String,
+        provider_token: String,
+        currency: String,
+        prices: Vec<LabeledPrice>,
+    ) -> SendInvoiceBuilder {
+        SendInvoiceBuilder::new(
+            self,
+            chat_id,
+            title,
+            description,
+            payload,
+            provider_token,
+            currency,
+            prices,
+        )
     }
 }
 
@@ -97,10 +115,18 @@ pub struct SendInvoiceBuilder<'a> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a> SendInvoiceBuilder<'a> {
-    pub fn new(bot: &'a Bot, chat_id: i64, title: String, description: String, payload: String, provider_token: String, currency: String, prices: Vec<LabeledPrice>) -> Self {
-        Self{
+    pub fn new(
+        bot: &'a Bot,
+        chat_id: i64,
+        title: String,
+        description: String,
+        payload: String,
+        provider_token: String,
+        currency: String,
+        prices: Vec<LabeledPrice>,
+    ) -> Self {
+        Self {
             bot,
             chat_id,
             message_thread_id: None,
@@ -133,116 +159,142 @@ impl<'a> SendInvoiceBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
+        self.message_thread_id = Some(message_thread_id);
+        self
     }
-                
+
     pub fn title(mut self, title: String) -> Self {
-        self.title = title;self
+        self.title = title;
+        self
     }
-                
+
     pub fn description(mut self, description: String) -> Self {
-        self.description = description;self
+        self.description = description;
+        self
     }
-                
+
     pub fn payload(mut self, payload: String) -> Self {
-        self.payload = payload;self
+        self.payload = payload;
+        self
     }
-                
+
     pub fn provider_token(mut self, provider_token: String) -> Self {
-        self.provider_token = provider_token;self
+        self.provider_token = provider_token;
+        self
     }
-                
+
     pub fn currency(mut self, currency: String) -> Self {
-        self.currency = currency;self
+        self.currency = currency;
+        self
     }
-                
+
     pub fn prices(mut self, prices: Vec<LabeledPrice>) -> Self {
-        self.prices = prices;self
+        self.prices = prices;
+        self
     }
-                
+
     pub fn max_tip_amount(mut self, max_tip_amount: i64) -> Self {
-        self.max_tip_amount = Some(max_tip_amount);self
+        self.max_tip_amount = Some(max_tip_amount);
+        self
     }
-                
+
     pub fn suggested_tip_amounts(mut self, suggested_tip_amounts: Vec<i64>) -> Self {
-        self.suggested_tip_amounts = Some(suggested_tip_amounts);self
+        self.suggested_tip_amounts = Some(suggested_tip_amounts);
+        self
     }
-                
+
     pub fn start_parameter(mut self, start_parameter: String) -> Self {
-        self.start_parameter = Some(start_parameter);self
+        self.start_parameter = Some(start_parameter);
+        self
     }
-                
+
     pub fn provider_data(mut self, provider_data: String) -> Self {
-        self.provider_data = Some(provider_data);self
+        self.provider_data = Some(provider_data);
+        self
     }
-                
+
     pub fn photo_url(mut self, photo_url: String) -> Self {
-        self.photo_url = Some(photo_url);self
+        self.photo_url = Some(photo_url);
+        self
     }
-                
+
     pub fn photo_size(mut self, photo_size: i64) -> Self {
-        self.photo_size = Some(photo_size);self
+        self.photo_size = Some(photo_size);
+        self
     }
-                
+
     pub fn photo_width(mut self, photo_width: i64) -> Self {
-        self.photo_width = Some(photo_width);self
+        self.photo_width = Some(photo_width);
+        self
     }
-                
+
     pub fn photo_height(mut self, photo_height: i64) -> Self {
-        self.photo_height = Some(photo_height);self
+        self.photo_height = Some(photo_height);
+        self
     }
-                
+
     pub fn need_name(mut self, need_name: bool) -> Self {
-        self.need_name = Some(need_name);self
+        self.need_name = Some(need_name);
+        self
     }
-                
+
     pub fn need_phone_number(mut self, need_phone_number: bool) -> Self {
-        self.need_phone_number = Some(need_phone_number);self
+        self.need_phone_number = Some(need_phone_number);
+        self
     }
-                
+
     pub fn need_email(mut self, need_email: bool) -> Self {
-        self.need_email = Some(need_email);self
+        self.need_email = Some(need_email);
+        self
     }
-                
+
     pub fn need_shipping_address(mut self, need_shipping_address: bool) -> Self {
-        self.need_shipping_address = Some(need_shipping_address);self
+        self.need_shipping_address = Some(need_shipping_address);
+        self
     }
-                
+
     pub fn send_phone_number_to_provider(mut self, send_phone_number_to_provider: bool) -> Self {
-        self.send_phone_number_to_provider = Some(send_phone_number_to_provider);self
+        self.send_phone_number_to_provider = Some(send_phone_number_to_provider);
+        self
     }
-                
+
     pub fn send_email_to_provider(mut self, send_email_to_provider: bool) -> Self {
-        self.send_email_to_provider = Some(send_email_to_provider);self
+        self.send_email_to_provider = Some(send_email_to_provider);
+        self
     }
-                
+
     pub fn is_flexible(mut self, is_flexible: bool) -> Self {
-        self.is_flexible = Some(is_flexible);self
+        self.is_flexible = Some(is_flexible);
+        self
     }
-                
+
     pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
+        self.disable_notification = Some(disable_notification);
+        self
     }
-                
+
     pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
+        self.protect_content = Some(protect_content);
+        self
     }
-                
+
     pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
+        self.reply_parameters = Some(reply_parameters);
+        self
     }
-                
+
     pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
+        self.reply_markup = Some(reply_markup);
+        self
     }
-                
+
     pub async fn send(self) -> Result<Message> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("sendInvoice", Some(&form)).await
     }
-
 }

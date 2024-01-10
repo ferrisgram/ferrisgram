@@ -6,7 +6,6 @@ use crate::types::Story;
 impl Story {
     /// This function creates an empty struct for the object Story.
     pub fn new() -> Self {
-        Self {
-        }
+        Self {}
     }
 }

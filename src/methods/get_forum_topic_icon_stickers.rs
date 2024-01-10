@@ -4,9 +4,9 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::Sticker;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
@@ -22,17 +22,13 @@ pub struct GetForumTopicIconStickersBuilder<'a> {
     bot: &'a Bot,
 }
 
-
 impl<'a> GetForumTopicIconStickersBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
-            bot,
-        }
+        Self { bot }
     }
 
     pub async fn send(self) -> Result<Vec<Sticker>> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getForumTopicIconStickers", Some(&form)).await
     }
-
 }

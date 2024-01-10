@@ -4,10 +4,10 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use std::collections::HashMap;
 use crate::input_file::InputFile;
+use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -27,28 +27,27 @@ pub struct SetChatPhotoBuilder<'a, F: InputFile> {
     pub chat_id: i64,
 }
 
-
 impl<'a, F: InputFile> SetChatPhotoBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, photo: F) -> Self {
         let mut data = HashMap::new();
-data.insert("photo", photo);
-Self{
-            bot, data,
-            chat_id,
-        }
+        data.insert("photo", photo);
+        Self { bot, data, chat_id }
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
-    }
-                
-    pub fn photo(mut self, photo: F) -> Self {
-        self.data.insert("photo", photo);self
-    }
-                
-    pub async fn send(self) -> Result<bool> {
-        let form = serde_json::to_value(&self)?;
-        self.bot.post("setChatPhoto", Some(&form), Some(self.data)).await
+        self.chat_id = chat_id;
+        self
     }
 
+    pub fn photo(mut self, photo: F) -> Self {
+        self.data.insert("photo", photo);
+        self
+    }
+
+    pub async fn send(self) -> Result<bool> {
+        let form = serde_json::to_value(&self)?;
+        self.bot
+            .post("setChatPhoto", Some(&form), Some(self.data))
+            .await
+    }
 }

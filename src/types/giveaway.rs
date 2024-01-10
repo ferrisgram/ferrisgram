@@ -4,7 +4,6 @@
 use crate::types::Chat;
 use serde::{Deserialize, Serialize};
 
-
 /// This object represents a message about a scheduled giveaway.
 /// <https://core.telegram.org/bots/api#giveaway>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// The message was originally sent by an unknown user.
 /// <https://core.telegram.org/bots/api#messageoriginhiddenuser>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.
 /// <https://core.telegram.org/bots/api#usersshared>
 #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// Describes data sent from a Web App to the bot.
 /// <https://core.telegram.org/bots/api#webappdata>
 #[derive(Serialize, Deserialize, Debug, Clone)]

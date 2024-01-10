@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
@@ -28,10 +28,9 @@ pub struct UnbanChatMemberBuilder<'a> {
     pub only_if_banned: Option<bool>,
 }
 
-
 impl<'a> UnbanChatMemberBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, user_id: i64) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             user_id,
@@ -40,20 +39,22 @@ impl<'a> UnbanChatMemberBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn user_id(mut self, user_id: i64) -> Self {
-        self.user_id = user_id;self
+        self.user_id = user_id;
+        self
     }
-                
+
     pub fn only_if_banned(mut self, only_if_banned: bool) -> Self {
-        self.only_if_banned = Some(only_if_banned);self
+        self.only_if_banned = Some(only_if_banned);
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("unbanChatMember", Some(&form)).await
     }
-
 }

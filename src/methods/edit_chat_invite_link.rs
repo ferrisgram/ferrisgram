@@ -4,14 +4,18 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::ChatInviteLink;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
     /// <https://core.telegram.org/bots/api#editchatinvitelink>
-    pub fn edit_chat_invite_link(&self, chat_id: i64, invite_link: String) -> EditChatInviteLinkBuilder {
+    pub fn edit_chat_invite_link(
+        &self,
+        chat_id: i64,
+        invite_link: String,
+    ) -> EditChatInviteLinkBuilder {
         EditChatInviteLinkBuilder::new(self, chat_id, invite_link)
     }
 }
@@ -38,10 +42,9 @@ pub struct EditChatInviteLinkBuilder<'a> {
     pub creates_join_request: Option<bool>,
 }
 
-
 impl<'a> EditChatInviteLinkBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, invite_link: String) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             invite_link,
@@ -53,32 +56,37 @@ impl<'a> EditChatInviteLinkBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn invite_link(mut self, invite_link: String) -> Self {
-        self.invite_link = invite_link;self
+        self.invite_link = invite_link;
+        self
     }
-                
+
     pub fn name(mut self, name: String) -> Self {
-        self.name = Some(name);self
+        self.name = Some(name);
+        self
     }
-                
+
     pub fn expire_date(mut self, expire_date: i64) -> Self {
-        self.expire_date = Some(expire_date);self
+        self.expire_date = Some(expire_date);
+        self
     }
-                
+
     pub fn member_limit(mut self, member_limit: i64) -> Self {
-        self.member_limit = Some(member_limit);self
+        self.member_limit = Some(member_limit);
+        self
     }
-                
+
     pub fn creates_join_request(mut self, creates_join_request: bool) -> Self {
-        self.creates_join_request = Some(creates_join_request);self
+        self.creates_join_request = Some(creates_join_request);
+        self
     }
-                
+
     pub async fn send(self) -> Result<ChatInviteLink> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("editChatInviteLink", Some(&form)).await
     }
-
 }

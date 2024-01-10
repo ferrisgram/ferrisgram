@@ -4,12 +4,12 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use std::collections::HashMap;
 use crate::input_file::InputFile;
-use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
+use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -68,13 +68,13 @@ pub struct SendVideoBuilder<'a, F: InputFile> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a, F: InputFile> SendVideoBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, video: F) -> Self {
         let mut data = HashMap::new();
-data.insert("video", video);
-Self{
-            bot, data,
+        data.insert("video", video);
+        Self {
+            bot,
+            data,
             chat_id,
             message_thread_id: None,
             duration: None,
@@ -93,72 +93,89 @@ Self{
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
-    }
-                
-    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
-    }
-                
-    pub fn video(mut self, video: F) -> Self {
-        self.data.insert("video", video);self
-    }
-                
-    pub fn duration(mut self, duration: i64) -> Self {
-        self.duration = Some(duration);self
-    }
-                
-    pub fn width(mut self, width: i64) -> Self {
-        self.width = Some(width);self
-    }
-                
-    pub fn height(mut self, height: i64) -> Self {
-        self.height = Some(height);self
-    }
-                
-    pub fn thumbnail(mut self, thumbnail: F) -> Self {
-        self.data.insert("thumbnail", thumbnail);self
-    }
-                
-    pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);self
-    }
-                
-    pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);self
-    }
-                
-    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);self
-    }
-                
-    pub fn has_spoiler(mut self, has_spoiler: bool) -> Self {
-        self.has_spoiler = Some(has_spoiler);self
-    }
-                
-    pub fn supports_streaming(mut self, supports_streaming: bool) -> Self {
-        self.supports_streaming = Some(supports_streaming);self
-    }
-                
-    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
-    }
-                
-    pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
-    }
-                
-    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
-    }
-                
-    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
-    }
-                
-    pub async fn send(self) -> Result<Message> {
-        let form = serde_json::to_value(&self)?;
-        self.bot.post("sendVideo", Some(&form), Some(self.data)).await
+        self.chat_id = chat_id;
+        self
     }
 
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
+        self
+    }
+
+    pub fn video(mut self, video: F) -> Self {
+        self.data.insert("video", video);
+        self
+    }
+
+    pub fn duration(mut self, duration: i64) -> Self {
+        self.duration = Some(duration);
+        self
+    }
+
+    pub fn width(mut self, width: i64) -> Self {
+        self.width = Some(width);
+        self
+    }
+
+    pub fn height(mut self, height: i64) -> Self {
+        self.height = Some(height);
+        self
+    }
+
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
+        self
+    }
+
+    pub fn caption(mut self, caption: String) -> Self {
+        self.caption = Some(caption);
+        self
+    }
+
+    pub fn parse_mode(mut self, parse_mode: String) -> Self {
+        self.parse_mode = Some(parse_mode);
+        self
+    }
+
+    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
+        self.caption_entities = Some(caption_entities);
+        self
+    }
+
+    pub fn has_spoiler(mut self, has_spoiler: bool) -> Self {
+        self.has_spoiler = Some(has_spoiler);
+        self
+    }
+
+    pub fn supports_streaming(mut self, supports_streaming: bool) -> Self {
+        self.supports_streaming = Some(supports_streaming);
+        self
+    }
+
+    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
+        self.disable_notification = Some(disable_notification);
+        self
+    }
+
+    pub fn protect_content(mut self, protect_content: bool) -> Self {
+        self.protect_content = Some(protect_content);
+        self
+    }
+
+    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
+        self.reply_parameters = Some(reply_parameters);
+        self
+    }
+
+    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
+        self.reply_markup = Some(reply_markup);
+        self
+    }
+
+    pub async fn send(self) -> Result<Message> {
+        let form = serde_json::to_value(&self)?;
+        self.bot
+            .post("sendVideo", Some(&form), Some(self.data))
+            .await
+    }
 }

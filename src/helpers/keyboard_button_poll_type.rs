@@ -6,8 +6,6 @@ use crate::types::KeyboardButtonPollType;
 impl KeyboardButtonPollType {
     /// This function creates an empty struct for the object KeyboardButtonPollType.
     pub fn new() -> Self {
-        Self {
-            r#type: None,
-        }
+        Self { r#type: None }
     }
 }

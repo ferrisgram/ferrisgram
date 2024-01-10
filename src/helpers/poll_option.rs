@@ -6,9 +6,6 @@ use crate::types::PollOption;
 impl PollOption {
     /// This function creates an empty struct for the object PollOption.
     pub fn new(text: String, voter_count: i64) -> Self {
-        Self {
-            text,
-            voter_count,
-        }
+        Self { text, voter_count }
     }
 }

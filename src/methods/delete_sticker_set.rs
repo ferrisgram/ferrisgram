@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to delete a sticker set that was created by the bot. Returns True on success.
@@ -23,22 +23,18 @@ pub struct DeleteStickerSetBuilder<'a> {
     pub name: String,
 }
 
-
 impl<'a> DeleteStickerSetBuilder<'a> {
     pub fn new(bot: &'a Bot, name: String) -> Self {
-        Self{
-            bot,
-            name,
-        }
+        Self { bot, name }
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;self
+        self.name = name;
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("deleteStickerSet", Some(&form)).await
     }
-
 }

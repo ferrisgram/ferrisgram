@@ -4,7 +4,6 @@
 use crate::types::User;
 use serde::{Deserialize, Serialize};
 
-
 /// Represents a chat member that has some additional privileges.
 /// <https://core.telegram.org/bots/api#chatmemberadministrator>
 #[derive(Serialize, Deserialize, Debug, Clone)]

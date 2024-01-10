@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
@@ -27,10 +27,9 @@ pub struct SetMyShortDescriptionBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
 impl<'a> SetMyShortDescriptionBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             short_description: None,
             language_code: None,
@@ -38,16 +37,17 @@ impl<'a> SetMyShortDescriptionBuilder<'a> {
     }
 
     pub fn short_description(mut self, short_description: String) -> Self {
-        self.short_description = Some(short_description);self
+        self.short_description = Some(short_description);
+        self
     }
-                
+
     pub fn language_code(mut self, language_code: String) -> Self {
-        self.language_code = Some(language_code);self
+        self.language_code = Some(language_code);
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setMyShortDescription", Some(&form)).await
     }
-
 }

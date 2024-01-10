@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
@@ -27,10 +27,9 @@ pub struct SetMyDescriptionBuilder<'a> {
     pub language_code: Option<String>,
 }
 
-
 impl<'a> SetMyDescriptionBuilder<'a> {
     pub fn new(bot: &'a Bot) -> Self {
-        Self{
+        Self {
             bot,
             description: None,
             language_code: None,
@@ -38,16 +37,17 @@ impl<'a> SetMyDescriptionBuilder<'a> {
     }
 
     pub fn description(mut self, description: String) -> Self {
-        self.description = Some(description);self
+        self.description = Some(description);
+        self
     }
-                
+
     pub fn language_code(mut self, language_code: String) -> Self {
-        self.language_code = Some(language_code);self
+        self.language_code = Some(language_code);
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setMyDescription", Some(&form)).await
     }
-
 }

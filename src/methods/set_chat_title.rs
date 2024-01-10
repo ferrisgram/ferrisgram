@@ -4,8 +4,8 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -25,10 +25,9 @@ pub struct SetChatTitleBuilder<'a> {
     pub title: String,
 }
 
-
 impl<'a> SetChatTitleBuilder<'a> {
     pub fn new(bot: &'a Bot, chat_id: i64, title: String) -> Self {
-        Self{
+        Self {
             bot,
             chat_id,
             title,
@@ -36,16 +35,17 @@ impl<'a> SetChatTitleBuilder<'a> {
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
+        self.chat_id = chat_id;
+        self
     }
-                
+
     pub fn title(mut self, title: String) -> Self {
-        self.title = title;self
+        self.title = title;
+        self
     }
-                
+
     pub async fn send(self) -> Result<bool> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("setChatTitle", Some(&form)).await
     }
-
 }

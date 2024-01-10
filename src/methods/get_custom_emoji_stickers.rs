@@ -4,14 +4,17 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
 use crate::types::Sticker;
+use crate::Bot;
 
 impl Bot {
     /// Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
     /// <https://core.telegram.org/bots/api#getcustomemojistickers>
-    pub fn get_custom_emoji_stickers(&self, custom_emoji_ids: Vec<String>) -> GetCustomEmojiStickersBuilder {
+    pub fn get_custom_emoji_stickers(
+        &self,
+        custom_emoji_ids: Vec<String>,
+    ) -> GetCustomEmojiStickersBuilder {
         GetCustomEmojiStickersBuilder::new(self, custom_emoji_ids)
     }
 }
@@ -24,22 +27,21 @@ pub struct GetCustomEmojiStickersBuilder<'a> {
     pub custom_emoji_ids: Vec<String>,
 }
 
-
 impl<'a> GetCustomEmojiStickersBuilder<'a> {
     pub fn new(bot: &'a Bot, custom_emoji_ids: Vec<String>) -> Self {
-        Self{
+        Self {
             bot,
             custom_emoji_ids,
         }
     }
 
     pub fn custom_emoji_ids(mut self, custom_emoji_ids: Vec<String>) -> Self {
-        self.custom_emoji_ids = custom_emoji_ids;self
+        self.custom_emoji_ids = custom_emoji_ids;
+        self
     }
-                
+
     pub async fn send(self) -> Result<Vec<Sticker>> {
         let form = serde_json::to_value(&self)?;
         self.bot.get("getCustomEmojiStickers", Some(&form)).await
     }
-
 }

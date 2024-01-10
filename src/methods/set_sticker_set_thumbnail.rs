@@ -4,15 +4,19 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use std::collections::HashMap;
 use crate::input_file::InputFile;
+use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
     /// <https://core.telegram.org/bots/api#setstickersetthumbnail>
-    pub fn set_sticker_set_thumbnail<F: InputFile>(&self, name: String, user_id: i64) -> SetStickerSetThumbnailBuilder<F> {
+    pub fn set_sticker_set_thumbnail<F: InputFile>(
+        &self,
+        name: String,
+        user_id: i64,
+    ) -> SetStickerSetThumbnailBuilder<F> {
         SetStickerSetThumbnailBuilder::new(self, name, user_id)
     }
 }
@@ -29,32 +33,36 @@ pub struct SetStickerSetThumbnailBuilder<'a, F: InputFile> {
     pub user_id: i64,
 }
 
-
 impl<'a, F: InputFile> SetStickerSetThumbnailBuilder<'a, F> {
     pub fn new(bot: &'a Bot, name: String, user_id: i64) -> Self {
         let data = HashMap::new();
-Self{
-            bot, data,
+        Self {
+            bot,
+            data,
             name,
             user_id,
         }
     }
 
     pub fn name(mut self, name: String) -> Self {
-        self.name = name;self
-    }
-                
-    pub fn user_id(mut self, user_id: i64) -> Self {
-        self.user_id = user_id;self
-    }
-                
-    pub fn thumbnail(mut self, thumbnail: F) -> Self {
-        self.data.insert("thumbnail", thumbnail);self
-    }
-                
-    pub async fn send(self) -> Result<bool> {
-        let form = serde_json::to_value(&self)?;
-        self.bot.post("setStickerSetThumbnail", Some(&form), Some(self.data)).await
+        self.name = name;
+        self
     }
 
+    pub fn user_id(mut self, user_id: i64) -> Self {
+        self.user_id = user_id;
+        self
+    }
+
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
+        self
+    }
+
+    pub async fn send(self) -> Result<bool> {
+        let form = serde_json::to_value(&self)?;
+        self.bot
+            .post("setStickerSetThumbnail", Some(&form), Some(self.data))
+            .await
+    }
 }

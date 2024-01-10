@@ -4,12 +4,12 @@
 #![allow(clippy::too_many_arguments)]
 use serde::Serialize;
 
-use crate::Bot;
 use crate::error::Result;
-use std::collections::HashMap;
 use crate::input_file::InputFile;
-use crate::types::{MessageEntity, ReplyParameters, InlineKeyboardMarkup};
 use crate::types::Message;
+use crate::types::{InlineKeyboardMarkup, MessageEntity, ReplyParameters};
+use crate::Bot;
+use std::collections::HashMap;
 
 impl Bot {
     /// Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -56,13 +56,13 @@ pub struct SendDocumentBuilder<'a, F: InputFile> {
     pub reply_markup: Option<InlineKeyboardMarkup>,
 }
 
-
 impl<'a, F: InputFile> SendDocumentBuilder<'a, F> {
     pub fn new(bot: &'a Bot, chat_id: i64, document: F) -> Self {
         let mut data = HashMap::new();
-data.insert("document", document);
-Self{
-            bot, data,
+        data.insert("document", document);
+        Self {
+            bot,
+            data,
             chat_id,
             message_thread_id: None,
             caption: None,
@@ -77,56 +77,69 @@ Self{
     }
 
     pub fn chat_id(mut self, chat_id: i64) -> Self {
-        self.chat_id = chat_id;self
-    }
-                
-    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
-        self.message_thread_id = Some(message_thread_id);self
-    }
-                
-    pub fn document(mut self, document: F) -> Self {
-        self.data.insert("document", document);self
-    }
-                
-    pub fn thumbnail(mut self, thumbnail: F) -> Self {
-        self.data.insert("thumbnail", thumbnail);self
-    }
-                
-    pub fn caption(mut self, caption: String) -> Self {
-        self.caption = Some(caption);self
-    }
-                
-    pub fn parse_mode(mut self, parse_mode: String) -> Self {
-        self.parse_mode = Some(parse_mode);self
-    }
-                
-    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
-        self.caption_entities = Some(caption_entities);self
-    }
-                
-    pub fn disable_content_type_detection(mut self, disable_content_type_detection: bool) -> Self {
-        self.disable_content_type_detection = Some(disable_content_type_detection);self
-    }
-                
-    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
-        self.disable_notification = Some(disable_notification);self
-    }
-                
-    pub fn protect_content(mut self, protect_content: bool) -> Self {
-        self.protect_content = Some(protect_content);self
-    }
-                
-    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
-        self.reply_parameters = Some(reply_parameters);self
-    }
-                
-    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
-        self.reply_markup = Some(reply_markup);self
-    }
-                
-    pub async fn send(self) -> Result<Message> {
-        let form = serde_json::to_value(&self)?;
-        self.bot.post("sendDocument", Some(&form), Some(self.data)).await
+        self.chat_id = chat_id;
+        self
     }
 
+    pub fn message_thread_id(mut self, message_thread_id: i64) -> Self {
+        self.message_thread_id = Some(message_thread_id);
+        self
+    }
+
+    pub fn document(mut self, document: F) -> Self {
+        self.data.insert("document", document);
+        self
+    }
+
+    pub fn thumbnail(mut self, thumbnail: F) -> Self {
+        self.data.insert("thumbnail", thumbnail);
+        self
+    }
+
+    pub fn caption(mut self, caption: String) -> Self {
+        self.caption = Some(caption);
+        self
+    }
+
+    pub fn parse_mode(mut self, parse_mode: String) -> Self {
+        self.parse_mode = Some(parse_mode);
+        self
+    }
+
+    pub fn caption_entities(mut self, caption_entities: Vec<MessageEntity>) -> Self {
+        self.caption_entities = Some(caption_entities);
+        self
+    }
+
+    pub fn disable_content_type_detection(mut self, disable_content_type_detection: bool) -> Self {
+        self.disable_content_type_detection = Some(disable_content_type_detection);
+        self
+    }
+
+    pub fn disable_notification(mut self, disable_notification: bool) -> Self {
+        self.disable_notification = Some(disable_notification);
+        self
+    }
+
+    pub fn protect_content(mut self, protect_content: bool) -> Self {
+        self.protect_content = Some(protect_content);
+        self
+    }
+
+    pub fn reply_parameters(mut self, reply_parameters: ReplyParameters) -> Self {
+        self.reply_parameters = Some(reply_parameters);
+        self
+    }
+
+    pub fn reply_markup(mut self, reply_markup: InlineKeyboardMarkup) -> Self {
+        self.reply_markup = Some(reply_markup);
+        self
+    }
+
+    pub async fn send(self) -> Result<Message> {
+        let form = serde_json::to_value(&self)?;
+        self.bot
+            .post("sendDocument", Some(&form), Some(self.data))
+            .await
+    }
 }

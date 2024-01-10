@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 /// This object defines the criteria used to request suitable users. The identifiers of the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users: https://core.telegram.org/bots/features#chat-and-user-selection
 /// <https://core.telegram.org/bots/api#keyboardbuttonrequestusers>
 #[derive(Serialize, Deserialize, Debug, Clone)]

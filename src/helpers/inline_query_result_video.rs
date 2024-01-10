@@ -5,7 +5,13 @@ use crate::types::InlineQueryResultVideo;
 
 impl InlineQueryResultVideo {
     /// This function creates an empty struct for the object InlineQueryResultVideo.
-    pub fn new(id: String, video_url: String, mime_type: String, thumbnail_url: String, title: String) -> Self {
+    pub fn new(
+        id: String,
+        video_url: String,
+        mime_type: String,
+        thumbnail_url: String,
+        title: String,
+    ) -> Self {
         Self {
             id,
             video_url,

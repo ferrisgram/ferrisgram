@@ -6,8 +6,6 @@ use crate::types::ReactionTypeCustomEmoji;
 impl ReactionTypeCustomEmoji {
     /// This function creates an empty struct for the object ReactionTypeCustomEmoji.
     pub fn new(custom_emoji_id: String) -> Self {
-        Self {
-            custom_emoji_id,
-        }
+        Self { custom_emoji_id }
     }
 }
