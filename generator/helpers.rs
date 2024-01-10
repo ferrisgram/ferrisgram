@@ -38,7 +38,8 @@ async fn generate_helper(obj: &spec_types::TypeDescription, spec: &spec_types::A
         helper_fn = temp_helper_fn;
     }
     create_file(String::from(format!("helpers/{}.rs", good_file_name)), 
-    format!("{header}{imports}
+    format!("{header}#![allow(clippy::too_many_arguments, clippy::new_without_default)]
+{imports}
 
 impl {objname} {{
 {new_fn}{new_enum_fn}{helper_fn}
