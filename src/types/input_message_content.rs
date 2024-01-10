@@ -5,7 +5,7 @@ use crate::types::{
     InputContactMessageContent, InputInvoiceMessageContent, InputLocationMessageContent,
     InputTextMessageContent, InputVenueMessageContent,
 };
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 /// This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:
 /// - InputTextMessageContent
@@ -14,17 +14,11 @@ use serde::{Deserialize, Serialize};
 /// - InputContactMessageContent
 /// - InputInvoiceMessageContent
 /// <https://core.telegram.org/bots/api#inputmessagecontent>
-#[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(tag = "message_text")]
+#[derive(Serialize, Debug, Clone)]
 pub enum InputMessageContent {
-    #[serde(rename = "characters")]
     InputTextMessageContent(InputTextMessageContent),
-    #[serde(rename = "degrees")]
     InputLocationMessageContent(InputLocationMessageContent),
-    #[serde(rename = "degrees")]
     InputVenueMessageContent(InputVenueMessageContent),
-    #[serde(rename = "number")]
     InputContactMessageContent(InputContactMessageContent),
-    #[serde(rename = "characters")]
     InputInvoiceMessageContent(InputInvoiceMessageContent),
 }

@@ -5,8 +5,9 @@ use crate::types::InputLocationMessageContent;
 
 impl InputLocationMessageContent {
     /// This function creates an empty struct for the object InputLocationMessageContent.
-    pub fn new(longitude: f64) -> Self {
+    pub fn new(latitude: f64, longitude: f64) -> Self {
         Self {
+            latitude,
             longitude,
             horizontal_accuracy: None,
             live_period: None,
