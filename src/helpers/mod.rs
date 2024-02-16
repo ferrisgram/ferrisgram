@@ -16,6 +16,7 @@ mod callback_query;
 mod chat;
 mod chat_administrator_rights;
 mod chat_boost;
+mod chat_boost_added;
 mod chat_boost_removed;
 mod chat_boost_source_gift_code;
 mod chat_boost_source_giveaway;

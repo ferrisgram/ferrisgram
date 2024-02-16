@@ -18,6 +18,9 @@ impl ChatMemberAdministrator {
         can_promote_members: bool,
         can_change_info: bool,
         can_invite_users: bool,
+        can_post_stories: bool,
+        can_edit_stories: bool,
+        can_delete_stories: bool,
     ) -> Self {
         Self {
             user,
@@ -30,12 +33,12 @@ impl ChatMemberAdministrator {
             can_promote_members,
             can_change_info,
             can_invite_users,
+            can_post_stories,
+            can_edit_stories,
+            can_delete_stories,
             can_post_messages: None,
             can_edit_messages: None,
             can_pin_messages: None,
-            can_post_stories: None,
-            can_edit_stories: None,
-            can_delete_stories: None,
             can_manage_topics: None,
             custom_title: None,
         }

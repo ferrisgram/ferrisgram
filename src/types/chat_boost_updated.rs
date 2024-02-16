@@ -10,6 +10,6 @@ use serde::{Deserialize, Serialize};
 pub struct ChatBoostUpdated {
     /// Chat which was boosted
     pub chat: Chat,
-    /// Infomation about the chat boost
+    /// Information about the chat boost
     pub boost: ChatBoost,
 }

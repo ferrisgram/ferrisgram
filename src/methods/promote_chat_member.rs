@@ -26,7 +26,7 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator's presence in the chat is hidden
     #[serde(skip_serializing_if = "Option::is_none")]
     pub is_anonymous: Option<bool>,
-    /// Pass True if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup and channel members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_manage_chat: Option<bool>,
     /// Pass True if the administrator can delete messages of other users
@@ -47,6 +47,15 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator can invite new users to the chat
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_invite_users: Option<bool>,
+    /// Pass True if the administrator can post stories to the chat
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_post_stories: Option<bool>,
+    /// Pass True if the administrator can edit stories posted by other users
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_edit_stories: Option<bool>,
+    /// Pass True if the administrator can delete stories posted by other users
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub can_delete_stories: Option<bool>,
     /// Pass True if the administrator can post messages in the channel, or access channel statistics; channels only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_post_messages: Option<bool>,
@@ -56,15 +65,6 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator can pin messages, supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
-    /// Pass True if the administrator can post stories in the channel; channels only
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub can_post_stories: Option<bool>,
-    /// Pass True if the administrator can edit stories posted by other users; channels only
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub can_edit_stories: Option<bool>,
-    /// Pass True if the administrator can delete stories posted by other users; channels only
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub can_delete_stories: Option<bool>,
     /// Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_manage_topics: Option<bool>,
@@ -84,12 +84,12 @@ impl<'a> PromoteChatMemberBuilder<'a> {
             can_promote_members: None,
             can_change_info: None,
             can_invite_users: None,
-            can_post_messages: None,
-            can_edit_messages: None,
-            can_pin_messages: None,
             can_post_stories: None,
             can_edit_stories: None,
             can_delete_stories: None,
+            can_post_messages: None,
+            can_edit_messages: None,
+            can_pin_messages: None,
             can_manage_topics: None,
         }
     }
@@ -144,21 +144,6 @@ impl<'a> PromoteChatMemberBuilder<'a> {
         self
     }
 
-    pub fn can_post_messages(mut self, can_post_messages: bool) -> Self {
-        self.can_post_messages = Some(can_post_messages);
-        self
-    }
-
-    pub fn can_edit_messages(mut self, can_edit_messages: bool) -> Self {
-        self.can_edit_messages = Some(can_edit_messages);
-        self
-    }
-
-    pub fn can_pin_messages(mut self, can_pin_messages: bool) -> Self {
-        self.can_pin_messages = Some(can_pin_messages);
-        self
-    }
-
     pub fn can_post_stories(mut self, can_post_stories: bool) -> Self {
         self.can_post_stories = Some(can_post_stories);
         self
@@ -171,6 +156,21 @@ impl<'a> PromoteChatMemberBuilder<'a> {
 
     pub fn can_delete_stories(mut self, can_delete_stories: bool) -> Self {
         self.can_delete_stories = Some(can_delete_stories);
+        self
+    }
+
+    pub fn can_post_messages(mut self, can_post_messages: bool) -> Self {
+        self.can_post_messages = Some(can_post_messages);
+        self
+    }
+
+    pub fn can_edit_messages(mut self, can_edit_messages: bool) -> Self {
+        self.can_edit_messages = Some(can_edit_messages);
+        self
+    }
+
+    pub fn can_pin_messages(mut self, can_pin_messages: bool) -> Self {
+        self.can_pin_messages = Some(can_pin_messages);
         self
     }
 

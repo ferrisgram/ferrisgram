@@ -34,6 +34,7 @@ impl Chat {
             pinned_message: None,
             permissions: None,
             slow_mode_delay: None,
+            unrestrict_boost_count: None,
             message_auto_delete_time: None,
             has_aggressive_anti_spam_enabled: None,
             has_hidden_members: None,
@@ -41,6 +42,7 @@ impl Chat {
             has_visible_history: None,
             sticker_set_name: None,
             can_set_sticker_set: None,
+            custom_emoji_sticker_set_name: None,
             linked_chat_id: None,
             location: None,
         }

@@ -1,17 +1,17 @@
-use std::env;
 use ferrisgram::error::{GroupIteration, Result};
 use ferrisgram::ext::filters::message;
 use ferrisgram::ext::handlers::{CommandHandler, MessageHandler};
 use ferrisgram::ext::{Context, Dispatcher, Updater};
 use ferrisgram::types::LinkPreviewOptions;
 use ferrisgram::Bot;
+use std::env;
 
 #[allow(unused)]
 #[tokio::main]
 async fn main() {
     let bot_token = match env::var("FERRIS_BOT_TOKEN") {
         Ok(s) => s,
-        Err(err) => panic!("failed to start bot: {}", err)
+        Err(err) => panic!("failed to start bot: {}", err),
     };
     // This function creates a new bot instance and the error is handled accordingly
     let bot = match Bot::new(&bot_token, None).await {

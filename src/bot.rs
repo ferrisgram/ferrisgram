@@ -1,6 +1,6 @@
 use crate::error::{Error, Result};
 use crate::input_file::InputFile;
-use crate::types::{User, ResponseParameters};
+use crate::types::{ResponseParameters, User};
 use crate::DEFAULT_API_URL;
 use reqwest::multipart::Form;
 use reqwest::Client;
@@ -9,7 +9,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
 use std::time::Duration;
-
 
 #[derive(Debug, Clone)]
 pub struct Bot {
@@ -25,7 +24,7 @@ pub struct ApiResponse<T> {
     pub error_code: Option<i32>,
     pub description: Option<String>,
     pub result: Option<T>,
-    pub parameters: Option<ResponseParameters>
+    pub parameters: Option<ResponseParameters>,
 }
 
 impl Bot {
@@ -73,7 +72,10 @@ impl Bot {
             } else {
                 if let Some(resp_params) = resp.parameters {
                     if let Some(retry_after) = resp_params.retry_after {
-                        tokio::time::sleep(tokio::time::Duration::from_secs(retry_after.unsigned_abs())).await;
+                        tokio::time::sleep(tokio::time::Duration::from_secs(
+                            retry_after.unsigned_abs(),
+                        ))
+                        .await;
                         continue;
                     }
                 }
@@ -120,7 +122,10 @@ impl Bot {
             } else {
                 if let Some(resp_params) = resp.parameters {
                     if let Some(retry_after) = resp_params.retry_after {
-                        tokio::time::sleep(tokio::time::Duration::from_secs(retry_after.unsigned_abs())).await;
+                        tokio::time::sleep(tokio::time::Duration::from_secs(
+                            retry_after.unsigned_abs(),
+                        ))
+                        .await;
                         continue;
                     }
                 }

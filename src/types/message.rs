@@ -2,7 +2,7 @@
 // DO NOT EDIT!!!
 
 use crate::types::{
-    Animation, Audio, Chat, ChatShared, Contact, Dice, Document, ExternalReplyInfo,
+    Animation, Audio, Chat, ChatBoostAdded, ChatShared, Contact, Dice, Document, ExternalReplyInfo,
     ForumTopicClosed, ForumTopicCreated, ForumTopicEdited, ForumTopicReopened, Game,
     GeneralForumTopicHidden, GeneralForumTopicUnhidden, Giveaway, GiveawayCompleted,
     GiveawayCreated, GiveawayWinners, InlineKeyboardMarkup, Invoice, LinkPreviewOptions, Location,
@@ -28,6 +28,9 @@ pub struct Message {
     /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sender_chat: Option<Box<Chat>>,
+    /// Optional. If the sender of the message boosted the chat, the number of boosts added by the user
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sender_boost_count: Option<i64>,
     /// Date the message was sent in Unix time. It is always a positive number, representing a valid date.
     pub date: i64,
     /// Chat the message belongs to
@@ -50,6 +53,9 @@ pub struct Message {
     /// Optional. For replies that quote part of the original message, the quoted part of the message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub quote: Option<TextQuote>,
+    /// Optional. For replies to a story, the original story
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reply_to_story: Option<Story>,
     /// Optional. Bot through which the message was sent
     #[serde(skip_serializing_if = "Option::is_none")]
     pub via_bot: Option<User>,
@@ -188,6 +194,9 @@ pub struct Message {
     /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub proximity_alert_triggered: Option<ProximityAlertTriggered>,
+    /// Optional. Service message: user boosted the chat
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub boost_added: Option<ChatBoostAdded>,
     /// Optional. Service message: forum topic created
     #[serde(skip_serializing_if = "Option::is_none")]
     pub forum_topic_created: Option<ForumTopicCreated>,
