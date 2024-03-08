@@ -32,7 +32,7 @@ pub struct ForwardMessagesBuilder<'a> {
     pub message_thread_id: Option<i64>,
     /// Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
     pub from_chat_id: i64,
-    /// Identifiers of 1-100 messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+    /// A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
     pub message_ids: Vec<i64>,
     /// Sends the messages silently. Users will receive a notification with no sound.
     #[serde(skip_serializing_if = "Option::is_none")]

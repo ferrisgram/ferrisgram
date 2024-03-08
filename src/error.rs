@@ -1,6 +1,5 @@
 use reqwest::Error as ReqwestError;
 use serde_json::Error as JsonError;
-
 use std::fmt;
 
 pub enum GroupIteration {

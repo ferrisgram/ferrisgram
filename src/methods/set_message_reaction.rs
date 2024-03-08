@@ -24,7 +24,7 @@ pub struct SetMessageReactionBuilder<'a> {
     pub chat_id: i64,
     /// Identifier of the target message. If the message belongs to a media group, the reaction is set to the first non-deleted message in the group instead.
     pub message_id: i64,
-    /// New list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
+    /// A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users, bots can set up to one reaction per message. A custom emoji reaction can be used if it is either already present on the message or explicitly allowed by chat administrators.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reaction: Option<Vec<ReactionType>>,
     /// Pass True to set the reaction with a big animation

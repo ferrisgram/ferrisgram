@@ -6,10 +6,10 @@ use crate::types::Location;
 
 impl Location {
     /// This function creates an empty struct for the object Location.
-    pub fn new(longitude: f64, latitude: f64) -> Self {
+    pub fn new(latitude: f64, longitude: f64) -> Self {
         Self {
-            longitude,
             latitude,
+            longitude,
             horizontal_accuracy: None,
             live_period: None,
             heading: None,

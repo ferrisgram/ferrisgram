@@ -56,16 +56,16 @@ pub struct PromoteChatMemberBuilder<'a> {
     /// Pass True if the administrator can delete stories posted by other users
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_delete_stories: Option<bool>,
-    /// Pass True if the administrator can post messages in the channel, or access channel statistics; channels only
+    /// Pass True if the administrator can post messages in the channel, or access channel statistics; for channels only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_post_messages: Option<bool>,
-    /// Pass True if the administrator can edit messages of other users and can pin messages; channels only
+    /// Pass True if the administrator can edit messages of other users and can pin messages; for channels only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_edit_messages: Option<bool>,
-    /// Pass True if the administrator can pin messages, supergroups only
+    /// Pass True if the administrator can pin messages; for supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_pin_messages: Option<bool>,
-    /// Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+    /// Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only
     #[serde(skip_serializing_if = "Option::is_none")]
     pub can_manage_topics: Option<bool>,
 }
