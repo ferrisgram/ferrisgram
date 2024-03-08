@@ -21,7 +21,7 @@ pub struct DeleteMessagesBuilder<'a> {
     bot: &'a Bot,
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     pub chat_id: i64,
-    /// Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be deleted
+    /// A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
     pub message_ids: Vec<i64>,
 }
 
