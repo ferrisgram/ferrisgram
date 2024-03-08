@@ -12,7 +12,7 @@
     </a>
     <br><br>
   <a href="https://docs.rs/ferrisgram"><img src="https://docs.rs/ferrisgram/badge.svg"></a>
-  <a href="https://core.telegram.org/bots/api"><img src="https://img.shields.io/badge/Bot%20API-7.0-blue?logo=telegram"></a>
+  <a href="https://core.telegram.org/bots/api"><img src="https://img.shields.io/badge/Bot%20API-7.1-blue?logo=telegram"></a>
   <a href="https://telegram.me/Ferrisgram"><img src="https://img.shields.io/badge/Telegram-Channel-blue?logo=telegram"></a>
   <a href="https://telegram.me/FerrisgramSupport"><img src="https://img.shields.io/badge/Telegram-Group-blue?logo=telegram"></a>
   <img>
