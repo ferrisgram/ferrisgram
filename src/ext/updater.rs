@@ -109,7 +109,7 @@ impl<'a> Updater<'a> {
                         .run()
                         .await
                 } else {
-                    http_server.run().await
+                    http_server.bind(&addr).unwrap().run().await
                 }
             }));
             let x = CHANNEL.lock().unwrap();
