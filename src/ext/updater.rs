@@ -107,9 +107,9 @@ impl<'a> Updater<'a> {
                         .bind_openssl(&addr, builder)
                         .unwrap()
                         .run()
-                        .await
+                        .await;
                 } else {
-                    http_server.run().await
+                    http_server.run().await;
                 }
             }));
             let x = CHANNEL.lock().unwrap();
