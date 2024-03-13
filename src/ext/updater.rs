@@ -112,8 +112,8 @@ impl<'a> Updater<'a> {
                     http_server.bind(&addr).unwrap().run().await
                 }
             }));
-            let x = CHANNEL.lock().unwrap();
             while self.webhook {
+                let x = CHANNEL.lock().unwrap();
                 let u_chan = x.1.recv();
                 self.dispatcher.process_update(&u_chan.unwrap()).await;
             }

@@ -41,7 +41,10 @@ async fn main() {
     let mut updater = Updater::new(&bot, dispatcher);
 
     // This method will start long polling through the getUpdates method
-    // updater.start_polling(true).await;
+    // match updater.start_polling(true).await {
+    //     Ok(_) => {}
+    //     Err(error) => panic!("failed to start polling: {}", error),
+    // }
     updater.start_webhook(String::from("0.0.0.0:3732"), String::from("/"), None, None, None).await;
 }
 
