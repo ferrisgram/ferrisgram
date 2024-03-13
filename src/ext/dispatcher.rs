@@ -6,6 +6,7 @@ use GroupIteration::{ContinueGroups, EndGroups, ResumeGroups};
 
 type ErrorHandlerFunc = fn(&Bot, &Context, Error) -> GroupIteration;
 
+#[derive(Clone)]
 pub struct Dispatcher<'a> {
     pub bot: &'a Bot,
     handler_groups: Vec<i32>,

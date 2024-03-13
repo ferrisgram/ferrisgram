@@ -1,9 +1,21 @@
+use std::sync::mpsc::{channel, Receiver, Sender};
+use std::sync::Mutex;
+
 use crate::ext::Dispatcher;
-use crate::{error, Bot};
 use crate::types::Update;
+use crate::{error, Bot};
 use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use lazy_static::lazy_static;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use std::sync::Arc;
+
+lazy_static! {
+    pub static ref CHANNEL: Mutex<(Sender<Update>, Receiver<Update>)> = Mutex::new(channel());
+}
+
+pub fn send(update: Update) {
+    let x = CHANNEL.lock().unwrap();
+    x.0.send(update).unwrap();
+}
 
 pub struct Updater<'a> {
     pub bot: &'a Bot,
@@ -11,7 +23,7 @@ pub struct Updater<'a> {
     pub allowed_updates: Option<Vec<&'a str>>,
     polling: bool,
     webhook: bool,
-    webhook_handler: Option<tokio::task::JoinHandle<Result<(), std::io::Error>>>,
+    webhook_server: Option<tokio::task::JoinHandle<Result<(), std::io::Error>>>,
 }
 
 impl<'a> Updater<'a> {
@@ -29,7 +41,7 @@ impl<'a> Updater<'a> {
             allowed_updates: None,
             dispatcher,
             bot,
-            webhook_handler: None,
+            webhook_server: None,
         }
     }
     pub async fn start_polling(&mut self, drop_pending_updates: bool) -> error::Result<()> {
@@ -65,50 +77,46 @@ impl<'a> Updater<'a> {
             ))
         }
     }
-    // THis is where i work
-    /* A breifing ...
-     *
-     * A server which will wait for telegram to send a request. (Will try actix .. if not working will switch to hyper)
-     * Both polling and webhook function cannot be running together DONE
-     * The recieved request will be verified with a telegram secret token
-     * The recieved data will be phrased to Update data type ...
-     * Gets the cerificate from the user and uses it for starting the server DONE
-     * (I guess this much for now)
-     *
-     * Settings
-     * A url .. where to start the server
-     * A certificate .. start the server with certs
-     * secret_token to compare with incoming telegram requests
-     */
     pub async fn start_webhook(
         &mut self,
         addr: String,
         path: String,
-        certificate: &str,
-        private_key: &str,
+        certificate: Option<String>,
+        private_key: Option<String>,
         secret_token: Option<String>,
     ) -> error::Result<()> {
         self.webhook = true;
         if self.checker() {
-            let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-            builder
-                .set_private_key_file(private_key, SslFiletype::PEM)
-                .unwrap();
-            builder.set_certificate_chain_file(&certificate).unwrap();
-            //let actix_webhook=Arc::<Dispatcher>::new(*self.dispatcher);
-            self.webhook_handler = Some(tokio::task::spawn(async move {
-                HttpServer::new(
-                    move || {
-                        App::new()
-                            .route(&path, web::post().to(webhook_processor))
-                            .app_data(secret_token.clone())
-                    }, //.app_data(&dispa)
-                )
-                .bind_openssl(&addr, builder)
-                .unwrap()
-                .run()
-                .await
+            self.webhook_server = Some(tokio::task::spawn(async move {
+                let http_server = HttpServer::new(move || {
+                    App::new()
+                        .route(&path, web::post().to(webhook_processor))
+                        .app_data(secret_token.clone())
+                });
+                if private_key.is_some() && certificate.is_some() {
+                    let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+                    if let Some(p_key) = private_key {
+                        builder
+                            .set_private_key_file(p_key, SslFiletype::PEM)
+                            .unwrap();
+                    }
+                    if let Some(cert) = certificate {
+                        builder.set_certificate_chain_file(cert).unwrap();
+                    }
+                    http_server
+                        .bind_openssl(&addr, builder)
+                        .unwrap()
+                        .run()
+                        .await
+                } else {
+                    http_server.run().await
+                }
             }));
+            let x = CHANNEL.lock().unwrap();
+            while self.webhook {
+                let u_chan = x.1.recv();
+                self.dispatcher.process_update(&u_chan.unwrap()).await;
+            }
             Ok(())
         } else {
             Err(error::Error::Conflict(
@@ -119,27 +127,30 @@ impl<'a> Updater<'a> {
     pub async fn stop(&mut self) {
         self.polling = false;
         self.webhook = false;
-        if self.webhook_handler.is_some() {
-            self.webhook_handler.as_ref().unwrap().abort();
+        if self.webhook_server.is_some() {
+            self.webhook_server.as_ref().unwrap().abort();
         }
-        self.webhook_handler = None;
+        self.webhook_server = None;
     }
 }
-async fn webhook_processor(
-    request:HttpRequest,
-    updater:web::Json<Update>,
-    tg_secret:Option<String>) -> impl Responder {
 
+async fn webhook_processor(
+    request: HttpRequest,
+    update: web::Json<Update>,
+    tg_secret: Option<String>,
+) -> impl Responder {
     if tg_secret.is_some() {
-        let secret=tg_secret.unwrap();
-        let recieved=request.headers().get("“X-Telegram-Bot-Api-Secret-Token").unwrap().to_str().unwrap();
-        if secret==recieved {
-            //if you get dispacter here just put the variable inside the process_update and done
-            "auth"
-        } else {
-            "wrong"
+        let local_secret = tg_secret.unwrap();
+        let recieved_secret = request
+            .headers()
+            .get("“X-Telegram-Bot-Api-Secret-Token")
+            .unwrap()
+            .to_str()
+            .unwrap();
+        if local_secret != recieved_secret {
+            return "";
         }
-    } else {
-        "no auth"
     }
+    send(update.0);
+    ""
 }
