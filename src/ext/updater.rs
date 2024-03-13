@@ -107,7 +107,7 @@ impl<'a> Updater<'a> {
                         .bind_openssl(&addr, builder)
                         .unwrap()
                         .run()
-                        .await;
+                        .await
                 } else {
                     http_server.bind(&addr).unwrap().run().await
                 }
