@@ -18,7 +18,6 @@ async fn main() {
         Ok(bot) => bot,
         Err(error) => panic!("failed to create bot: {}", error),
     };
-
     // dispatcher is a part of internal functionality of updater
     // you may use it for adding handlers.
     let mut dispatcher = &mut Dispatcher::new(&bot);
@@ -42,6 +41,8 @@ async fn main() {
 
     // This method will start long polling through the getUpdates method
     updater.start_polling(true).await;
+    // If you want to use webhooks, then uncomment the following line and comment out the upper line. 
+    // updater.start_webhook(3848).await;
 }
 
 // This is our callable function for the command handler that we declared earlier

@@ -33,7 +33,7 @@ use std::sync::Arc;
 
 async fn webhook_callback(
     // request: HttpRequest,
-    update: web::Json<Update>,
+    update: web::Json<Box<Update>>,
     bd: web::Data<Bot>,
     hgd: web::Data<Vec<i32>>,
     hd: web::Data<Vec<HandlersGroup>>,
@@ -53,7 +53,7 @@ fn process_update(
     handlers: Arc<Vec<HandlersGroup>>,
     error_handler: Arc<ErrorHandlerFunc>,
     bot: Arc<Bot>,
-    update: Arc<Update>,
+    update: Arc<Box<Update>>,
 ) -> tokio::task::JoinHandle<()> {
     tokio::spawn(async move {
         let ctx = Context::new(&update);
@@ -139,7 +139,7 @@ impl<'a> Dispatcher<'a> {
         let handlers = Arc::new(self.handlers.clone());
         let error_handler = Arc::new(self.error_handler);
         let bot = Arc::new(self.bot.clone());
-        let update = Arc::new(update.clone());
+        let update = Arc::new(Box::new(update.clone()));
         process_update(handler_groups, handlers, error_handler, bot, update)
     }
     fn default_error_handler(_: &Bot, _: &Context, error: Error) -> GroupIteration {
