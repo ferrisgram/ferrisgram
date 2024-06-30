@@ -41,7 +41,7 @@ async fn main() {
 
     // This method will start long polling through the getUpdates method
     updater.start_polling(true).await;
-    // If you want to use webhooks, then uncomment the following line and comment out the upper line. 
+    // If you want to use webhooks, then uncomment the following line and comment out the upper line.
     // updater.start_webhook(3848).await;
 }
 
