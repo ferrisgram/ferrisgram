@@ -51,6 +51,9 @@ impl<'a> Updater<'a> {
         }
         Ok(())
     }
+    pub async fn start_webhook(&mut self, port: u16) -> std::result::Result<(), std::io::Error> {
+        self.dispatcher.start_webhook(port).await
+    }
     pub async fn stop(&mut self) {
         self.running = false;
     }
