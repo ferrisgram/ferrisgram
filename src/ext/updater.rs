@@ -1,15 +1,29 @@
-use crate::ext::Dispatcher;
+use std::sync::Arc;
+
+use crate::types::Update;
 use crate::{error, Bot};
+use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+
+use super::dispatcher;
+
+async fn webhook_callback(
+    // request: HttpRequest,
+    update: web::Json<Box<Update>>,
+    dp: web::Data<dispatcher::Dispatcher>,
+) -> impl Responder {
+    dp.process_update(&update).await;
+    HttpResponse::Ok()
+}
 
 pub struct Updater<'a> {
-    pub bot: &'a Bot,
-    pub dispatcher: &'a mut Dispatcher<'a>,
+    pub bot: Arc<Bot>,
+    pub dispatcher: &'a mut dispatcher::Dispatcher,
     pub allowed_updates: Option<Vec<&'a str>>,
     running: bool,
 }
 
 impl<'a> Updater<'a> {
-    pub fn new(bot: &'a Bot, dispatcher: &'a mut Dispatcher<'a>) -> Self {
+    pub fn new(bot: Arc<Bot>, dispatcher: &'a mut dispatcher::Dispatcher) -> Self {
         Self {
             running: false,
             allowed_updates: None,
@@ -52,7 +66,19 @@ impl<'a> Updater<'a> {
         Ok(())
     }
     pub async fn start_webhook(&mut self, port: u16) -> std::result::Result<(), std::io::Error> {
-        self.dispatcher.start_webhook(port).await
+        let dp = self.dispatcher.clone();
+        HttpServer::new(move || {
+            App::new()
+                .route("/", web::get().to(webhook_callback))
+                // .app_data(web::Data::new(handler_groups.clone()))
+                // .app_data(web::Data::new(handlers.clone()))
+                // .app_data(web::Data::new(error_handler.clone()))
+                // .app_data(web::Data::new(bot.clone()))
+                .app_data(web::Data::new(dp.clone()))
+        })
+        .bind(("127.0.0.1", port))?
+        .run()
+        .await
     }
     pub async fn stop(&mut self) {
         self.running = false;

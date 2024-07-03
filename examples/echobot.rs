@@ -5,6 +5,7 @@ use ferrisgram::ext::{Context, Dispatcher, Updater};
 use ferrisgram::types::LinkPreviewOptions;
 use ferrisgram::Bot;
 use std::env;
+use std::sync::Arc;
 
 #[allow(unused)]
 #[tokio::main]
@@ -20,7 +21,7 @@ async fn main() {
     };
     // dispatcher is a part of internal functionality of updater
     // you may use it for adding handlers.
-    let mut dispatcher = &mut Dispatcher::new(&bot);
+    let mut dispatcher = &mut Dispatcher::new(bot.clone());
 
     // add_handler method maps the provided handler in group 0 automatically
     dispatcher.add_handler(CommandHandler::new("start", start));
@@ -37,7 +38,7 @@ async fn main() {
         1,
     );
 
-    let mut updater = Updater::new(&bot, dispatcher);
+    let mut updater = Updater::new(bot, dispatcher);
 
     // This method will start long polling through the getUpdates method
     updater.start_polling(true).await;
@@ -47,7 +48,7 @@ async fn main() {
 
 // This is our callable function for the command handler that we declared earlier
 // It will be triggered when someone send /start to the bot.
-async fn start(bot: Bot, ctx: Context) -> Result<GroupIteration> {
+async fn start(bot: Arc<Bot>, ctx: Context) -> Result<GroupIteration> {
     // Same logic as chat applies on unwrapping effective message here.
     let msg = ctx.effective_message.unwrap();
     let mut link_preview_options = LinkPreviewOptions::new();
@@ -74,7 +75,7 @@ I will repeat your messages.",
 
 // This is our callable function for our message handler which will be used to
 // repeat the text.
-async fn echo(bot: Bot, ctx: Context) -> Result<GroupIteration> {
+async fn echo(bot: Arc<Bot>, ctx: Context) -> Result<GroupIteration> {
     // Command Handler recieves message updates which have chat as a compulsory field.
     // Hence we can unwrap effective chat without checking if it is none.
     let chat = ctx.effective_chat.unwrap();

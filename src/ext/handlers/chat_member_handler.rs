@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 use std::future::Future;
+use std::sync::Arc;
 
 // use crate::ext::filters::ChatMemberFilter;
 use crate::ext::{Context, Handler};
@@ -7,14 +8,14 @@ use crate::types::Update;
 use crate::{error::GroupIteration, error::Result, Bot};
 
 pub struct ChatMemberHandler<F: Future<Output = Result<GroupIteration>> + Send + 'static> {
-    pub callback: fn(Bot, Context) -> F,
+    pub callback: fn(Arc<Bot>, Context) -> F,
     // pub filter: Box<dyn ChatMemberFilter>,
     pub allow_channel: bool,
 }
 
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> ChatMemberHandler<F> {
     pub fn new(
-        callback: fn(Bot, Context) -> F,
+        callback: fn(Arc<Bot>, Context) -> F,
         // filter: Box<dyn ChatMemberFilter>,
     ) -> Box<Self> {
         Box::new(Self {
@@ -37,7 +38,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for Chat
 
 #[async_trait]
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for ChatMemberHandler<F> {
-    async fn check_update(&self, _: &Bot, update: &Update) -> bool {
+    async fn check_update(&self, _: Arc<Bot>, update: Arc<Box<Update>>) -> bool {
         if update.chat_member.is_none() {
             return false;
         }
@@ -47,7 +48,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler for Ch
         }
         true
     }
-    async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot.clone(), context.clone()).await
+    async fn handle_update(&self, bot: Arc<Bot>, context: &Context) -> Result<GroupIteration> {
+        (self.callback)(bot, context.clone()).await
     }
 }

@@ -8,6 +8,7 @@ use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::HashMap;
+use std::sync::Arc;
 use std::time::Duration;
 
 #[derive(Debug, Clone)]
@@ -28,7 +29,7 @@ pub struct ApiResponse<T> {
 }
 
 impl Bot {
-    pub async fn new(token: &str, api_url: Option<&str>) -> Result<Bot> {
+    pub async fn new(token: &str, api_url: Option<&str>) -> Result<Arc<Bot>> {
         let mut api = DEFAULT_API_URL;
         if api_url.is_some() {
             api = api_url.unwrap();
@@ -46,7 +47,7 @@ impl Bot {
         match bot.get_me().send().await {
             Ok(bot_user) => {
                 bot.user = bot_user;
-                Ok(bot)
+                Ok(Arc::from(bot))
             }
             Err(_) => Err(Error::InvalidToken),
         }

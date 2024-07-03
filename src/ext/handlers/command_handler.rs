@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 use std::future::Future;
+use std::sync::Arc;
 
 use crate::ext::{Context, Handler};
 use crate::types::{Message, Update};
@@ -8,13 +9,13 @@ use crate::{error::GroupIteration, error::Result, Bot};
 pub struct CommandHandler<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> {
     pub prefix: Vec<char>,
     pub command: &'a str,
-    pub callback: fn(Bot, Context) -> F,
+    pub callback: fn(Arc<Bot>, Context) -> F,
     pub allow_edited: bool,
     pub allow_channel: bool,
 }
 
 impl<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> CommandHandler<'a, F> {
-    pub fn new(command: &'a str, callback: fn(Bot, Context) -> F) -> Box<Self> {
+    pub fn new(command: &'a str, callback: fn(Arc<Bot>, Context) -> F) -> Box<Self> {
         Box::new(Self {
             prefix: Vec::from(['/']),
             command,
@@ -23,7 +24,7 @@ impl<'a, F: Future<Output = Result<GroupIteration>> + Send + 'static> CommandHan
             allow_edited: false,
         })
     }
-    async fn check_message(&self, bot: &Bot, msg: &Message) -> bool {
+    async fn check_message(&self, bot: Arc<Bot>, msg: &Message) -> bool {
         let mut text = &String::new();
         if msg.text.is_some() {
             text = msg.text.as_ref().unwrap()
@@ -69,7 +70,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Clone for Comm
 impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
     for CommandHandler<'_, F>
 {
-    async fn check_update(&self, bot: &Bot, update: &Update) -> bool {
+    async fn check_update(&self, bot: Arc<Bot>, update: Arc<Box<Update>>) -> bool {
         if update.message.is_some() {
             let msg = update.message.as_ref().unwrap();
             if msg.text.is_none() && msg.caption.is_none() {
@@ -100,7 +101,7 @@ impl<F: Future<Output = Result<GroupIteration>> + Send + 'static> Handler
         }
         false
     }
-    async fn handle_update(&self, bot: &Bot, context: &Context) -> Result<GroupIteration> {
-        (self.callback)(bot.clone(), context.clone()).await
+    async fn handle_update(&self, bot: Arc<Bot>, context: &Context) -> Result<GroupIteration> {
+        (self.callback)(bot, context.clone()).await
     }
 }
