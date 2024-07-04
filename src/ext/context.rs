@@ -23,21 +23,22 @@ impl Context {
         };
         if update.message.is_some() {
             let msg = update.message.clone().unwrap();
-            ctx.effective_message = update.message.clone();
+            ctx.effective_message.clone_from(&update.message);
             ctx.effective_user = msg.from;
             ctx.effective_chat = Some(msg.chat)
         } else if update.edited_message.is_some() {
             let msg = update.edited_message.clone().unwrap();
-            ctx.effective_message = update.edited_message.clone();
+            ctx.effective_message.clone_from(&update.edited_message);
             ctx.effective_user = msg.from;
             ctx.effective_chat = Some(msg.chat)
         } else if update.channel_post.is_some() {
             let msg = update.channel_post.clone().unwrap();
-            ctx.effective_message = update.channel_post.clone();
+            ctx.effective_message.clone_from(&update.channel_post);
             ctx.effective_chat = Some(msg.chat)
         } else if update.edited_channel_post.is_some() {
             let msg = update.edited_channel_post.clone().unwrap();
-            ctx.effective_message = update.edited_channel_post.clone();
+            ctx.effective_message
+                .clone_from(&update.edited_channel_post);
             ctx.effective_chat = Some(msg.chat)
         } else if update.inline_query.is_some() {
             let msg = update.inline_query.clone().unwrap();

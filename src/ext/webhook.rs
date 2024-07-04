@@ -8,7 +8,6 @@ use crate::types::Update;
 
 use super::{dispatcher, Updater};
 
-
 async fn webhook_callback(
     // request: HttpRequest,
     update: web::Json<Box<Update>>,
@@ -19,11 +18,7 @@ async fn webhook_callback(
 }
 
 impl<'a> Updater<'a> {
-    pub async fn start_webhook(
-        &mut self,
-        port: u16,
-        opts: StartWebhookOpts,
-    ) {
+    pub async fn start_webhook(&mut self, port: u16, opts: StartWebhookOpts) {
         let dp = self.dispatcher.clone();
         let path: String;
         if opts.path.is_some() {
@@ -48,13 +43,20 @@ impl<'a> Updater<'a> {
                 if let Some(cert) = opts.certificate {
                     builder.set_certificate_chain_file(cert).unwrap();
                 }
-                http_server.bind_openssl(addrs, builder).unwrap().run().await
+                http_server
+                    .bind_openssl(addrs, builder)
+                    .unwrap()
+                    .run()
+                    .await
             } else {
                 http_server.bind(addrs).unwrap().run().await
             }
         });
         self.abort_handle = Some(task.abort_handle());
-        while self.running {
+        loop {
+            if !self.running {
+                break;
+            }
             sleep(Duration::from_secs(1)).await;
         }
     }
@@ -68,7 +70,7 @@ pub struct StartWebhookOpts {
 
 impl StartWebhookOpts {
     pub fn new() -> Self {
-        Self{
+        Self {
             path: None,
             private_key: None,
             certificate: None,

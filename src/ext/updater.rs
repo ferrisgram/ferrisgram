@@ -1,5 +1,5 @@
-use std::sync::Arc;
 use crate::{error, Bot};
+use std::sync::Arc;
 use tokio::task::AbortHandle;
 
 use super::dispatcher;
@@ -9,7 +9,7 @@ pub struct Updater<'a> {
     pub dispatcher: &'a mut dispatcher::Dispatcher,
     pub allowed_updates: Option<Vec<&'a str>>,
     pub(super) running: bool,
-    pub(super) abort_handle: Option<AbortHandle>
+    pub(super) abort_handle: Option<AbortHandle>,
 }
 
 impl<'a> Updater<'a> {
@@ -40,7 +40,10 @@ impl<'a> Updater<'a> {
             );
         }
         let mut pending_tasks = Vec::new();
-        while self.running {
+        loop {
+            if !self.running {
+                break;
+            }
             let mut updates = self.bot.get_updates().offset(offset + 1).timeout(10);
             if allowed_updates.is_some() {
                 updates = updates.allowed_updates(allowed_updates.clone().unwrap());
