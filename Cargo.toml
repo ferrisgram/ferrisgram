@@ -24,3 +24,7 @@ dyn-clone = "1.0.4"
 mime_guess = "2.0.4"
 actix-web = { version = "4", features = ["openssl"] }
 openssl = "0.10.64"
+
+[features]
+default = []
+webhook = []

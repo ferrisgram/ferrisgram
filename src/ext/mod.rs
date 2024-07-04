@@ -8,3 +8,9 @@ pub use context::Context;
 pub use dispatcher::Dispatcher;
 pub use handler::Handler;
 pub use updater::Updater;
+
+#[cfg(feature = "webhook")]
+pub mod webhook;
+
+#[cfg(feature = "webhook")]
+pub use webhook::StartWebhookOpts;
