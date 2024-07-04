@@ -1,6 +1,7 @@
 use ferrisgram::error::{GroupIteration, Result};
 use ferrisgram::ext::filters::message;
 use ferrisgram::ext::handlers::{CommandHandler, MessageHandler};
+use ferrisgram::ext::updater::StartWebhookOpts;
 use ferrisgram::ext::{Context, Dispatcher, Updater};
 use ferrisgram::types::LinkPreviewOptions;
 use ferrisgram::Bot;
@@ -41,9 +42,10 @@ async fn main() {
     let mut updater = Updater::new(bot, dispatcher);
 
     // This method will start long polling through the getUpdates method
-    updater.start_polling(true).await;
+    // updater.start_polling(true).await;
     // If you want to use webhooks, then uncomment the following line and comment out the upper line.
-    // updater.start_webhook(3848).await;
+    let mut wops = StartWebhookOpts::new().path("path");
+    updater.start_webhook(3848, wops).await;
 }
 
 // This is our callable function for the command handler that we declared earlier
