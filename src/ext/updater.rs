@@ -1,9 +1,12 @@
 use std::sync::Arc;
+use std::time::Duration;
 
 use crate::types::Update;
 use crate::{error, Bot};
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+use tokio::task::AbortHandle;
+use tokio::time::sleep;
 
 use super::dispatcher;
 
@@ -21,6 +24,7 @@ pub struct Updater<'a> {
     pub dispatcher: &'a mut dispatcher::Dispatcher,
     pub allowed_updates: Option<Vec<&'a str>>,
     running: bool,
+    abort_handle: Option<AbortHandle>
 }
 
 impl<'a> Updater<'a> {
@@ -30,6 +34,7 @@ impl<'a> Updater<'a> {
             allowed_updates: None,
             dispatcher,
             bot,
+            abort_handle: None,
         }
     }
     pub async fn start_polling(&mut self, drop_pending_updates: bool) -> error::Result<()> {
@@ -70,7 +75,7 @@ impl<'a> Updater<'a> {
         &mut self,
         port: u16,
         opts: StartWebhookOpts,
-    ) -> std::result::Result<(), std::io::Error> {
+    ) {
         let dp = self.dispatcher.clone();
         let path: String;
         if opts.path.is_some() {
@@ -79,29 +84,37 @@ impl<'a> Updater<'a> {
             path = String::from("/");
         }
         let addrs = ("127.0.0.1", port);
-        let mut http_server = HttpServer::new(move || {
-            App::new()
-                .route(&path, web::get().to(webhook_callback))
-                .app_data(web::Data::new(dp.clone()))
+        let task = tokio::spawn(async move {
+            let http_server = HttpServer::new(move || {
+                App::new()
+                    .route(&path, web::get().to(webhook_callback))
+                    .app_data(web::Data::new(dp.clone()))
+            });
+            if opts.certificate.is_some() && opts.private_key.is_some() {
+                let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+                if let Some(p_key) = opts.private_key {
+                    builder
+                        .set_private_key_file(p_key, SslFiletype::PEM)
+                        .unwrap();
+                }
+                if let Some(cert) = opts.certificate {
+                    builder.set_certificate_chain_file(cert).unwrap();
+                }
+                http_server.bind_openssl(addrs, builder).unwrap().run().await
+            } else {
+                http_server.bind(addrs).unwrap().run().await
+            }
         });
-        if opts.certificate.is_some() && opts.private_key.is_some() {
-            let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-            if let Some(p_key) = opts.private_key {
-                builder
-                    .set_private_key_file(p_key, SslFiletype::PEM)
-                    .unwrap();
-            }
-            if let Some(cert) = opts.certificate {
-                builder.set_certificate_chain_file(cert).unwrap();
-            }
-            http_server = http_server.bind_openssl(addrs, builder)?;
-        } else {
-            http_server = http_server.bind(addrs)?;
+        self.abort_handle = Some(task.abort_handle());
+        while self.running {
+            sleep(Duration::from_secs(1)).await;
         }
-        http_server.run().await
     }
-    pub async fn stop(&mut self) {
+    pub async fn stop(mut self) {
         self.running = false;
+        if let Some(task) = self.abort_handle {
+            task.abort();
+        }
     }
 }
 
