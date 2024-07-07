@@ -1,8 +1,7 @@
-
-use std::io::Error;
-use tokio::task::JoinError;
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+use std::io::Error;
+use tokio::task::JoinError;
 
 use crate::types::Update;
 
@@ -18,7 +17,11 @@ async fn webhook_callback(
 }
 
 impl<'a> Updater<'a> {
-    pub async fn start_webhook(&mut self, port: u16, opts: StartWebhookOpts) -> Result<Result<(), Error>, JoinError> {
+    pub async fn start_webhook(
+        &mut self,
+        port: u16,
+        opts: StartWebhookOpts,
+    ) -> Result<Result<(), Error>, JoinError> {
         let dp = self.dispatcher.clone();
         let path: String;
         if opts.path.is_some() {
