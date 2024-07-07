@@ -1,8 +1,8 @@
-use std::time::Duration;
 
+use std::io::Error;
+use tokio::task::JoinError;
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
-use tokio::time::sleep;
 
 use crate::types::Update;
 
@@ -18,7 +18,7 @@ async fn webhook_callback(
 }
 
 impl<'a> Updater<'a> {
-    pub async fn start_webhook(&mut self, port: u16, opts: StartWebhookOpts) {
+    pub async fn start_webhook(&mut self, port: u16, opts: StartWebhookOpts) -> Result<Result<(), Error>, JoinError> {
         let dp = self.dispatcher.clone();
         let path: String;
         if opts.path.is_some() {
@@ -53,12 +53,7 @@ impl<'a> Updater<'a> {
             }
         });
         self.abort_handle = Some(task.abort_handle());
-        loop {
-            if !self.running {
-                break;
-            }
-            sleep(Duration::from_secs(1)).await;
-        }
+        task.await
     }
 }
 

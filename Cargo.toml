@@ -26,5 +26,5 @@ actix-web = { version = "4", features = ["openssl"], optional = true }
 openssl = { version = "0.10.64", optional = true }
 
 [features]
-default = []
+default = ["webhook"]
 webhook = ["actix-web", "openssl"]
