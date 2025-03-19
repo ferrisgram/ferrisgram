@@ -19,7 +19,7 @@ impl Context {
             effective_user: None,
             effective_chat: None,
             effective_message: None,
-            update: update.clone(),
+            update: Arc::clone(&update),
         };
         if update.message.is_some() {
             let msg = update.message.clone().unwrap();

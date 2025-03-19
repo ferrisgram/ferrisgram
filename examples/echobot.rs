@@ -21,7 +21,7 @@ async fn main() {
     };
     // dispatcher is a part of internal functionality of updater
     // you may use it for adding handlers.
-    let mut dispatcher = &mut Dispatcher::new(bot.clone());
+    let mut dispatcher = &mut Dispatcher::new(Arc::clone(&bot));
 
     // add_handler method maps the provided handler in group 0 automatically
     dispatcher.add_handler(CommandHandler::new("start", start));
