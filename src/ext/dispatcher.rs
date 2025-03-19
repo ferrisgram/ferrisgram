@@ -65,7 +65,7 @@ impl Dispatcher {
     }
     pub async fn process_update(&self, update: &Update) -> tokio::task::JoinHandle<()> {
         let update = Arc::new(Box::new(update.clone()));
-        let bot = self.bot.clone();
+        let bot = Arc::clone(&self.bot);
         let handler_groups = self.handler_groups.clone();
         let handlers = self.handlers.clone();
         let error_handler = self.error_handler;
@@ -75,10 +75,10 @@ impl Dispatcher {
                 for handler in handlers.iter() {
                     if &handler.handler_group == group {
                         for handler in handler.handlers.iter() {
-                            if !handler.check_update(bot.clone(), update.clone()).await {
+                            if !handler.check_update(Arc::clone(&bot), update.clone()).await {
                                 continue;
                             }
-                            let res = handler.handle_update(bot.clone(), &ctx).await;
+                            let res = handler.handle_update(Arc::clone(&bot), &ctx).await;
                             match res {
                                 Ok(mode) => match mode {
                                     EndGroups => return,
